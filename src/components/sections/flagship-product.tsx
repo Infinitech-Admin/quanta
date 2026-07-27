@@ -80,8 +80,8 @@ export function FlagshipProduct() {
           </div>
 
           <p className="text-[var(--color-cream)]/85 mb-3 max-w-md leading-relaxed text-sm md:text-base">
-            The NEW FRESH offers high quality tissue that's absorbent, hygienic,
-            and environment-friendly, with an attractive packaging design. It's
+            The NEW FRESH offers high quality tissue thats absorbent, hygienic,
+            and environment-friendly, with an attractive packaging design. It is
             made from Premium Eco-Pulp — high quality eco-friendly materials
             mixed with{" "}
             <span className="font-semibold text-[var(--color-sun-light)]">

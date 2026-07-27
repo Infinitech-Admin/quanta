@@ -7,7 +7,7 @@ export function Certifications() {
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
         <Eyebrow>Certifications</Eyebrow>
         <h2 className="mt-4 max-w-2xl font-[var(--font-fraunces)] text-4xl leading-tight text-[var(--color-cream)] sm:text-5xl">
-          Held to standards we don't set ourselves.
+          Held to standards we don&apos;t set ourselves.
         </h2>
 
         <div className="mt-14 grid gap-8 md:grid-cols-3">

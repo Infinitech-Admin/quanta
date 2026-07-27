@@ -101,10 +101,10 @@ export function Certifications() {
               products people can rely on, every day.
             </p>
             <p className="mb-3 leading-relaxed text-sm md:text-base text-[var(--color-forest-deep)]/80">
-              We're the only tissue manufacturer in the Philippines whose paper
-              products carry the Green Choice Seal of Approval — certifying
-              sustainable practices that protect the environment, in accordance
-              with standards set by the{" "}
+              We&apos;re the only tissue manufacturer in the Philippines whose
+              paper products carry the Green Choice Seal of Approval —
+              certifying sustainable practices that protect the environment, in
+              accordance with standards set by the{" "}
               <strong className="text-[var(--color-forest-deep)]">
                 Philippine Center of Environmental Protection and Sustainable
                 Development (PCEPSDI)

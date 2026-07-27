@@ -7,7 +7,7 @@ export function CoreValues() {
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
         <Eyebrow>Our Core Values</Eyebrow>
         <h2 className="mt-4 max-w-2xl font-[var(--font-fraunces)] text-4xl leading-tight text-[var(--color-cream)] sm:text-5xl">
-          Six things we don't compromise on.
+          Six things we don&apos;t compromise on.
         </h2>
 
         <div className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
