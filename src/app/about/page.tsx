@@ -1,0 +1,61 @@
+import type { Metadata } from "next";
+import { Fraunces, Inter } from "next/font/google";
+import { Hero } from "@/components/about/Hero";
+import { OurHistory } from "@/components/about/OurHistory";
+import { WhoWeAre } from "@/components/about/WhoWeAre";
+import { CoreValues } from "@/components/about/CoreValues";
+import { Certifications } from "@/components/about/Certifications";
+import { ClosingCta } from "@/components/about/ClosingCta";
+
+// ————————————————————————————————————————————————————————————————
+// Type system
+// Fraunces: a warm, slightly industrial serif — used with restraint for
+// display moments only (headlines, big stats, pull quotes).
+// Inter: quiet, legible workhorse for everything people actually read.
+// Both are exposed as CSS variables on <main> below, so every section
+// component can reference font-[var(--font-display)] / --font-body
+// without importing next/font itself.
+// ————————————————————————————————————————————————————————————————
+const display = Fraunces({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-display",
+});
+
+const body = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-body",
+});
+
+export const metadata: Metadata = {
+  title: "About Us | Quanta Paper Corporation",
+  description:
+    "Established in 2003, Quanta Paper Corporation is the Philippines' largest tissue manufacturer — built on quality, sustainability, and care for the Filipino household.",
+};
+
+export default function AboutPage() {
+  return (
+    <main
+      className={`${display.variable} ${body.variable} bg-[var(--paper)] text-[var(--ink)] font-[var(--font-body)]`}
+      style={
+        {
+          "--ink": "#16241B",
+          "--forest": "#145C36",
+          "--forest-deep": "#0B3B22",
+          "--paper": "#F6F2E7",
+          "--kraft": "#B07A32",
+          "--mist": "#E4EDE6",
+        } as React.CSSProperties
+      }
+    >
+      <Hero />
+      <OurHistory />
+      <WhoWeAre />
+      <CoreValues />
+      <Certifications />
+      <ClosingCta />
+    </main>
+  );
+}
