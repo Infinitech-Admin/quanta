@@ -1,7 +1,15 @@
-export function Eyebrow({ children }: { children: React.ReactNode }) {
+export function Eyebrow({
+  children,
+  className = "text-[var(--kraft)]",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.2em] text-[var(--kraft)]">
-      <span className="h-px w-8 bg-[var(--kraft)]" />
+    <span
+      className={`inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.2em] ${className}`}
+    >
+      <span className="h-px w-8 bg-current" />
       {children}
     </span>
   );

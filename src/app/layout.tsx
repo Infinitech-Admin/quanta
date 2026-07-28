@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Manrope } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { FloatingSocial } from "@/components/floating-social";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -37,6 +38,7 @@ export default function RootLayout({
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
+        <FloatingSocial />
       </body>
     </html>
   );

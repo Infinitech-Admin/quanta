@@ -27,14 +27,15 @@ export const footerNav = {
   ],
 };
 
-export const socialLinks = [
-  { label: "Facebook", href: "https://facebook.com" },
-  { label: "Instagram", href: "https://instagram.com" },
-  { label: "LinkedIn", href: "https://linkedin.com" },
-];
+// export const socialLinks = [
+//   { label: "Facebook", href: "https://facebook.com" },
+//   { label: "Instagram", href: "https://instagram.com" },
+//   { label: "LinkedIn", href: "https://linkedin.com" },
+// ];
 
 export const contactInfo = {
-  address: "Quanta Paper Corporation, Metro Manila, Philippines",
-  email: "info@quantapaper.com.ph",
-  phone: "+63 2 8000 0000",
+  address:
+    "149-A Rev. Aglipay St., Bgy. Old Zaniga, Mandaluyong City, Philippines",
+  phone: "(632) 8533.9250",
+  email: "wecare@quantapaper.com",
 };

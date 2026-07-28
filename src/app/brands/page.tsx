@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Eyebrow } from "@/components/about/ui";
 import { BrandsShowcase } from "@/components/brands/BrandsShowcase";
-
+import { categories } from "@/data/brands";
 export default function BrandsPage() {
   return (
     <main>

@@ -11,16 +11,21 @@ export function Hero() {
         priority
         className="object-cover"
       />
-      {/* Vivid green wash — translucent so the photo still shows through */}
-      <div className="absolute inset-0 bg-[var(--color-forest-vivid)]/70" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-forest-deep)]/70 via-transparent to-transparent" />
+      {/* Vivid green wash — darker now so text stays legible over the photo */}
+      <div className="absolute inset-0 bg-[var(--color-forest-vivid)]/85" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-forest-deep)]/85 via-[var(--color-forest-deep)]/20 to-transparent" />
 
-      <div className="relative mx-auto max-w-6xl px-6 py-20 sm:px-10 sm:py-28">
-        <Eyebrow>Since 2003 · Mabalacat, Pampanga</Eyebrow>
+      <div
+        className="relative mx-auto max-w-6xl px-6 py-20 sm:px-10 sm:py-28"
+        style={{ textShadow: "0 2px 10px rgba(0,0,0,0.4)" }}
+      >
+        <Eyebrow className="text-[var(--color-sun)]">
+          Since 2003 · Mabalacat, Pampanga
+        </Eyebrow>
         <h1 className="mt-4 font-[var(--font-display)] text-5xl leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
           About Us
         </h1>
-        <p className="mt-5 max-w-lg text-base leading-relaxed text-[var(--color-cream)]/90 sm:text-lg">
+        <p className="mt-5 max-w-lg text-base leading-relaxed text-[var(--color-cream)] sm:text-lg">
           From four machines and fewer than fifty people, to the largest tissue
           manufacturer in the Philippines — built one roll, one hire, one habit
           of doing things properly, at a time.

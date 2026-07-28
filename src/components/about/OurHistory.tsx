@@ -15,12 +15,12 @@ export function OurHistory() {
   return (
     <section className="relative isolate overflow-hidden py-24 text-[var(--color-cream)]">
       <Image src="/bg-innerpage.jpg" alt="" fill className="object-cover" />
-      {/* Green gradient wash — same treatment as Hero, photo still shows through */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-forest-deep)]/90 via-[var(--color-forest)]/85 to-[var(--color-forest-vivid)]/80" />
+      {/* Green gradient wash — darker now so text stays legible, photo still shows through */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-forest-deep)]/95 via-[var(--color-forest)]/92 to-[var(--color-forest-vivid)]/88" />
 
       <div className="relative mx-auto max-w-6xl px-6 sm:px-10">
         <div className="max-w-2xl">
-          <Eyebrow>Our History</Eyebrow>
+          <Eyebrow className="text-[var(--color-sun)]">Our History</Eyebrow>
           <h2 className="mt-4 font-[var(--font-display)] text-4xl leading-tight text-[var(--color-cream)] sm:text-5xl">
             Two decades of doing more with less.
           </h2>
@@ -29,7 +29,7 @@ export function OurHistory() {
         <div className="mt-16 grid gap-12 md:grid-cols-[1.1fr_0.9fr] md:gap-16">
           {/* Timeline */}
           <div className="relative">
-            <div className="absolute left-[7px] top-2 bottom-2 w-px bg-[var(--color-cream)]/15" />
+            <div className="absolute left-[7px] top-2 bottom-2 w-px bg-[var(--color-cream)]/20" />
             <div className="space-y-10">
               {historyMilestones.map((m) => (
                 <div key={m.year} className="relative pl-8">
@@ -40,7 +40,7 @@ export function OurHistory() {
                   <h3 className="mt-2 font-[var(--font-fraunces)] text-xl text-[var(--color-cream)]">
                     {m.title}
                   </h3>
-                  <p className="mt-2 text-[15px] leading-relaxed text-[var(--color-cream)]/75">
+                  <p className="mt-2 text-[15px] leading-relaxed text-[var(--color-cream)]/90">
                     {m.copy}
                   </p>
                 </div>
@@ -60,7 +60,7 @@ export function OurHistory() {
                   key={s.label}
                   className="flex items-center justify-between gap-4 py-3.5"
                 >
-                  <dt className="flex items-center gap-2.5 text-sm text-[var(--color-cream)]/60">
+                  <dt className="flex items-center gap-2.5 text-sm text-[var(--color-cream)]/80">
                     <Icon
                       shape={specIcons[s.label] ?? "target"}
                       className="h-4 w-4 flex-none text-[var(--color-sun)]"
