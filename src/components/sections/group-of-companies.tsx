@@ -83,7 +83,7 @@ export function GroupOfCompanies() {
             variant="outline"
             className="border-[var(--color-sun)] text-[var(--color-forest-deep)] hover:bg-[var(--color-forest-deep)] hover:text-[var(--color-cream)]"
           >
-            <Link href="/our-group-of-companies">See Full Group</Link>
+            <Link href="/group-of-companies">See Full Group</Link>
           </Button>
         </div>
       </div>
