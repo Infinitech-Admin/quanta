@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 
 interface Brand {
@@ -173,14 +173,20 @@ export function BrandsShowcase() {
   const current = categories.find((c) => c.id === activeCategory)!;
 
   const [selectedSlug, setSelectedSlug] = useState(current.brands[0].slug);
-  const selectedBrand =
-    current.brands.find((b) => b.slug === selectedSlug) ?? current.brands[0];
 
   // Reset the preview to the first brand whenever the category changes.
-  useEffect(() => {
+  // This adjusts state during render instead of inside a useEffect —
+  // the recommended pattern for "derived state that resets when a
+  // prop/state changes" — which avoids an extra wasted re-render and
+  // satisfies the react-hooks/set-state-in-effect lint rule.
+  const [prevCategory, setPrevCategory] = useState(activeCategory);
+  if (prevCategory !== activeCategory) {
+    setPrevCategory(activeCategory);
     setSelectedSlug(current.brands[0].slug);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeCategory]);
+  }
+
+  const selectedBrand =
+    current.brands.find((b) => b.slug === selectedSlug) ?? current.brands[0];
 
   return (
     <section className="py-24 px-6 md:px-16 bg-[var(--color-sage-light)]">
