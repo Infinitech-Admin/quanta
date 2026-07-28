@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 
 interface Brand {
   slug: string;
@@ -10,7 +9,8 @@ interface Brand {
   description: string;
   color: string;
   gradient: string;
-  image?: string; // path sa /public, e.g. "/brands/kami.png"
+  image?: string; // small thumbnail card, path sa /public, e.g. "/brands/kami.png"
+  heroImage?: string; // big preview panel image, e.g. "/brands/hero/kami.png"
 }
 
 interface Category {
@@ -36,6 +36,7 @@ const categories: Category[] = [
         color: "#16a34a",
         gradient: "from-green-600 via-green-500 to-emerald-400",
         image: "/brands/fresh-premium-eco-pulp.png",
+        heroImage: "/brands/hero/fresh-premium-eco-pulp.png",
       },
       {
         slug: "kami",
@@ -45,6 +46,7 @@ const categories: Category[] = [
         color: "#b91c1c",
         gradient: "from-rose-700 via-rose-500 to-pink-300",
         image: "/brands/kami.png",
+        heroImage: "/brands/hero/kami.png",
       },
       {
         slug: "smart-choice",
@@ -54,6 +56,7 @@ const categories: Category[] = [
         color: "#ea580c",
         gradient: "from-orange-500 via-amber-400 to-teal-300",
         image: "/brands/smart-choice.png",
+        heroImage: "/brands/hero/smart-choice.png",
       },
       {
         slug: "vanita",
@@ -63,6 +66,7 @@ const categories: Category[] = [
         color: "#1e3a8a",
         gradient: "from-blue-900 via-indigo-700 to-slate-400",
         image: "/brands/vanita.png",
+        heroImage: "/brands/hero/vanita.png",
       },
       {
         slug: "fresh",
@@ -72,6 +76,7 @@ const categories: Category[] = [
         color: "#15803d",
         gradient: "from-emerald-700 via-green-500 to-lime-300",
         image: "/brands/fresh.png",
+        heroImage: "/brands/hero/fresh.png",
       },
       {
         slug: "harmony",
@@ -81,6 +86,7 @@ const categories: Category[] = [
         color: "#dc2626",
         gradient: "from-red-600 via-red-500 to-blue-700",
         image: "/brands/harmony.png",
+        heroImage: "/brands/hero/harmony.png",
       },
       {
         slug: "fresh-eco-hygiene",
@@ -90,6 +96,7 @@ const categories: Category[] = [
         color: "#065f46",
         gradient: "from-emerald-900 via-teal-700 to-emerald-500",
         image: "/brands/fresh-eco-hygiene.png",
+        heroImage: "/brands/hero/fresh-eco-hygiene.png",
       },
     ],
   },
@@ -107,6 +114,7 @@ const categories: Category[] = [
         color: "#0ea5e9",
         gradient: "from-sky-500 via-sky-400 to-blue-200",
         image: "/brands/sweetbaby.png",
+        heroImage: "/brands/hero/sweetbaby.png",
       },
       {
         slug: "prime-care",
@@ -116,6 +124,7 @@ const categories: Category[] = [
         color: "#7c3aed",
         gradient: "from-violet-600 via-purple-500 to-fuchsia-300",
         image: "/brands/prime-care.png",
+        heroImage: "/brands/hero/prime-care.png",
       },
       {
         slug: "life-defender",
@@ -125,6 +134,7 @@ const categories: Category[] = [
         color: "#0f172a",
         gradient: "from-slate-800 via-slate-600 to-slate-400",
         image: "/brands/life-defender.png",
+        heroImage: "/brands/hero/life-defender.png",
       },
     ],
   },
@@ -142,6 +152,7 @@ const categories: Category[] = [
         color: "#0891b2",
         gradient: "from-cyan-600 via-cyan-400 to-teal-200",
         image: "/brands/fresh-toothbrush.png",
+        heroImage: "/brands/hero/fresh-toothbrush.png",
       },
       {
         slug: "teabiotic",
@@ -151,23 +162,29 @@ const categories: Category[] = [
         color: "#16a34a",
         gradient: "from-green-600 via-teal-500 to-emerald-300",
         image: "/brands/teabiotic.png",
+        heroImage: "/brands/hero/teabiotic.png",
       },
     ],
   },
 ];
 
-// Angle spread between neighboring cards in the fan, in degrees.
-const FAN_STEP = 5;
-
 export function BrandsShowcase() {
   const [activeCategory, setActiveCategory] = useState(categories[0].id);
   const current = categories.find((c) => c.id === activeCategory)!;
-  const mid = (current.brands.length - 1) / 2;
-  const count = current.brands.length;
+
+  const [selectedSlug, setSelectedSlug] = useState(current.brands[0].slug);
+  const selectedBrand =
+    current.brands.find((b) => b.slug === selectedSlug) ?? current.brands[0];
+
+  // Reset the preview to the first brand whenever the category changes.
+  useEffect(() => {
+    setSelectedSlug(current.brands[0].slug);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeCategory]);
 
   return (
     <section className="py-24 px-6 md:px-16 bg-[var(--color-sage-light)]">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <div className="text-center mb-10">
           <span className="inline-block rounded-full border border-[var(--color-sun)]/40 px-4 py-1 text-xs tracking-widest uppercase text-[var(--color-sun)] mb-4">
             Our Portfolio
@@ -195,29 +212,59 @@ export function BrandsShowcase() {
         </div>
 
         {/* Category intro */}
-        <p className="text-center text-sm text-[var(--color-forest-deep)]/70 max-w-2xl mx-auto mb-12">
+        <p className="text-center text-sm text-[var(--color-forest-deep)]/70 max-w-2xl mx-auto mb-10">
           {current.intro}
         </p>
 
-        {/* Fanned card row — width and overlap scale with brand count so everything fits, no scroll */}
-        <div className="relative">
-          <div className="flex justify-center items-end flex-wrap gap-y-8 px-2 pt-10 pb-8">
-            {current.brands.map((brand, index) => {
-              const angle = (index - mid) * FAN_STEP;
+        {/* ———————————————————————— Big preview panel (clickable card) ———————————————————————— */}
+        <Link
+          href={`/brands/${selectedBrand.slug}`}
+          className={`group relative block h-80 w-full overflow-hidden rounded-3xl bg-gradient-to-br ${selectedBrand.gradient} shadow-[0_25px_60px_-20px_rgba(0,0,0,0.35)] transition-transform duration-200 hover:-translate-y-1 sm:h-96`}
+        >
+          {/* Hero image covers the entire card */}
+          {selectedBrand.heroImage || selectedBrand.image ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={selectedBrand.heroImage ?? selectedBrand.image}
+              alt={selectedBrand.name}
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="font-serif text-8xl font-bold text-white/90">
+                {selectedBrand.name.charAt(0)}
+              </span>
+            </div>
+          )}
+
+          {/* Bottom scrim so the name stays readable over any image */}
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/70 to-transparent" />
+
+          {/* Brand name, overlaid on the image */}
+          <div className="absolute inset-x-0 bottom-0 px-8 pb-6 text-center text-white">
+            <h3 className="font-serif text-2xl sm:text-3xl">
+              {selectedBrand.name}
+            </h3>
+          </div>
+        </Link>
+
+        {/* ———————————————————————— Thumbnail selector ———————————————————————— */}
+        <div className="mt-10">
+          <div className="flex flex-wrap justify-center gap-4 px-2">
+            {current.brands.map((brand) => {
+              const isSelected = brand.slug === selectedBrand.slug;
               return (
-                <Link
+                <button
                   key={brand.slug}
-                  href={`/brands/${brand.slug}`}
-                  style={
-                    {
-                      "--tilt": `${angle}deg`,
-                      width: `min(${Math.floor(100 / count)}%, 220px)`,
-                      marginLeft:
-                        index === 0 ? 0 : "clamp(-2.5rem, -4vw, -1rem)",
-                      zIndex: index,
-                    } as React.CSSProperties
-                  }
-                  className="group relative flex flex-shrink-0 overflow-hidden rounded-2xl bg-white p-1.5 shadow-[0_15px_35px_-10px_rgba(0,0,0,0.3)] ring-1 ring-black/5 origin-bottom rotate-[var(--tilt)] transition-all duration-500 ease-out will-change-transform hover:z-50 hover:-translate-y-6 hover:rotate-0 hover:shadow-[0_30px_50px_-15px_rgba(0,0,0,0.4)]"
+                  type="button"
+                  onClick={() => setSelectedSlug(brand.slug)}
+                  aria-pressed={isSelected}
+                  aria-label={`Preview ${brand.name}`}
+                  className={`group relative flex w-[110px] shrink-0 overflow-hidden rounded-2xl bg-white p-1.5 shadow-sm ring-1 transition-all duration-200 hover:-translate-y-1 hover:shadow-md sm:w-[130px] ${
+                    isSelected
+                      ? "-translate-y-1 ring-2 ring-[var(--color-sun)] shadow-md"
+                      : "ring-black/5"
+                  }`}
                 >
                   <div
                     className={`relative aspect-[3/4] w-full rounded-xl bg-gradient-to-br ${brand.gradient} flex items-center justify-center overflow-hidden`}
@@ -235,25 +282,18 @@ export function BrandsShowcase() {
                       <img
                         src={brand.image}
                         alt={brand.name}
-                        className="relative z-10 h-full w-full object-contain p-6"
+                        className="relative z-10 h-full w-full object-contain p-4"
                       />
                     ) : (
-                      <span className="relative z-10 font-serif text-3xl font-bold text-white/90">
+                      <span className="relative z-10 font-serif text-2xl font-bold text-white/90">
                         {brand.name.charAt(0)}
                       </span>
                     )}
-
-                    <div className="absolute bottom-2 right-2 z-20 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 opacity-0 shadow-sm transition-opacity duration-300 group-hover:opacity-100">
-                      <ArrowUpRight className="h-3.5 w-3.5 text-slate-700" />
-                    </div>
                   </div>
-                </Link>
+                </button>
               );
             })}
           </div>
-
-          {/* Grounding shadow to seat the fan on the page */}
-          <div className="pointer-events-none absolute inset-x-0 bottom-2 mx-auto h-6 w-[70%] max-w-2xl rounded-full bg-black/15 blur-2xl" />
         </div>
       </div>
     </section>
