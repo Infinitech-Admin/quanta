@@ -91,14 +91,14 @@ export function SiteFooter() {
     <footer className="relative mt-auto bg-forest-deep text-cream">
       <PaperEdge fill="fill-forest-deep" className="-translate-y-px" />
 
-      <div className="mx-auto max-w-7xl px-4 pb-10 pt-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 py-10 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto max-w-7xl px-4 pb-6 pt-2 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-8 py-6 sm:grid-cols-2 lg:grid-cols-3">
           <div className="sm:col-span-2 lg:col-span-1">
             <Logo dark />
-            <p className="mt-5 max-w-xs text-sm leading-relaxed text-cream/70">
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-cream/70">
               {siteConfig.description}
             </p>
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-4 flex flex-wrap gap-3">
               {socialLinks.map(({ label, href, Icon }) => (
                 <Link
                   key={label}
@@ -118,26 +118,8 @@ export function SiteFooter() {
             <h3 className="font-serif text-sm uppercase tracking-[0.2em] text-sun-light">
               Company
             </h3>
-            <ul className="mt-5 space-y-3">
+            <ul className="mt-3 space-y-2">
               {footerNav.company.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-cream/70 transition-colors hover:text-cream"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-serif text-sm uppercase tracking-[0.2em] text-sun-light">
-              Resources
-            </h3>
-            <ul className="mt-5 space-y-3">
-              {footerNav.resources.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
@@ -154,7 +136,7 @@ export function SiteFooter() {
             <h3 className="font-serif text-sm uppercase tracking-[0.2em] text-sun-light">
               Get In Touch
             </h3>
-            <ul className="mt-5 space-y-3 text-sm text-cream/70">
+            <ul className="mt-3 space-y-2 text-sm text-cream/70">
               <li className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-sun-light" />
                 <span>{contactInfo.address}</span>
@@ -173,7 +155,7 @@ export function SiteFooter() {
 
         <Separator className="bg-cream/10" />
 
-        <div className="flex flex-col items-center justify-between gap-4 pt-6 text-xs text-cream/50 sm:flex-row">
+        <div className="flex flex-col items-center justify-between gap-3 pt-4 text-xs text-cream/50 sm:flex-row">
           <p>
             &copy; {new Date().getFullYear()} {siteConfig.name}. All rights
             reserved.
