@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import Link from "next/link";
-import { Mail, Phone, Printer, Factory, Building2 } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  Printer,
+  Factory,
+  Building2,
+  ExternalLink,
+} from "lucide-react";
 import { ContactForm } from "./contact-form";
 
 // ————————————————————————————————————————————————————————————————
@@ -37,12 +44,15 @@ const locations = [
     title: "Corporate Office",
     address:
       "149-A Rev. Aglipay St., Bgy. Old Zaniga, Mandaluyong City, Philippines",
+    mapsUrl: "https://www.google.com/maps/place/Quanta+Paper+Marketing+Inc",
   },
   {
     icon: Factory,
     title: "Manufacturing Plant",
     address:
       "Ninoy Aquino Highway beside TIPCO Gate 3, Barangay, Paralayunan, Mabalacat City, Pampanga",
+    mapsUrl:
+      "https://www.google.com/maps/search/?api=1&query=Ninoy+Aquino+Highway+Mabalacat+City+Pampanga",
   },
 ];
 
@@ -56,6 +66,10 @@ const departments = [
   },
   { label: "Human Resources", email: "human.resources@quantapaper.com" },
 ];
+
+// Basic embed, no API key required.
+const mapEmbedSrc =
+  "https://www.google.com/maps?q=Quanta+Paper+Marketing+Inc,149-A+Rev.+Aglipay+St.,Mandaluyong+City&output=embed";
 
 export default function ContactUsPage() {
   return (
@@ -88,10 +102,39 @@ export default function ContactUsPage() {
         </div>
       </section>
 
+      {/* ———————————————————————— Departments, right up top since it's the info people look for first ———————————————————————— */}
+      <section className="bg-[var(--forest-deep)] px-4 pb-16 text-[var(--paper)] sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl border-t border-[var(--paper)]/10 pt-10">
+          <h2 className="font-[var(--font-display)] text-lg">By Department</h2>
+          <p className="mt-1 text-sm text-[var(--paper)]/60">
+            Reach the right team directly.
+          </p>
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {departments.map((dept) => (
+              <Link
+                key={dept.label}
+                href={`mailto:${dept.email}`}
+                className="group flex items-center justify-between rounded-xl border border-[var(--paper)]/25 bg-[var(--paper)]/[0.06] px-5 py-4 transition-colors hover:border-[#E3B563] hover:bg-[var(--paper)]/[0.12]"
+              >
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.1em] text-[#E3B563]">
+                    {dept.label}
+                  </p>
+                  <p className="mt-1 text-sm font-medium text-[var(--paper)]">
+                    {dept.email}
+                  </p>
+                </div>
+                <Mail className="h-4 w-4 shrink-0 text-[#E3B563] opacity-0 transition-opacity group-hover:opacity-100" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ———————————————————————— Info + Form, side by side ———————————————————————— */}
       <section className="px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-14">
-          {/* ---- Left: everything you need to know, one column ---- */}
+          {/* ---- Left: Direct Lines + Locations ---- */}
           <div className="space-y-10">
             {/* Direct lines */}
             <div>
@@ -153,39 +196,26 @@ export default function ContactUsPage() {
                     className="flex items-start gap-3 rounded-xl border border-[var(--forest)]/12 bg-white/50 p-4"
                   >
                     <loc.icon className="mt-0.5 h-4 w-4 shrink-0 text-[var(--forest)]" />
-                    <div>
+                    <div className="flex-1">
                       <p className="text-sm font-semibold text-[var(--forest-deep)]">
                         {loc.title}
                       </p>
                       <p className="mt-1 text-sm leading-relaxed text-[var(--ink)]/70">
                         {loc.address}
                       </p>
+                      <Link
+                        href={loc.mapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-[var(--forest)] transition-colors hover:text-[var(--forest-deep)]"
+                      >
+                        Get Directions
+                        <ExternalLink className="h-3 w-3" />
+                      </Link>
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
-
-            {/* Departments */}
-            <div>
-              <h2 className="font-[var(--font-display)] text-lg text-[var(--forest-deep)]">
-                By Department
-              </h2>
-              <ul className="mt-4 divide-y divide-[var(--forest)]/10 overflow-hidden rounded-xl border border-[var(--forest)]/12 bg-white/50">
-                {departments.map((dept) => (
-                  <li key={dept.label}>
-                    <Link
-                      href={`mailto:${dept.email}`}
-                      className="flex items-center justify-between px-4 py-3 text-sm transition-colors hover:bg-[var(--mist)]"
-                    >
-                      <span className="text-[var(--ink)]/70">{dept.label}</span>
-                      <span className="font-medium text-[var(--forest-deep)]">
-                        {dept.email}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
 
@@ -201,6 +231,29 @@ export default function ContactUsPage() {
               <ContactForm />
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ———————————————————————— Map, full width ———————————————————————— */}
+      <section className="px-4 pb-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="font-[var(--font-display)] text-lg text-[var(--forest-deep)]">
+            Find Us On The Map
+          </h2>
+          <div className="mt-4 overflow-hidden rounded-xl border border-[var(--forest)]/12">
+            <iframe
+              title="Quanta Paper Corporation — Corporate Office location"
+              src={mapEmbedSrc}
+              width="100%"
+              height="360"
+              style={{ border: 0 }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+          <p className="mt-2 text-xs text-[var(--ink)]/50">
+            Showing Corporate Office, Mandaluyong City.
+          </p>
         </div>
       </section>
     </main>
