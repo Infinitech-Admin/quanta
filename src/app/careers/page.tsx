@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import { CareersHero } from "@/components/careers/CareersHero";
+import { CareersCulture } from "@/components/careers/Careersculture";
 import { JobListings } from "@/components/careers/JobListings";
 import { JoinCta } from "@/components/careers/JoinCta";
 
@@ -42,6 +43,7 @@ export default function CareersPage() {
       }
     >
       <CareersHero />
+      <CareersCulture />
       <JobListings />
       <JoinCta />
     </main>

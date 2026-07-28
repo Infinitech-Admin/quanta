@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Mail } from "lucide-react";
 
 export function JoinCta() {
   return (
@@ -21,12 +22,21 @@ export function JoinCta() {
           Quanta family. Reach out and let&apos;s talk about where you could fit
           in.
         </p>
-        <Link
-          href="/contact"
-          className="mt-8 inline-flex items-center justify-center rounded-full bg-[var(--leaf)] px-8 py-3 font-[var(--font-body)] text-sm font-semibold text-[var(--forest-deep)] transition-transform hover:scale-[1.02]"
-        >
-          Contact Us
-        </Link>
+        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center rounded-full bg-[var(--leaf)] px-8 py-3 font-[var(--font-body)] text-sm font-semibold text-[var(--forest-deep)] transition-transform hover:scale-[1.02]"
+          >
+            Contact Us
+          </Link>
+          <a
+            href="mailto:wecare@quantapaper.com"
+            className="inline-flex items-center gap-2 font-[var(--font-body)] text-sm text-[var(--paper)]/70 transition-colors hover:text-[var(--sunlight)]"
+          >
+            <Mail className="h-4 w-4" />
+            wecare@quantapaper.com
+          </a>
+        </div>
       </div>
     </section>
   );

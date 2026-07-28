@@ -1,3 +1,9 @@
+const stats = [
+  { label: "20+ Years", sub: "Serving Filipino homes" },
+  { label: "Nationwide", sub: "Branches across the Philippines" },
+  { label: "One Family", sub: "Built on care and trust" },
+];
+
 export function CareersHero() {
   return (
     <section className="relative overflow-hidden bg-[var(--forest-deep)] px-4 pt-36 pb-20 text-[var(--paper)] sm:px-6 lg:px-8">
@@ -39,19 +45,33 @@ export function CareersHero() {
         <h1 className="mt-4 font-[var(--font-display)] text-4xl italic leading-tight sm:text-5xl">
           Be Part of the Quanta Family
         </h1>
-        <p className="mx-auto mt-6 max-w-2xl font-[var(--font-body)] text-base leading-relaxed text-[var(--paper)]/85 sm:text-lg">
-          At Quanta, we offer employment opportunities to deserving individuals
-          who possess the required competencies and character expected of a
-          Quanta employee. We provide professional development opportunities
-          that allow you to learn and grow at every phase of your career here.
+        <p className="mx-auto mt-6 max-w-xl font-[var(--font-body)] text-lg leading-relaxed text-[var(--paper)]/85">
+          We offer opportunities to deserving individuals with the competencies
+          and character of a Quanta employee — and the chance to grow, be
+          recognized, and feel like family at every phase of your career.
         </p>
-        <p className="mx-auto mt-4 max-w-2xl font-[var(--font-body)] text-base leading-relaxed text-[var(--paper)]/85 sm:text-lg">
-          When you join us, you become part of the family. You will share in
-          every milestone, every achievement and every victory — and feel the
-          genuine concern, care and love of your colleagues and superiors. Your
-          commitment and dedication will be rewarded: you will be nurtured and
-          celebrated.
-        </p>
+      </div>
+
+      {/* Ticket-stub stat row — perforated dividers echo the paper-roll motif
+          used again on the job cards below. */}
+      <div className="relative mx-auto mt-14 flex max-w-3xl flex-col overflow-hidden rounded-2xl bg-[var(--paper)]/10 ring-1 ring-[var(--paper)]/15 backdrop-blur-sm sm:flex-row">
+        {stats.map((stat, i) => (
+          <div
+            key={stat.label}
+            className={`relative flex-1 px-6 py-6 text-center ${
+              i > 0
+                ? "border-t border-[var(--paper)]/15 sm:border-t-0 sm:border-l sm:border-dashed"
+                : ""
+            }`}
+          >
+            <p className="font-[var(--font-display)] text-xl italic text-[var(--sunlight)] sm:text-2xl">
+              {stat.label}
+            </p>
+            <p className="mt-1 font-[var(--font-body)] text-xs text-[var(--paper)]/70 sm:text-sm">
+              {stat.sub}
+            </p>
+          </div>
+        ))}
       </div>
     </section>
   );
