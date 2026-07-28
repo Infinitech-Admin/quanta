@@ -3,6 +3,7 @@ import { Fraunces, Manrope } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { FloatingSocial } from "@/components/floating-social";
+import { PromoModal } from "@/components/promo-modal";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -180,6 +181,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <SiteFooter />
         <FloatingSocial />
+        <PromoModal />
       </body>
     </html>
   );

@@ -1,11 +1,11 @@
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
+// import { SiteHeader } from "@/components/site-header";
+// import { SiteFooter } from "@/components/site-footer";
 import { PageBanner } from "@/components/sections/page-banner";
 
 export default function SustainabilityPage() {
   return (
     <>
-      <SiteHeader />
+      {/* <SiteHeader /> */}
       <main>
         <PageBanner
           eyebrow="Resources"
@@ -39,7 +39,7 @@ export default function SustainabilityPage() {
           ))}
         </section>
       </main>
-      <SiteFooter />
+      {/* <SiteFooter /> */}
     </>
   );
 }
