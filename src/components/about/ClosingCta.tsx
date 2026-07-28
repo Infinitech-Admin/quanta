@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { PaperRollMark } from "./ui";
 
 export function ClosingCta() {
@@ -8,7 +9,7 @@ export function ClosingCta() {
         <h2 className="mx-auto mt-6 max-w-2xl font-[var(--font-display)] text-3xl leading-snug text-[var(--color-cream)] sm:text-4xl">
           Made from the heart of Filipinos, for the Filipino.
         </h2>
-        <a
+        <Link
           href="/careers"
           className="mt-8 inline-flex items-center gap-2 rounded-full bg-[var(--color-sun)] px-7 py-3 text-sm font-semibold text-[var(--color-forest-deep)] transition-colors hover:bg-[var(--color-sun-light)]"
         >
@@ -27,7 +28,7 @@ export function ClosingCta() {
               strokeLinejoin="round"
             />
           </svg>
-        </a>
+        </Link>
       </div>
     </section>
   );
