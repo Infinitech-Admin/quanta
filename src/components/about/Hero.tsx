@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import { Eyebrow } from "./ui";
+import { motion } from "framer-motion";
 
 export function Hero() {
   return (
@@ -19,17 +22,38 @@ export function Hero() {
         className="relative mx-auto max-w-6xl px-6 py-20 sm:px-10 sm:py-28"
         style={{ textShadow: "0 2px 10px rgba(0,0,0,0.4)" }}
       >
-        <Eyebrow className="text-[var(--color-sun)]">
-          Since 2003 · Mabalacat, Pampanga
-        </Eyebrow>
-        <h1 className="mt-4 font-[var(--font-display)] text-5xl leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
-          About Us
-        </h1>
-        <p className="mt-5 max-w-lg text-base leading-relaxed text-[var(--color-cream)] sm:text-lg">
-          From four machines and fewer than fifty people, to the largest tissue
-          manufacturer in the Philippines — built one roll, one hire, one habit
-          of doing things properly, at a time.
-        </p>
+        <motion.div
+          initial={{ opacity: 0, x: -380 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <Eyebrow className="text-[var(--color-sun)]">
+            Since 2003 · Mabalacat, Pampanga
+          </Eyebrow>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: -380 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1.6, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <h1 className="mt-4 font-[var(--font-display)] text-5xl leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
+            About Us
+          </h1>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: -380 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1.8, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-[var(--color-cream)] sm:text-lg">
+            From four machines and fewer than fifty people, to the largest
+            tissue manufacturer in the Philippines — built one roll, one hire,
+            one habit of doing things properly, at a time.
+          </p>
+        </motion.div>
       </div>
 
       {/* torn-paper transition into the next section */}

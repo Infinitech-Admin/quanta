@@ -1,4 +1,7 @@
+"use client";
+
 import { Handshake, Lightbulb, HeartHandshake } from "lucide-react";
+import { motion } from "framer-motion";
 
 const reasons = [
   {
@@ -32,40 +35,74 @@ export function WhyChooseUs() {
       />
 
       <div className="relative max-w-6xl mx-auto px-6 md:px-16 pt-20 pb-24">
-        <h2 className="font-serif text-center text-3xl md:text-4xl font-bold uppercase tracking-wide text-[var(--color-forest-deep)]">
-          Why Choose Quanta Paper?
-        </h2>
+        <motion.div
+          initial={{ opacity: 0, y: 120 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <h2 className="font-serif text-center text-3xl md:text-4xl font-bold uppercase tracking-wide text-[var(--color-forest-deep)]">
+            Why Choose Quanta Paper?
+          </h2>
 
-        {/* thin accent divider tying heading to cards */}
-        <div className="flex justify-center mt-5 mb-14">
-          <div className="h-1 w-16 rounded-full bg-[var(--color-forest-light)]" />
-        </div>
+          {/* thin accent divider tying heading to cards */}
+          <div className="flex justify-center mt-5 mb-14">
+            <div className="h-1 w-16 rounded-full bg-[var(--color-forest-light)]" />
+          </div>
+        </motion.div>
 
         <div className="grid md:grid-cols-3 gap-12">
-          {reasons.map(({ icon: Icon, title, text }) => (
+          {reasons.map(({ icon: Icon, title, text }, index) => (
             <div
               key={title}
               className="flex flex-col items-center text-center gap-5"
             >
-              <div
-                className="h-32 w-32 rounded-full flex items-center justify-center shadow-lg"
-                style={{
-                  background:
-                    "linear-gradient(to bottom right, var(--color-forest-light), var(--color-forest-deep))",
-                  boxShadow: "0 0 0 4px rgba(76, 138, 85, 0.2)",
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 1.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{
+                  duration: 1,
+                  delay: index * 0.2,
+                  ease: "easeOut",
                 }}
+                viewport={{ once: true, amount: 0.3 }}
               >
-                <Icon
-                  className="h-14 w-14 text-[var(--color-cream)]"
-                  strokeWidth={1.5}
-                />
-              </div>
-              <h3 className="font-bold text-lg uppercase text-[var(--color-forest-deep)]">
-                {title}
-              </h3>
-              <p className="text-sm text-[var(--color-forest-deep)]/70 leading-relaxed max-w-xs">
-                {text}
-              </p>
+                <div
+                  className="h-32 w-32 rounded-full flex items-center justify-center shadow-lg"
+                  style={{
+                    background:
+                      "linear-gradient(to bottom right, var(--color-forest-light), var(--color-forest-deep))",
+                    boxShadow: "0 0 0 4px rgba(76, 138, 85, 0.2)",
+                  }}
+                >
+                  <Icon
+                    className="h-14 w-14 text-[var(--color-cream)]"
+                    strokeWidth={1.5}
+                  />
+                </div>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 180 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <h3 className="font-bold text-lg uppercase text-[var(--color-forest-deep)]">
+                  {title}
+                </h3>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 180 }}
+                whileInView={{ opacity: 1.8, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <p className="text-sm text-[var(--color-forest-deep)]/70 leading-relaxed max-w-xs">
+                  {text}
+                </p>
+              </motion.div>
             </div>
           ))}
         </div>
