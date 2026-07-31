@@ -24,7 +24,7 @@ export function OurHistory() {
       <div className="relative mx-auto max-w-6xl px-6 sm:px-10">
         <div className="max-w-2xl">
           <motion.div
-            initial={{ opacity: 0, x: -120 }}
+            initial={{ opacity: 0, x: -200 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 2, ease: "easeOut" }}
             viewport={{ once: true, amount: 0.3 }}
@@ -33,7 +33,7 @@ export function OurHistory() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: -120 }}
+            initial={{ opacity: 0, x: -200 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.8, ease: "easeOut" }}
             viewport={{ once: true, amount: 0.3 }}
@@ -48,7 +48,7 @@ export function OurHistory() {
           {/* Timeline */}
           <div className="relative">
             <motion.div
-              initial={{ opacity: 0, x: -120 }}
+              initial={{ opacity: 0, x: -200 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
               viewport={{ once: true, amount: 0.3 }}
@@ -87,7 +87,7 @@ export function OurHistory() {
 
           {/* Spec sheet */}
           <motion.div
-            initial={{ opacity: 0, x: 380 }}
+            initial={{ opacity: 0, x: 200 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.3, ease: "easeOut" }}
             viewport={{ once: true, amount: 0.3 }}

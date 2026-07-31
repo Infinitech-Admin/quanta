@@ -12,10 +12,10 @@ export function FlagshipProduct() {
         {/* left: story */}
         <div className="text-[var(--color-cream)] z-10">
           <motion.div
-            initial={{ opacity: 0, x: -620 }}
+            initial={{ opacity: 0, x: -200 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{
-              duration: 1.2,
+              duration: 0.6,
               ease: "easeOut",
             }}
             viewport={{ once: true, amount: 0.3 }}
@@ -30,10 +30,10 @@ export function FlagshipProduct() {
 
           {/* leaf-shaped brand mark — swap for /brands/fresh-logo.png if you have the real file */}
           <motion.div
-            initial={{ opacity: 0, x: -620 }}
+            initial={{ opacity: 0, x: -200 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{
-              duration: 1.3,
+              duration: 0.7,
               ease: "easeOut",
             }}
             viewport={{ once: true, amount: 0.3 }}
@@ -78,10 +78,10 @@ export function FlagshipProduct() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: -620 }}
+            initial={{ opacity: 0, x: -200 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{
-              duration: 1.4,
+              duration: 0.8,
               ease: "easeOut",
             }}
             viewport={{ once: true, amount: 0.3 }}
@@ -110,10 +110,10 @@ export function FlagshipProduct() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: -620 }}
+            initial={{ opacity: 0, x: -200 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{
-              duration: 1.5,
+              duration: 0.9,
               ease: "easeOut",
             }}
             viewport={{ once: true, amount: 0.3 }}
@@ -126,10 +126,10 @@ export function FlagshipProduct() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: -620 }}
+            initial={{ opacity: 0, x: -200 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{
-              duration: 2,
+              duration: 1,
               ease: "easeOut",
             }}
             viewport={{ once: true, amount: 0.3 }}
@@ -157,11 +157,11 @@ export function FlagshipProduct() {
             ].map((label, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 120 }}
+                initial={{ opacity: 0, y: 200 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 // transition={{ duration: 0.5 }}
                 transition={{
-                  duration: 1.6,
+                  duration: 0.8,
                   delay: index * 0.2,
                   ease: "easeOut",
                 }}
@@ -194,7 +194,7 @@ export function FlagshipProduct() {
         {/* right: image bleeds toward the edge, oversized, with feathered edges so the PNG's flat rectangle disappears into the green */}
 
         <motion.div
-          initial={{ opacity: 0, x: 620 }}
+          initial={{ opacity: 0, x: 200 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{
             duration: 2,
@@ -204,7 +204,7 @@ export function FlagshipProduct() {
         >
           <div className="relative h-[260px] md:h-[400px] overflow-visible">
             {/* soft glow behind the roll for depth */}
-            <div className="absolute right-[-5%] top-1/2 h-[70%] w-[70%] -translate-y-1/2 rounded-full bg-white/10 blur-2xl" />
+            <div className="absolute right-[-48%] md:right-[-54%] top-[58%] h-[150%] md:h-[175%]-translate-y-1/2 rounded-full bg-white/10 blur-2xl" />
 
             {/* grounding shadow so the roll feels staged, not floating */}
             <div className="absolute bottom-[12%] right-[2%] h-8 w-56 rounded-full bg-black/20 blur-md" />
@@ -213,7 +213,7 @@ export function FlagshipProduct() {
             <img
               src="/brands/fresh-tissue.png"
               alt="Fresh premium eco-pulp tissue roll"
-              className="absolute right-[-48%] md:right-[-54%] top-[58%] h-[150%] md:h-[175%] w-auto max-w-none -translate-y-[46%] object-contain motion-safe:transition-transform motion-safe:duration-700 hover:-rotate-2"
+              className="absolute right-[-20%] sm:right-[-48%] md:right-[-54%] top-[44%] lg:top-[55%] h-[150%] sm:h-[150%] md:h-[175%] w-auto max-w-none -translate-y-[46%] object-contain motion-safe:transition-transform motion-safe:duration-700 hover:-rotate-2"
               style={{
                 WebkitMaskImage:
                   "radial-gradient(ellipse 62% 62% at 55% 50%, black 58%, transparent 88%)",
@@ -223,11 +223,11 @@ export function FlagshipProduct() {
             />
 
             {/* gold-ringed badge, echoing the logo's gold outline */}
-            <div className="absolute bottom-[6%] left-[18%] flex h-20 w-20 -rotate-6 flex-col items-center justify-center rounded-full border-2 border-[var(--color-sun)] bg-[var(--color-forest-deep)]/90 text-center shadow-md">
-              <span className="text-[11px] font-extrabold text-[var(--color-cream)]">
+            <div className="absolute bottom-[6%] left-[18%] flex h-16 w-16 sm:h-20 sm:w-20 -rotate-6 flex-col items-center justify-center rounded-full border-2 border-[var(--color-sun)] bg-[var(--color-forest-deep)]/90 text-center shadow-md">
+              <span className="text-[10px] sm:text-[11px] font-extrabold text-[var(--color-cream)]">
                 100%
               </span>
-              <span className="text-[8px] font-semibold uppercase tracking-wide text-[var(--color-cream-dim)] leading-tight px-1">
+              <span className="text-[7px] sm:text-[8px] font-semibold uppercase tracking-wide text-[var(--color-cream-dim)] leading-tight px-1">
                 Eco-Pulp
               </span>
             </div>

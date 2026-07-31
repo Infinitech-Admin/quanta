@@ -36,7 +36,7 @@ export function WhyChooseUs() {
 
       <div className="relative max-w-6xl mx-auto px-6 md:px-16 pt-20 pb-24">
         <motion.div
-          initial={{ opacity: 0, y: 120 }}
+          initial={{ opacity: 0, y: 200 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
           viewport={{ once: true, amount: 0.3 }}
@@ -72,7 +72,7 @@ export function WhyChooseUs() {
                   className="h-32 w-32 rounded-full flex items-center justify-center shadow-lg"
                   style={{
                     background:
-                      "linear-gradient(to bottom right, var(--color-forest-light), var(--color-forest-deep))",
+                      "linear-gradient(to bottom right, var(--color-forest-light), var(--color-forest-vivid))",
                     boxShadow: "0 0 0 4px rgba(76, 138, 85, 0.2)",
                   }}
                 >

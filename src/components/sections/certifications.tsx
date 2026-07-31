@@ -20,7 +20,7 @@ export function Certifications() {
       <div className="relative max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -320 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{
             duration: 1.2,
             ease: "easeOut",
@@ -39,13 +39,12 @@ export function Certifications() {
           {/* certificate plaque */}
 
           <motion.div
-            initial={{ opacity: 0, x: -320 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, x: -200 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{
               duration: 1.2,
               ease: "easeOut",
             }}
-            viewport={{ once: true, amount: 0.8 }}
           >
             <div className="flex justify-center md:justify-start">
               <div className="relative w-full max-w-sm pt-10">
@@ -113,12 +112,11 @@ export function Certifications() {
           <div>
             <motion.div
               initial={{ opacity: 0, x: 320 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{
                 duration: 1.9,
                 ease: "easeOut",
               }}
-              viewport={{ once: true, amount: 0.8 }}
             >
               <h3 className="font-serif mb-4 text-2xl text-[var(--color-forest-deep)] md:text-3xl font-semibold">
                 100% trusted by many
@@ -127,12 +125,11 @@ export function Certifications() {
 
             <motion.div
               initial={{ opacity: 0, x: 320 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{
                 duration: 1.6,
                 ease: "easeOut",
               }}
-              viewport={{ once: true, amount: 0.8 }}
             >
               <p className="mb-3 leading-relaxed text-sm md:text-base text-[var(--color-forest-deep)]/80">
                 To ensure the consistent quality of our products and services,
@@ -149,12 +146,11 @@ export function Certifications() {
 
             <motion.div
               initial={{ opacity: 0, x: 320 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{
                 duration: 1.3,
                 ease: "easeOut",
               }}
-              viewport={{ once: true, amount: 0.8 }}
             >
               <p className="mb-3 leading-relaxed text-sm md:text-base text-[var(--color-forest-deep)]/80">
                 We&apos;re the only tissue manufacturer in the Philippines whose
@@ -171,12 +167,11 @@ export function Certifications() {
 
             <motion.div
               initial={{ opacity: 0, x: 320 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{
                 duration: 1,
                 ease: "easeOut",
               }}
-              viewport={{ once: true, amount: 0.8 }}
             >
               <p className="leading-relaxed text-sm md:text-base text-[var(--color-forest-deep)]/80">
                 Our Halal certification guarantees our products and services

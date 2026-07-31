@@ -8,7 +8,7 @@ export function CtaBanner() {
   return (
     <section className="section-green-gradient py-20 px-6 md:px-16 text-center">
       <motion.div
-        initial={{ opacity: 0, y: 120 }}
+        initial={{ opacity: 0, y: 200 }}
         whileInView={{ opacity: 1, y: 0 }}
         // animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
@@ -20,7 +20,7 @@ export function CtaBanner() {
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, y: 120 }}
+        initial={{ opacity: 0, y: 200 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
         viewport={{ once: true, amount: 0.3 }}
@@ -31,7 +31,7 @@ export function CtaBanner() {
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, y: 120 }}
+        initial={{ opacity: 0, y: 200 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true, amount: 0.3 }}

@@ -5,7 +5,7 @@ import { X } from "lucide-react";
 
 
 const COOKIE_NAME = "promoModalShown";
-const INTERVAL_SECONDS = 30*60; // 30 minutes
+const INTERVAL_SECONDS = 10*60; // 30 minutes
 
 function getCookie(name: string): string | null {
   const match = document.cookie.match(

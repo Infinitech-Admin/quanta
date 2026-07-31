@@ -6,7 +6,8 @@ import { motion } from "framer-motion";
 
 export function Hero() {
   return (
-    <section className="relative isolate overflow-hidden text-[var(--color-cream)]">
+    // <section className="relative isolate overflow-hidden text-[var(--color-cream)]">
+    <section className="relative overflow-hidden bg-[var(--forest-deep)] pt-24 sm:pt-32 md:pt-36 text-[var(--paper)]">
       <Image
         src="/images/about/plant-floor.jpg"
         alt="Quanta Paper technicians on the manufacturing floor in Mabalacat, Pampanga"
@@ -18,12 +19,9 @@ export function Hero() {
       <div className="absolute inset-0 bg-[var(--color-forest-vivid)]/85" />
       <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-forest-deep)]/85 via-[var(--color-forest-deep)]/20 to-transparent" />
 
-      <div
-        className="relative mx-auto max-w-6xl px-6 py-20 sm:px-10 sm:py-28"
-        style={{ textShadow: "0 2px 10px rgba(0,0,0,0.4)" }}
-      >
+      <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-32">
         <motion.div
-          initial={{ opacity: 0, x: -380 }}
+          initial={{ opacity: 0, x: -200 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
           viewport={{ once: true, amount: 0.3 }}
@@ -33,17 +31,17 @@ export function Hero() {
           </Eyebrow>
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, x: -380 }}
+          initial={{ opacity: 0, x: -200 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 1.6, ease: "easeOut" }}
           viewport={{ once: true, amount: 0.3 }}
         >
-          <h1 className="mt-4 font-[var(--font-display)] text-5xl leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
+          <h1 className="mt-4 font-[var(--font-display)] text-4xl leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
             About Us
           </h1>
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, x: -380 }}
+          initial={{ opacity: 0, x: -200 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 1.8, ease: "easeOut" }}
           viewport={{ once: true, amount: 0.3 }}
@@ -58,7 +56,7 @@ export function Hero() {
 
       {/* torn-paper transition into the next section */}
       <svg
-        className="relative -mb-px block w-full text-[var(--color-cream)]"
+        className="relative block w-full text-[var(--color-cream)]"
         viewBox="0 0 1200 16"
         preserveAspectRatio="none"
         aria-hidden="true"

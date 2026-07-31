@@ -170,15 +170,14 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationJsonLd),
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-cream text-forest-deep">
+      <body>
         <SiteHeader />
-        <main className="flex-1">{children}</main>
+        <main >{children}</main>
         <SiteFooter />
         <FloatingSocial />
         

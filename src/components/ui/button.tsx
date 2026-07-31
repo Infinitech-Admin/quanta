@@ -12,9 +12,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-forest text-cream hover:bg-forest-light focus-visible:ring-forest",
+          "bg-forest-vivid/80 text-cream hover:bg-forest-light/70 focus-visible:ring-forest",
         outline:
-          "border border-cream/60 text-cream bg-transparent hover:bg-cream/10 focus-visible:ring-cream",
+          "border border-white/60 text-cream bg-white/30 hover:bg-cream/10 focus-visible:ring-cream",
         ghost: "hover:bg-forest/10 text-forest focus-visible:ring-forest",
         sun: "bg-sun text-forest-deep hover:bg-sun-light focus-visible:ring-sun",
       },
@@ -50,6 +50,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     );
   }
 );
+
 Button.displayName = "Button";
 
 export { Button, buttonVariants };

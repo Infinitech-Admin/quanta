@@ -17,7 +17,7 @@ export function Logo({ dark = false }: { dark?: boolean }) {
       <span
         className={cn(
           "inline-flex items-center rounded-lg px-3 py-2 transition-colors duration-300",
-          dark ? "bg-transparent" : "bg-forest-deep",
+          dark ? "bg-transparent" : "bg-forest-vivid",
         )}
       >
         <Image

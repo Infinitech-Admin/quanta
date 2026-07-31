@@ -169,6 +169,7 @@ const categories: Category[] = [
   },
 ];
 
+
 export function BrandsShowcase() {
   const [activeCategory, setActiveCategory] = useState(categories[0].id);
   const current = categories.find((c) => c.id === activeCategory)!;
@@ -194,7 +195,7 @@ export function BrandsShowcase() {
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-10">
           <motion.div
-            initial={{ opacity: 0, y: 120 }}
+            initial={{ opacity: 0, y: 200 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -205,7 +206,7 @@ export function BrandsShowcase() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 120 }}
+            initial={{ opacity: 0, y: 200 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -221,11 +222,11 @@ export function BrandsShowcase() {
           {categories.map((cat, index) => (
             <motion.div
               key={cat.id}
-              initial={{ opacity: 0, y: 120 }}
+              initial={{ opacity: 0, y: 200 }}
               whileInView={{ opacity: 1, y: 0 }}
               // transition={{ duration: 0.5 }}
               transition={{
-                duration: 1,
+                duration: 0.8,
                 delay: index * 0.2,
                 ease: "easeOut",
               }}
@@ -236,8 +237,8 @@ export function BrandsShowcase() {
                 onClick={() => setActiveCategory(cat.id)}
                 className={`rounded-full px-5 py-2 text-sm font-semibold transition ${
                   activeCategory === cat.id
-                    ? "bg-[var(--color-forest-deep)] text-white"
-                    : "bg-white text-[var(--color-forest-deep)] hover:bg-[var(--color-cream-dim)]"
+                    ? "bg-[var(--color-forest-vivid)] text-white"
+                    : "bg-white text-[var(--color-forest-deep)] hover:bg-[var(--color-moss)]/50"
                 }`}
               >
                 {cat.label}
@@ -248,7 +249,7 @@ export function BrandsShowcase() {
 
         {/* Category intro */}
         <motion.div
-          initial={{ opacity: 0, y: 120 }}
+          initial={{ opacity: 0, y: 200 }}
           whileInView={{ opacity: 1, y: 0 }}
           // transition={{ duration: 0.5 }}
           transition={{
@@ -263,7 +264,7 @@ export function BrandsShowcase() {
 
         {/* ———————————————————————— Big preview panel (clickable card) ———————————————————————— */}
         <motion.div
-          initial={{ opacity: 0, scale: 1.4 }}
+          initial={{ opacity: 0, scale: 1.05 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
           viewport={{ once: true, amount: 0.3 }}
@@ -308,12 +309,12 @@ export function BrandsShowcase() {
               return (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 120 }}
+                  initial={{ opacity: 0, y: 200 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   // transition={{ duration: 0.5 }}
                   transition={{
                     duration: 0.8,
-                    delay: index * 0.2,
+                    delay: index * 0.1,
                     ease: "easeOut",
                   }}
                   viewport={{ once: true, amount: 0.8 }}

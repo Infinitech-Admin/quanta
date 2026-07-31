@@ -1,4 +1,3 @@
-import { SiteHeader } from "@/components/site-header";
 import { Hero } from "@/components/sections/hero";
 import { WhyChooseUs } from "@/components/sections/why-choose-us";
 import { BrandsShowcase } from "@/components/sections/brands-showcase";
@@ -10,8 +9,6 @@ import { CtaBanner } from "@/components/sections/cta-banner";
 export default function Home() {
   return (
     <>
-      <SiteHeader />
-      <main>
         <Hero />
         <WhyChooseUs />
         <BrandsShowcase />
@@ -19,7 +16,6 @@ export default function Home() {
         <Certifications />
         <GroupOfCompanies />
         <CtaBanner />
-      </main>
     </>
   );
 }
