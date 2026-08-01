@@ -42,9 +42,9 @@ export function CareersHero() {
         aria-hidden
       />
 
-      <div className="relative mx-auto max-w-6xl px-6 pt-12 sm:px-10 sm:py-24 mb-6 text-center">
+      <div className="relative mx-auto max-w-6xl px-6 pt-12 sm:px-10 sm:py-20 mb-6 text-center">
         <motion.div
-          initial={{ opacity: 0, y: -200 }}
+          initial={{ opacity: 0, y: -120 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
           viewport={{ once: true, amount: 0.3 }}
@@ -54,7 +54,7 @@ export function CareersHero() {
           </span>
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, y: -200 }}
+          initial={{ opacity: 0, y: -120 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
           viewport={{ once: true, amount: 0.3 }}
@@ -80,11 +80,11 @@ export function CareersHero() {
 
       {/* Ticket-stub stat row — perforated dividers echo the paper-roll motif
           used again on the job cards below. */}
-      <div className="relative mx-auto flex max-w-3xl py-2 flex-col overflow-hidden rounded-2xl bg-[var(--paper)]/10 ring-1 ring-[var(--paper)]/15 backdrop-blur-sm sm:flex-row">
+      <div className="relative mx-auto flex max-w-3xl flex-col overflow-hidden rounded-2xl bg-[var(--paper)]/10 ring-1 ring-[var(--paper)]/15 backdrop-blur-sm sm:flex-row">
         {stats.map((stat, index) => (
           <motion.div
             key={index}
-            initial={{ opacity: 0, x: -200 }}
+            initial={{ opacity: 0, x: -120 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{
               duration: 1,
@@ -95,7 +95,7 @@ export function CareersHero() {
           >
             <div
               key={stat.label}
-              className={`relative flex-1 ml-2 px-6 py-6 text-center ${
+              className={`relative flex-1 ml-7 px-6 py-6 text-center ${
                 index > 0
                   ? "border-t border-[var(--paper)]/15 sm:border-t-0 sm:border-l sm:border-dashed"
                   : ""

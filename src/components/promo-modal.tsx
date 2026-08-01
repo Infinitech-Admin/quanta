@@ -5,7 +5,7 @@ import { X } from "lucide-react";
 
 
 const COOKIE_NAME = "promoModalShown";
-const INTERVAL_SECONDS = 10*60; // 30 minutes
+const INTERVAL_SECONDS = 1*60; // 30 minutes
 
 function getCookie(name: string): string | null {
   const match = document.cookie.match(
@@ -60,7 +60,7 @@ export function PromoModal() {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-2xl"
+        className="relative w-full max-w-5xl overflow-hidden rounded-2xl bg-white shadow-2xl"
       >
         <button
           type="button"

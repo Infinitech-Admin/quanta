@@ -3,6 +3,7 @@ import { Fraunces, Manrope } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { FloatingSocial } from "@/components/floating-social";
+import { Chatbot } from "@/components/chatbot";
 import { PromoModal } from "@/components/promo-modal";
 import "./globals.css";
 
@@ -180,6 +181,7 @@ export default function RootLayout({
         <main >{children}</main>
         <SiteFooter />
         <FloatingSocial />
+              <Chatbot />
         
         <PromoModal />
       </body>

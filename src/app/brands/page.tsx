@@ -19,7 +19,7 @@ export default function BrandsPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-forest-vivid)]/70 via-[var(--color-forest)]/88 to-[var(--color-forest-vivid)]/80" />
 
-        <div className="relative mx-auto max-w-6xl py-20 sm:py-24">
+        <div className="relative mx-auto max-w-6xl py-20 sm:py-26">
           <motion.div
             initial={{ opacity: 0, x: -200 }}
             whileInView={{ opacity: 1, x: 0 }}
