@@ -30,7 +30,7 @@ export function Certifications() {
           </h2>
         </motion.div>
 
-        <div className="mt-14 grid gap-8 md:grid-cols-3">
+        <div className="mt-14 grid gap-8 sm:grid-cols-2 md:grid-cols-3">
           {certifications.map((c, index) => (
             <motion.div
               key={index}
@@ -45,7 +45,7 @@ export function Certifications() {
             >
               <div
                 key={c.title}
-                className="h-[280px] rounded-sm border border-[var(--color-cream)]/15 bg-[var(--color-cream)]/5 p-8 backdrop-blur-sm"
+                className="h-[280px] md:h-[360px] xl:h-[290px] rounded-sm border border-[var(--color-cream)]/15 bg-[var(--color-cream)]/5 p-8 backdrop-blur-sm"
               >
                 <div className="flex items-center gap-3">
                   <span className="flex h-12 w-12 flex-none items-center justify-center rounded-full border border-[var(--color-sun)] font-[var(--font-fraunces)] text-[11px] tracking-tight text-[var(--color-sun)]">

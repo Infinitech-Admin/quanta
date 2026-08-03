@@ -41,7 +41,7 @@ export function WhyChooseUs() {
           transition={{ duration: 1, ease: "easeOut" }}
           viewport={{ once: true, amount: 0.3 }}
         >
-          <h2 className="font-serif text-center text-3xl md:text-4xl font-bold uppercase tracking-wide text-[var(--color-forest-deep)]">
+          <h2 className="font-serif text-center text-3xl md:text-4xl font-bold uppercase tracking-wide text-[var(--color-forest)]">
             Why Choose Quanta Paper?
           </h2>
 
@@ -88,7 +88,7 @@ export function WhyChooseUs() {
                 transition={{ duration: 0.6, ease: "easeOut" }}
                 viewport={{ once: true, amount: 0.3 }}
               >
-                <h3 className="font-bold text-lg uppercase text-[var(--color-forest-deep)]">
+                <h3 className="font-bold text-2xl uppercase text-[var(--color-forest-vivid)]">
                   {title}
                 </h3>
               </motion.div>

@@ -319,12 +319,12 @@ export function Chatbot() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
-  useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 100);
-      setUnreadCount(0);
-    }
-  }, [isOpen]);
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     setTimeout(() => inputRef.current?.focus(), 100);
+  //     setUnreadCount(0);
+  //   }
+  // }, [isOpen]);
 
   // Seed the welcome message once, the first time the chat is opened.
   useEffect(() => {
@@ -333,7 +333,7 @@ export function Chatbot() {
       "👋 Welcome to **Quanta Paper Corporation Inc.**! How can I help you today?",
       INITIAL_SUGGESTIONS,
     );
-  }, [isOpen]);
+  }, [isOpen, messages.length]);
 
   function addBotMsg(text: string, suggestions: string[]) {
     setMessages((prev) => [
@@ -409,7 +409,9 @@ export function Chatbot() {
               </div>
             </div>
             <button
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                setIsOpen(false);
+              }}
               className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 transition text-white"
             >
               <X className="w-4 h-4" />
@@ -507,8 +509,10 @@ export function Chatbot() {
 
       {/* FAB */}
       <button
-        onClick={() => setIsOpen((o) => !o)}
-        className="relative w-14 h-14 rounded-full bg-gradient-to-br from-green-700 to-green-500 text-white shadow-xl shadow-green-900/25 hover:shadow-green-700/35 hover:scale-105 transition-all duration-300 flex items-center justify-center border border-green-400/30"
+        {...(isOpen
+          ? { onClick: () => setIsOpen(false) }
+          : { onClick: () => setIsOpen(true) })}
+        className="relative w-14 h-14 rounded-full bg-gradient-to-br -top-1 -right-4 from-green-700 to-green-500 text-white shadow-xl shadow-green-900/25 hover:shadow-green-700/35 hover:scale-105 transition-all duration-300 flex items-center justify-center border border-green-400/30"
       >
         {isOpen ? (
           <X className="w-6 h-6" />

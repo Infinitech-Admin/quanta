@@ -169,7 +169,6 @@ const categories: Category[] = [
   },
 ];
 
-
 export function BrandsShowcase() {
   const [activeCategory, setActiveCategory] = useState(categories[0].id);
   const current = categories.find((c) => c.id === activeCategory)!;
@@ -211,7 +210,7 @@ export function BrandsShowcase() {
             transition={{ duration: 1.2 }}
             viewport={{ once: true, amount: 0.3 }}
           >
-            <h2 className="font-serif text-3xl md:text-4xl mb-4 text-[var(--color-forest-deep)]">
+            <h2 className="font-serif text-3xl font-bold md:text-4xl mb-4 text-[var(--color-forest)]">
               Brands We&apos;ve Grown
             </h2>
           </motion.div>
@@ -264,7 +263,7 @@ export function BrandsShowcase() {
 
         {/* ———————————————————————— Big preview panel (clickable card) ———————————————————————— */}
         <motion.div
-          initial={{ opacity: 0, scale: 1.05 }}
+          initial={{ opacity: 0, scale: 1.4 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
           viewport={{ once: true, amount: 0.3 }}

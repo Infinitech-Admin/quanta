@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 export function Hero() {
   return (
     // <section className="relative isolate overflow-hidden text-[var(--color-cream)]">
-    <section className="relative overflow-hidden bg-[var(--forest-deep)] pt-24 sm:pt-32 md:pt-36 text-[var(--paper)]">
+    <section className="relative overflow-hidden bg-[var(--forest-deep)] pt-24 sm:pt-32 md:pt-24 text-[var(--paper)]">
       <Image
         src="/images/about/plant-floor.jpg"
         alt="Quanta Paper technicians on the manufacturing floor in Mabalacat, Pampanga"
@@ -19,7 +19,7 @@ export function Hero() {
       <div className="absolute inset-0 bg-[var(--color-forest-vivid)]/85" />
       <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-forest-deep)]/85 via-[var(--color-forest-deep)]/20 to-transparent" />
 
-      <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-32">
+      <div className="relative mx-auto max-w-6xl px-6 py-20 sm:px-10 sm:py-28">
         <motion.div
           initial={{ opacity: 0, x: -200 }}
           whileInView={{ opacity: 1, x: 0 }}

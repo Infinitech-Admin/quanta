@@ -8,7 +8,14 @@ export function ClosingCta() {
   return (
     <section className="section-green-gradient px-6 py-24 text-center text-[var(--color-cream)] sm:px-10">
       <div className="mx-auto max-w-6xl">
-        <PaperRollMark className="mx-auto h-16 w-16 text-[var(--color-sun)]" />
+        <motion.div
+          initial={{ opacity: 0, scale: 2 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <PaperRollMark className="mx-auto h-16 w-16 text-[var(--color-sun)]" />
+        </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 200 }}
           whileInView={{ opacity: 1, y: 0 }}

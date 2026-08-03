@@ -9,7 +9,7 @@ export default function BrandsPage() {
   return (
     <div>
       {/* ── Hero — matches the site's forest theme ──────── */}
-      <section className="relative overflow-hidden bg-[var(--forest-deep)] pt-36 text-[var(--paper)]">
+      <section className="relative isolate overflow-hidden py-24 text-[var(--color-cream)] sm:py-32">
         <Image
           src="/bg-innerpage.jpg"
           alt=""
@@ -17,9 +17,10 @@ export default function BrandsPage() {
           priority
           className="object-cover"
         />
+
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-forest-vivid)]/70 via-[var(--color-forest)]/88 to-[var(--color-forest-vivid)]/80" />
 
-        <div className="relative mx-auto max-w-6xl py-20 sm:py-26">
+        <div className="relative mx-auto max-w-6xl px-6 sm:px-10">
           <motion.div
             initial={{ opacity: 0, x: -200 }}
             whileInView={{ opacity: 1, x: 0 }}

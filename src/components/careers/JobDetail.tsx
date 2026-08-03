@@ -1,8 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin, ArrowLeft } from "lucide-react";
 import type { Job } from "@/lib/jobs-data";
 import { JobApplicationForm } from "@/components/careers/JobApplicationForm";
+import { motion } from "framer-motion";
 
 export function JobDetail({ job }: { job: Job }) {
   return (
@@ -24,12 +27,12 @@ export function JobDetail({ job }: { job: Job }) {
           }}
           aria-hidden
         />
+
         {/* Light darkening wash so text stays legible over the photo without hiding it */}
         <div
           className="pointer-events-none absolute inset-0 bg-black/10"
           aria-hidden
         />
-
         <div
           className="relative mx-auto max-w-4xl"
           style={{ textShadow: "0 2px 12px rgba(0,0,0,0.45)" }}
@@ -41,13 +44,27 @@ export function JobDetail({ job }: { job: Job }) {
             <ArrowLeft className="h-4 w-4" />
             Back to all openings
           </Link>
-          <h1 className="mt-6 font-[var(--font-display)] text-3xl italic leading-tight sm:text-4xl">
-            {job.title}
-          </h1>
-          <p className="mt-3 flex items-center gap-1.5 font-[var(--font-body)] text-sm text-[var(--sunlight)]">
-            <MapPin className="h-4 w-4" />
-            {job.location}
-          </p>
+          <motion.div
+            initial={{ opacity: 0, x: -120 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <h1 className="mt-6 font-[var(--font-display)] text-3xl italic leading-tight sm:text-4xl">
+              {job.title}
+            </h1>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: -120 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <p className="mt-3 flex items-center gap-1.5 font-[var(--font-body)] text-sm text-[var(--sunlight)]">
+              <MapPin className="h-4 w-4" />
+              {job.location}
+            </p>
+          </motion.div>
         </div>
       </section>
 

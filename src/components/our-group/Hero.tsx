@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-[var(--forest-deep)] pt-26 sm:pt-32 md:pt-36 text-[var(--paper)]">
+    <section className="relative overflow-hidden bg-[var(--forest-deep)] pt-24 text-[var(--paper)]">
       {/* Organic "sunlight through leaves" glow layer */}
       <div
         className="pointer-events-none absolute inset-0"
@@ -41,7 +41,7 @@ export function Hero() {
         aria-hidden
       />
 
-      <div className="relative mx-auto max-w-6xl px-6 py-16 sm:px-10 sm:py-22 lg:py-24 xl:py-32 text-center">
+      <div className="relative mx-auto max-w-6xl px-6 py-22 sm:px-10 sm:py-32 text-center">
         <motion.div
           initial={{ opacity: 0, y: -200 }}
           whileInView={{ opacity: 1, y: 0 }}

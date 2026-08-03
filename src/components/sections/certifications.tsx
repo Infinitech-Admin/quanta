@@ -27,11 +27,11 @@ export function Certifications() {
           }}
         >
           <div className="mb-10 flex items-center justify-center gap-4">
-            <span className="h-px w-10 bg-[var(--color-forest-light)] border-2 border-[var(--color-forest-light)]" />
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--color-forest-deep)]">
+            <span className="h-px w-10 bg-[var(--color-forest-light)] border-2 border-[var(--color-forest-vivid)]" />
+            <p className="text-sm font-extrabold uppercase tracking-[0.3em] text-[var(--color-forest-vivid)]">
               Tested and certified
             </p>
-            <span className="h-px w-10 bg-[var(--color-forest-light)] border-2 border-[var(--color-forest-light)]" />
+            <span className="h-px w-10 bg-[var(--color-forest-light)] border-2 border-[var(--color-forest-vivid)]" />
           </div>
         </motion.div>
 
@@ -118,7 +118,7 @@ export function Certifications() {
                 ease: "easeOut",
               }}
             >
-              <h3 className="font-serif mb-4 text-2xl text-[var(--color-forest-deep)] md:text-3xl font-semibold">
+              <h3 className="font-serif font-extrabold mb-4 text-3xl text-[var(--color-forest)] md:text-4xl font-semibold">
                 100% trusted by many
               </h3>
             </motion.div>

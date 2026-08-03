@@ -42,7 +42,7 @@ export function CareersHero() {
         aria-hidden
       />
 
-      <div className="relative mx-auto max-w-6xl px-6 pt-12 sm:px-10 sm:py-20 mb-6 text-center">
+      <div className="relative mx-auto max-w-6xl px-6 pt-12 sm:px-10 sm:pt-18 sm:pb-12 mb-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: -120 }}
           whileInView={{ opacity: 1, y: 0 }}

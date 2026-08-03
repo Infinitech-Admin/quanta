@@ -17,10 +17,10 @@ export function ClosingCta() {
       />
       <div className="relative mx-auto max-w-2xl">
         <motion.div
-          initial={{ opacity: 0, y: 200 }}
+          initial={{ opacity: 0, y: 120 }}
           whileInView={{ opacity: 1, y: 0 }}
           // animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
+          transition={{ duration: 0.8 }}
           viewport={{ once: true, amount: 0.3 }}
         >
           <h2 className="font-[var(--font-display)] text-3xl italic sm:text-4xl">
@@ -28,10 +28,10 @@ export function ClosingCta() {
           </h2>
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, y: 200 }}
+          initial={{ opacity: 0, y: 120 }}
           whileInView={{ opacity: 1, y: 0 }}
           // animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.4, ease: "easeOut"  }}
+          transition={{ duration: 0.9, ease: "easeOut" }}
           viewport={{ once: true, amount: 0.3 }}
         >
           <p className="mt-4 font-[var(--font-body)] text-base text-[var(--paper)]/80">
@@ -40,10 +40,10 @@ export function ClosingCta() {
           </p>
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, y: 200 }}
+          initial={{ opacity: 0, y: 120 }}
           whileInView={{ opacity: 1, y: 0 }}
           // animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.8, ease: "easeOut"  }}
+          transition={{ duration: 1.4, ease: "easeOut" }}
           viewport={{ once: true, amount: 0.3 }}
         >
           <Link

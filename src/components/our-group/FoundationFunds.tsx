@@ -7,7 +7,7 @@ export function FoundationFunds() {
       <div className="mx-auto max-w-5xl">
         <div className="text-center">
           <motion.div
-            initial={{ opacity: 0, y: -200 }}
+            initial={{ opacity: 0, y: -120 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
             viewport={{ once: true, amount: 0.3 }}
@@ -22,7 +22,7 @@ export function FoundationFunds() {
             transition={{ duration: 1, ease: "easeOut" }}
             viewport={{ once: true, amount: 0.3 }}
           >
-            <h2 className="mt-4 font-[var(--font-display)] text-3xl italic text-[var(--forest-deep)] sm:text-4xl">
+            <h2 className="mt-4 font-[var(--font-display)] text-3xl italic text-[var(--color-forest)] sm:text-4xl">
               Two funds, one purpose
             </h2>
           </motion.div>
@@ -32,7 +32,7 @@ export function FoundationFunds() {
           {/* Educational Support Fund */}
           <div className="rounded-2xl bg-[var(--paper)] p-8 shadow-sm ring-1 ring-[var(--leaf)]/15">
             <motion.div
-              initial={{ opacity: 0, x: -200 }}
+              initial={{ opacity: 0, x: -120 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 1.1, ease: "easeOut" }}
               viewport={{ once: true, amount: 0.3 }}
@@ -112,7 +112,7 @@ export function FoundationFunds() {
           {/* Environmental Care Fund */}
           <div className="rounded-2xl bg-[var(--paper)] p-8 shadow-sm ring-1 ring-[var(--leaf)]/15">
             <motion.div
-              initial={{ opacity: 0, x: 320 }}
+              initial={{ opacity: 0, x: 200 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 1.1, ease: "easeOut" }}
               viewport={{ once: true, amount: 0.3 }}
@@ -122,7 +122,7 @@ export function FoundationFunds() {
               </span>
             </motion.div>
             <motion.div
-              initial={{ opacity: 0, x: 320 }}
+              initial={{ opacity: 0, x: 200 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 1.2, ease: "easeOut" }}
               viewport={{ once: true, amount: 0.3 }}
@@ -133,7 +133,7 @@ export function FoundationFunds() {
             </motion.div>
             <div className="mt-5 space-y-4 font-[var(--font-body)] text-sm leading-relaxed text-[var(--ink)]/80">
               <motion.div
-                initial={{ opacity: 0, x: 320 }}
+                initial={{ opacity: 0, x: 200 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1.3, ease: "easeOut" }}
                 viewport={{ once: true, amount: 0.3 }}
@@ -146,7 +146,7 @@ export function FoundationFunds() {
                 </p>
               </motion.div>
               <motion.div
-                initial={{ opacity: 0, x: 320 }}
+                initial={{ opacity: 0, x: 200 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1.4, ease: "easeOut" }}
                 viewport={{ once: true, amount: 0.3 }}
@@ -158,7 +158,7 @@ export function FoundationFunds() {
                 </p>
               </motion.div>
               <motion.div
-                initial={{ opacity: 0, x: 320 }}
+                initial={{ opacity: 0, x: 200 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1.5, ease: "easeOut" }}
                 viewport={{ once: true, amount: 0.3 }}

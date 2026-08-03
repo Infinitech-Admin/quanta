@@ -58,7 +58,7 @@ export function GroupOfCompanies() {
             transition={{ duration: 1 }}
             viewport={{ once: true, amount: 0.3 }}
           >
-            <h2 className="font-serif text-3xl text-[var(--color-forest-deep)] md:text-4xl">
+            <h2 className="font-serif font-bold text-3xl text-[var(--color-forest)] md:text-4xl">
               Our Group of Companies
             </h2>
           </motion.div>

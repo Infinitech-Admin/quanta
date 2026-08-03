@@ -87,7 +87,7 @@ export function JobListings() {
             transition={{ duration: 1, ease: "easeOut" }}
             viewport={{ once: true, amount: 0.3 }}
           >
-            <h2 className="mt-4 font-[var(--font-display)] text-3xl italic text-[var(--forest-deep)] sm:text-4xl">
+            <h2 className="mt-4 font-[var(--font-display)] text-3xl italic text-[var(--color-forest)] sm:text-4xl">
               Find your place with us
             </h2>
           </motion.div>

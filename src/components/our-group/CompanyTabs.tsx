@@ -109,7 +109,7 @@ export function CompanyTabs() {
             transition={{ duration: 1, ease: "easeOut" }}
             viewport={{ once: true, amount: 0.3 }}
           >
-            <h2 className="font-[var(--font-display)] text-2xl italic text-[var(--forest-deep)] sm:text-3xl">
+            <h2 className="font-[var(--font-display)] text-2xl italic text-[var(--color-forest)] sm:text-3xl">
               {active.fullName}
             </h2>
           </motion.div>

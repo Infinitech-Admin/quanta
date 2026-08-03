@@ -209,7 +209,7 @@ export function BrandsShowcase() {
             transition={{ duration: 1.2 }}
             viewport={{ once: true, amount: 0.3 }}
           >
-            <h2 className="font-serif text-3xl md:text-4xl mb-4 text-[var(--color-forest-deep)]">
+            <h2 className="font-serif text-3xl font-bold md:text-4xl mb-4 text-[var(--color-forest)]">
               Brands We&apos;ve Grown
             </h2>
           </motion.div>
