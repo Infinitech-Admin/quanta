@@ -7,6 +7,7 @@ import { GroupOfCompanies } from "@/components/sections/group-of-companies";
 import { CtaBanner } from "@/components/sections/cta-banner";
 
 export default function Home() {
+  
   return (
     <>
       <Hero />

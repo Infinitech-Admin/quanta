@@ -509,8 +509,8 @@ export function Chatbot() {
 
       {/* FAB */}
       <button
-        {...(isOpen
-          ? { onClick: () => setIsOpen(false), setUnreadCount: () => setUnreadCount(0) }
+          {...(isOpen
+            ? { onClick: () => setIsOpen(false), setUnreadCount: () => setUnreadCount(0) }
           : { onClick: () => setIsOpen(true) })}
         className="relative w-14 h-14 rounded-full bg-gradient-to-br -top-1 -right-4 from-green-700 to-green-500 text-white shadow-xl shadow-green-900/25 hover:shadow-green-700/35 hover:scale-105 transition-all duration-300 flex items-center justify-center border border-green-400/30"
       >

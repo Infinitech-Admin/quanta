@@ -19,12 +19,10 @@ export function Certifications() {
     <section className="paper-grain relative overflow-hidden bg-[var(--color-sage-light)] py-16 md:py-20 px-6 md:px-16">
       <div className="relative max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: -320 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 1.2,
-            ease: "easeOut",
-          }}
+          initial={{ opacity: 0, x: -200 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.3 }}
         >
           <div className="mb-10 flex items-center justify-center gap-4">
             <span className="h-px w-10 bg-[var(--color-forest-light)] border-2 border-[var(--color-forest-vivid)]" />
@@ -40,11 +38,9 @@ export function Certifications() {
 
           <motion.div
             initial={{ opacity: 0, x: -200 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 1.2,
-              ease: "easeOut",
-            }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
           >
             <div className="flex justify-center md:justify-start">
               <div className="relative w-full max-w-sm pt-10">
@@ -111,12 +107,10 @@ export function Certifications() {
 
           <div>
             <motion.div
-              initial={{ opacity: 0, x: 320 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{
-                duration: 1.9,
-                ease: "easeOut",
-              }}
+              initial={{ opacity: 0, x: -200 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1.2, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.3 }}
             >
               <h3 className="font-serif font-extrabold mb-4 text-3xl text-[var(--color-forest)] md:text-4xl font-semibold">
                 100% trusted by many
@@ -124,12 +118,10 @@ export function Certifications() {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 320 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{
-                duration: 1.6,
-                ease: "easeOut",
-              }}
+              initial={{ opacity: 0, x: -200 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.3 }}
             >
               <p className="mb-3 leading-relaxed text-sm md:text-base text-[var(--color-forest-deep)]/80">
                 To ensure the consistent quality of our products and services,
@@ -145,12 +137,10 @@ export function Certifications() {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 320 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{
-                duration: 1.3,
-                ease: "easeOut",
-              }}
+              initial={{ opacity: 0, x: -200 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.3 }}
             >
               <p className="mb-3 leading-relaxed text-sm md:text-base text-[var(--color-forest-deep)]/80">
                 We&apos;re the only tissue manufacturer in the Philippines whose
@@ -166,12 +156,10 @@ export function Certifications() {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 320 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{
-                duration: 1,
-                ease: "easeOut",
-              }}
+              initial={{ opacity: 0, x: -200 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.3 }}
             >
               <p className="leading-relaxed text-sm md:text-base text-[var(--color-forest-deep)]/80">
                 Our Halal certification guarantees our products and services

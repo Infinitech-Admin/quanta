@@ -16,13 +16,23 @@ export function Hero() {
   const toggleVideo = () => {
     if (!videoRef.current) return;
 
-    if (videoRef.current.paused) {
-      videoRef.current.play();
-      setIsPlaying(true);
-    } else {
-      videoRef.current.pause();
-      setIsPlaying(false);
+    try {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+        setIsPlaying(true);
+      } else {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
+    } catch (error) {
+      console.error("Error toggling video playback:", error);
     }
+  };
+
+  const closeVideo = () => {
+    videoRef.current?.pause();
+    setIsPlaying(false);
+    setIsVideoOpen(false);
   };
 
   return (
@@ -157,29 +167,26 @@ export function Hero() {
       {isVideoOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4"
-          role="dialog"
-          aria-modal="true"
-          onClick={() => setIsVideoOpen(false)}
+          onClick={closeVideo}
         >
-          <button
-            type="button"
-            onClick={() => setIsVideoOpen(false)}
-            className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-cream/10 text-cream transition-colors hover:bg-cream/20"
-            aria-label="Close video"
-          >
-            <X className="h-6 w-6" />
-          </button>
-
           <div
-            className="aspect-video w-full max-w-4xl overflow-hidden rounded-xl shadow-2xl"
+            className="relative w-full max-w-4xl"
             onClick={(e) => e.stopPropagation()}
           >
+            <button
+              type="button"
+              onClick={closeVideo}
+              className="absolute right-4 top-4 z-50 items-center justify-center rounded-full bg-cream/10 text-cream hover:bg-cream/20 p-2"
+            >
+              <X />
+            </button>
+
             <video
-              className="h-full w-full"
+              ref={videoRef}
+              className="aspect-video w-full rounded-xl"
               src="/videos/quanta.mp4"
               controls
               autoPlay
-              playsInline
             />
           </div>
         </div>
