@@ -3,12 +3,33 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 
+
+const COOKIE_NAME = "promoModalShown";
+const INTERVAL_SECONDS = 5000*60; // 5 minutes
+
+function getCookie(name: string): string | null {
+  const match = document.cookie.match(
+    new RegExp("(?:^|;\\s*)" + name + "=([^;]*)")
+  );
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
+function setCookie(name: string, value: string, maxAgeSeconds: number) {
+  document.cookie = `${name}=${encodeURIComponent(value)}; max-age=${maxAgeSeconds}; path=/; SameSite=Lax`;
+}
+
 export function PromoModal() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+   if(getCookie(COOKIE_NAME)) return;
+
     // Slight delay so it doesn't fight the page's own load-in.
-    const timer = setTimeout(() => setOpen(true), 500);
+    const timer = setTimeout(() => {
+      setOpen(true);
+      setCookie(COOKIE_NAME, "true", INTERVAL_SECONDS);
+    }, 500);
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -39,7 +60,7 @@ export function PromoModal() {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-2xl"
+        className="relative w-full max-w-5xl overflow-hidden rounded-2xl bg-white shadow-2xl"
       >
         <button
           type="button"

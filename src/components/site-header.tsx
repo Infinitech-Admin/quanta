@@ -105,22 +105,37 @@ export function SiteHeader() {
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
+  React.useEffect(() => {
+    const hero = document.getElementById("hero");
+
+    const onScroll = () => {
+      if (!hero) return;
+
+      setScrolled(window.scrollY > hero.offsetHeight - 100);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
+        "fixed inset-x-0 top-0 z-50 h-[90px] md:h-[100px] transition-colors duration-300",
         scrolled
           ? "bg-cream/95 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-cream/80"
-          : "bg-forest-deep/95 backdrop-blur supports-[backdrop-filter]:bg-forest-deep/90",
+          : "bg-forest-deep/95 supports-[backdrop-filter]:bg-forest-deep/30",
       )}
     >
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-25 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="shrink-0" aria-label="Go to homepage">
           <Logo dark={!scrolled} />
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-8 lg:flex">
+        <nav className="hidden items-center gap-10 lg:flex">
           {mainNav.map((item) => {
             const active = isActive(item.href);
             return (
@@ -128,7 +143,7 @@ export function SiteHeader() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "relative text-sm font-medium tracking-wide transition-colors py-1",
+                  "relative text-md font-medium tracking-wide transition-colors py-1 ",
                   "after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:transition-transform after:duration-200",
                   scrolled
                     ? cn(

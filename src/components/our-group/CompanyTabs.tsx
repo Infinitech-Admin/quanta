@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 type Company = {
   id: string;
@@ -91,7 +92,7 @@ export function CompanyTabs() {
               className={cn(
                 "rounded-full px-4 py-2 font-[var(--font-body)] text-sm font-medium tracking-wide transition-colors",
                 activeId === company.id
-                  ? "bg-[var(--forest)] text-[var(--paper)]"
+                  ? "bg-[var(--color-forest-vivid)] text-[var(--paper)]"
                   : "text-[var(--ink)]/70 hover:bg-[var(--mist)] hover:text-[var(--forest-deep)]",
               )}
             >
@@ -102,18 +103,44 @@ export function CompanyTabs() {
 
         {/* Tab panel */}
         <div role="tabpanel" className="mt-12">
-          <h2 className="font-[var(--font-display)] text-2xl italic text-[var(--forest-deep)] sm:text-3xl">
-            {active.fullName}
-          </h2>
+          <motion.div
+            initial={{ opacity: 0, x: -200 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <h2 className="font-[var(--font-display)] text-2xl italic text-[var(--color-forest)] sm:text-3xl">
+              {active.fullName}
+            </h2>
+          </motion.div>
           {active.tagline ? (
-            <p className="mt-3 font-[var(--font-display)] text-lg text-[var(--forest)]">
-              {active.tagline}
-            </p>
+            <motion.div
+              initial={{ opacity: 0, x: -200 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1.2, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.3 }}
+            >
+              <p className="mt-3 font-[var(--font-display)] text-lg text-[var(--forest)]">
+                {active.tagline}
+              </p>
+            </motion.div>
           ) : null}
 
           <div className="mt-6 space-y-4 font-[var(--font-body)] text-base leading-relaxed text-[var(--ink)]/80">
-            {active.paragraphs.map((p, i) => (
-              <p key={i}>{p}</p>
+            {active.paragraphs.map((p, index) => (
+               <motion.div
+                key={index}
+              initial={{ opacity: 0, x: -200 }}
+              whileInView={{ opacity: 1, x: 0 }}
+                transition={{
+                  duration: 1,
+                  delay: index * 0.2,
+                  ease: "easeOut",
+                }}
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <p key={index}>{p}</p>
+              </motion.div>
             ))}
           </div>
 

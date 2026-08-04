@@ -29,13 +29,7 @@ function InstagramMark(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-function LinkedInMark(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <path d="M6.94 8.5H4v11h2.94v-11ZM5.47 7.2A1.7 1.7 0 1 0 5.47 3.8a1.7 1.7 0 0 0 0 3.4ZM20 13.4c0-3-1.6-4.4-3.75-4.4-1.73 0-2.5.95-2.94 1.62V8.5H10.4c.04.83 0 11 0 11h2.9v-6.14c0-.33.02-.66.12-.9.27-.66.87-1.35 1.9-1.35 1.34 0 1.88 1.02 1.88 2.52V19.5H20v-6.1Z" />
-    </svg>
-  );
-}
+
 function YouTubeMark(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -88,8 +82,8 @@ const socialLinks = [
 
 export function SiteFooter() {
   return (
-    <footer className="relative mt-auto bg-forest-deep text-cream">
-      <PaperEdge fill="fill-forest-deep" className="-translate-y-px" />
+    <footer className="relative mt-auto bg-[#183D2D] text-cream">
+      <PaperEdge fill="fill-[#183D2D]" className="-translate-y-px" />
 
       <div className="mx-auto max-w-7xl px-4 pb-6 pt-2 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 py-6 sm:grid-cols-2 lg:grid-cols-3">

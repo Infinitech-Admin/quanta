@@ -3,6 +3,7 @@ import { Fraunces, Manrope } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { FloatingSocial } from "@/components/floating-social";
+import { Chatbot } from "@/components/chatbot";
 import { PromoModal } from "@/components/promo-modal";
 import "./globals.css";
 
@@ -170,17 +171,18 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationJsonLd),
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-cream text-forest-deep">
+      <body>
         <SiteHeader />
-        <main className="flex-1">{children}</main>
+        <main >{children}</main>
         <SiteFooter />
         <FloatingSocial />
+              <Chatbot />
+        
         <PromoModal />
       </body>
     </html>

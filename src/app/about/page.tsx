@@ -38,13 +38,16 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main
-      className={`${display.variable} ${body.variable} bg-[var(--paper)] text-[var(--ink)] font-[var(--font-body)]`}
+      className={`${display.variable} ${body.variable} relative overflow-hidden bg-[var(--paper)] text-[var(--ink)] font-[var(--font-body)]`}
       style={
         {
           "--ink": "#16241B",
           "--forest": "#145C36",
           "--forest-deep": "#0B3B22",
+          "--forest-light": "#4c8a55",
+          "--forest-vivid": "#2ea043",
           "--paper": "#F6F2E7",
+          "--mustard": "#dbac6f",
           "--kraft": "#B07A32",
           "--mist": "#E4EDE6",
         } as React.CSSProperties

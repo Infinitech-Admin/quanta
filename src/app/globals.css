@@ -49,9 +49,9 @@ body {
 .section-green-gradient {
   background: linear-gradient(
     160deg,
-    var(--color-forest-deep) 0%,
-    var(--color-forest) 55%,
-    var(--color-forest-vivid) 100%
+    var(--color-forest-vivid) 0%,
+    var(--color-forest) 80%,
+    var(--color-forest) 100%
   );
 }
 
@@ -69,4 +69,86 @@ body {
   opacity: 0.06;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* Home - Hero */
+
+/* Hero */
+/* .hero {
+  position: relative;
+  height: 670px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 28, 16, 0.5);
+}
+
+.hero-dots {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.hero-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  cursor: pointer;
+}
+
+.hero-dot.active {
+  background: #fff;
+  width: 24px;
+  border-radius: 3px;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 2.5rem;
+  right: 3rem;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.hero-scroll-line {
+  width: 1px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.25);
+  animation: scrollpulse 2s ease-in-out infinite;
 }

@@ -1,6 +1,6 @@
 export function Eyebrow({
   children,
-  className = "text-[var(--kraft)]",
+  className = "text-[var(--mustard)]",
 }: {
   children: React.ReactNode;
   className?: string;
