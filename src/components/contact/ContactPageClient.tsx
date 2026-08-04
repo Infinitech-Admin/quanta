@@ -13,6 +13,8 @@ import {
 import { ContactForm } from "./contact-form";
 import { motion } from "framer-motion";
 
+
+
 // ————————————————————————————————————————————————————————————————
 // Type system
 // Fraunces: warm display serif for headlines only.

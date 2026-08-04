@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { Send } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -19,8 +20,7 @@ export function ContactForm() {
       name: (form.elements.namedItem("name") as HTMLInputElement).value,
       email: (form.elements.namedItem("email") as HTMLInputElement).value,
       subject: (form.elements.namedItem("subject") as HTMLInputElement).value,
-      message: (form.elements.namedItem("message") as HTMLTextAreaElement)
-        .value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
     };
 
     try {
@@ -33,7 +33,7 @@ export function ContactForm() {
         body: JSON.stringify(data),
       });
 
-      if (!res.ok) throw new Error("Request failed");
+      if (!res.ok) throw new Error(`API request failed: ${res.status}`);
 
       setStatus("success");
       form.reset();
@@ -53,6 +53,9 @@ export function ContactForm() {
           Thanks for reaching out — our Customer Care team will get back to you
           shortly.
         </p>
+        <Button variant="default" className="mt-6" onClick={() => setStatus("idle")}>
+          Sent Email Again
+        </Button>
       </div>
     );
   }
