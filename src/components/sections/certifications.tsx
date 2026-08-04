@@ -1,8 +1,9 @@
 "use client";
-
+import { useState } from "react";
 import { motion } from "framer-motion";
-
 import { ShieldCheck, Leaf, BadgeCheck } from "lucide-react";
+import { CertificationsSkeleton } from "../skeleton/HomeSkeleton";
+import { setTimeout } from "timers/promises";
 
 const certs = [
   { name: "ISO 9001:2015", detail: "Quality management", icon: ShieldCheck },
@@ -15,6 +16,10 @@ const certs = [
 ];
 
 export function Certifications() {
+  const [isLoading, setIsLoading] = useState(true);
+
+ 
+
   return (
     <section className="paper-grain relative overflow-hidden bg-[var(--color-sage-light)] py-16 md:py-20 px-6 md:px-16">
       <div className="relative max-w-6xl mx-auto">

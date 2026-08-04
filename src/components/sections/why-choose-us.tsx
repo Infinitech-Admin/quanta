@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { Handshake, Lightbulb, HeartHandshake } from "lucide-react";
 import { motion } from "framer-motion";
+import { WhyChooseUsSkeleton } from "@/components/skeleton/HomeSkeleton";
 
 const reasons = [
   {
@@ -22,6 +24,13 @@ const reasons = [
 ];
 
 export function WhyChooseUs() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <WhyChooseUsSkeleton />;
+  }
+
   return (
     <section className="relative bg-[var(--color-cream)] overflow-hidden">
       {/* subtle dot pattern background, tied to the brand's vivid green */}

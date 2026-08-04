@@ -1,8 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { FlagshipProductSkeleton } from "../skeleton/HomeSkeleton";
+import { useState } from "react";
 
 export function FlagshipProduct() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <FlagshipProductSkeleton />;
+  }
+
   return (
     <section className="section-green-gradient relative overflow-hidden py-14 md:py-16 px-6 md:px-16">
       {/* soft ambient glow, top right — gives the green depth instead of a flat gradient */}

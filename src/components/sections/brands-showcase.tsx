@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { BrandsShowcaseSkeleton } from "../skeleton/HomeSkeleton";
 
 interface Brand {
   slug: string;
@@ -170,6 +171,7 @@ const categories: Category[] = [
 ];
 
 export function BrandsShowcase() {
+  const [isLoading, setIsLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState(categories[0].id);
   const current = categories.find((c) => c.id === activeCategory)!;
 
@@ -188,6 +190,11 @@ export function BrandsShowcase() {
 
   const selectedBrand =
     current.brands.find((b) => b.slug === selectedSlug) ?? current.brands[0];
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <BrandsShowcaseSkeleton />;
+  }
 
   return (
     <section className="py-24 px-6 md:px-16 bg-[var(--color-sage-light)]">

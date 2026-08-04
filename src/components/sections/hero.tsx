@@ -7,11 +7,13 @@ import { Play, Pause, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { HeroSkeleton } from "@/components/skeleton/HomeSkeleton";
 
 export function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const toggleVideo = () => {
     if (!videoRef.current) return;
@@ -34,6 +36,11 @@ export function Hero() {
     setIsPlaying(false);
     setIsVideoOpen(false);
   };
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <HeroSkeleton />;
+  }
 
   return (
     <section className="relative z-10 isolate flex min-h-[100vh] w-full items-center overflow-hidden bg-[#a7e667] sm:min-h-[90vh]">
