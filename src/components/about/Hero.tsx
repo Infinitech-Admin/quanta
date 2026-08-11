@@ -1,10 +1,19 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { Eyebrow } from "./ui";
 import { motion } from "framer-motion";
+import { HeroSkeleton } from "@/components/skeleton/AboutSkeleton";
 
 export function Hero() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <HeroSkeleton />;
+  }
+
   return (
     // <section className="relative isolate overflow-hidden text-[var(--color-cream)]">
     <section className="relative overflow-hidden bg-[var(--forest-deep)] pt-24 sm:pt-32 md:pt-24 text-[var(--paper)]">

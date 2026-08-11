@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { Eyebrow, Icon, PaperRollMark, type IconShape } from "./ui";
 import { specs, historyMilestones } from "./content";
 import { motion } from "framer-motion";
+import { OurHistorySkeleton } from "@/components/skeleton/AboutSkeleton";
 
 const specIcons: Record<string, IconShape> = {
   Founded: "target",
@@ -15,6 +17,12 @@ const specIcons: Record<string, IconShape> = {
 };
 
 export function OurHistory() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <OurHistorySkeleton />;
+  }
   return (
     <section className="relative isolate overflow-hidden py-24 text-[var(--color-cream)]">
       <Image src="/bg-innerpage.jpg" alt="" fill className="object-cover" />

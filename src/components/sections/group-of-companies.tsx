@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Factory, Store, Building2, HeartHandshake } from "lucide-react";
+import { GroupOfCompaniesSkeleton } from "../skeleton/HomeSkeleton";
 
 const companies = [
   {
@@ -37,6 +39,13 @@ const companies = [
 ];
 
 export function GroupOfCompanies() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <GroupOfCompaniesSkeleton />;
+  }
+
   return (
     <section className="relative overflow-hidden bg-[var(--color-cream)] py-24 px-6 md:px-16">
       <div className="mx-auto max-w-6xl">

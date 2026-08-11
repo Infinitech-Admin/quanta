@@ -1,7 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
+import { FoundationFundsSkeleton } from "@/components/skeleton/GroupCompaniesSkeleton";
+
 export function FoundationFunds() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <FoundationFundsSkeleton />;
+  }
+
   return (
     <section className="bg-[var(--mist)] px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl">

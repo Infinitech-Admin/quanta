@@ -1,6 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
+import {
+  CareersHeroSkeleton,
+} from "@/components/skeleton/CareersSkeleton";
 
 const stats = [
   { label: "20+ Years", sub: "Serving Filipino homes" },
@@ -9,6 +13,13 @@ const stats = [
 ];
 
 export function CareersHero() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <CareersHeroSkeleton />;
+  }
+
   return (
     <section className="relative overflow-hidden bg-[var(--forest-deep)] px-4 py-10 text-[var(--paper)] sm:px-6 lg:px-8">
       <div

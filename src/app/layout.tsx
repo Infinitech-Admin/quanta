@@ -1,10 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Manrope } from "next/font/google";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
-import { FloatingSocial } from "@/components/floating-social";
-import { Chatbot } from "@/components/chatbot";
-import { PromoModal } from "@/components/promo-modal";
+
+import RootLayout from "@/components/RootLayout";
+import { Toaster } from "@/components/ui/use-toast";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -158,7 +156,7 @@ const organizationJsonLd = {
   ],
 };
 
-export default function RootLayout({
+export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -177,13 +175,10 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <SiteHeader />
-        <main >{children}</main>
-        <SiteFooter />
-        <FloatingSocial />
-              <Chatbot />
-        
-        <PromoModal />
+        <RootLayout>
+          <Toaster />
+          {children}
+        </RootLayout>
       </body>
     </html>
   );

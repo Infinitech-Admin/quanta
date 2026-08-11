@@ -1,8 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
+import { GroupCompaniesHeroSkeleton } from "@/components/skeleton/GroupCompaniesSkeleton";
 
 export function Hero() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <GroupCompaniesHeroSkeleton />;
+  }
+
   return (
     <section className="relative overflow-hidden bg-[var(--forest-deep)] pt-24 text-[var(--paper)]">
       {/* Organic "sunlight through leaves" glow layer */}

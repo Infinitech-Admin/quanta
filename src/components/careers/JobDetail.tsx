@@ -1,13 +1,22 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin, ArrowLeft } from "lucide-react";
 import type { Job } from "@/lib/jobs-data";
 import { JobApplicationForm } from "@/components/careers/JobApplicationForm";
 import { motion } from "framer-motion";
+import { JobDetailSkeleton } from "../skeleton/CareersSkeleton";
 
 export function JobDetail({ job }: { job: Job }) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <JobDetailSkeleton />;
+  }
+
   return (
     <>
       {/* Header banner */}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -7,8 +8,19 @@ import { ArrowLeft } from "lucide-react";
 import { Eyebrow } from "@/components/about/ui";
 import Image from "next/image";
 import type { BrandWithCategory } from "@/data/brands";
+import {
+  BrandSlugHeroSkeleton,
+} from "@/components/skeleton/BrandSkeleton";
+
 
 export function Hero({ brand }: { brand: BrandWithCategory }) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <BrandSlugHeroSkeleton />;
+  }
+  
   return (
     /* ── Hero — normal top-down flow with generous, explicit spacing.
           Nothing is pinned to an edge with justify-between anymore. ── */

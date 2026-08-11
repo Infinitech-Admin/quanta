@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Fraunces, Inter } from "next/font/google";
 import Link from "next/link";
 import {
@@ -12,8 +13,7 @@ import {
 } from "lucide-react";
 import { ContactForm } from "./contact-form";
 import { motion } from "framer-motion";
-
-
+import { ContactPageSkeleton } from "@/components/skeleton/ContactPageSkeleton";
 
 // ————————————————————————————————————————————————————————————————
 // Type system
@@ -70,6 +70,12 @@ const mapEmbedSrc =
   "https://www.google.com/maps?q=Quanta+Paper+Marketing+Inc,149-A+Rev.+Aglipay+St.,Mandaluyong+City&output=embed";
 
 export default function ContactUsPage() {
+  const [isLoading, setIsLoading] = useState(true);
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <ContactPageSkeleton />;
+  }
+
   return (
     <div
       className={`${display.variable} ${body.variable} relative overflow-hidden bg-[var(--paper)] text-[var(--ink)] font-[var(--font-body)]`}

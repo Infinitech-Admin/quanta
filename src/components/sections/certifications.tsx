@@ -3,7 +3,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ShieldCheck, Leaf, BadgeCheck } from "lucide-react";
 import { CertificationsSkeleton } from "../skeleton/HomeSkeleton";
-import { setTimeout } from "timers/promises";
 
 const certs = [
   { name: "ISO 9001:2015", detail: "Quality management", icon: ShieldCheck },
@@ -16,8 +15,13 @@ const certs = [
 ];
 
 export function Certifications() {
-  const [isLoading, setIsLoading] = useState(true);
 
+   const [isLoading, setIsLoading] = useState(true);
+ 
+   if (isLoading) {
+     setTimeout(() => setIsLoading(false), 4000);
+     return <CertificationsSkeleton />;
+   }
  
 
   return (

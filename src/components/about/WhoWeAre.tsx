@@ -1,10 +1,19 @@
 "use client";
 
+import { useState } from "react";
 import { Eyebrow, Icon, PaperRollMark, type IconShape } from "./ui";
 import { brandPromise, growthModel } from "./content";
 import { motion } from "framer-motion";
+import { WhoWeAreSkeleton } from "@/components/skeleton/AboutSkeleton";
 
 export function WhoWeAre() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <WhoWeAreSkeleton />;
+  }
+
   return (
     <section className="section-green-gradient paper-grain relative overflow-hidden text-[var(--color-cream)]">
       <PaperRollMark className="pointer-events-none absolute -right-20 -top-24 h-[380px] w-[380px] text-[var(--color-sun)] opacity-[0.1]" />

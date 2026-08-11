@@ -6,6 +6,8 @@ import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 import type { BrandWithCategory } from "@/data/brands";
+import { SlugRelatedBrandsSkeleton } from "../skeleton/BrandSkeleton";
+import { useState } from "react";
 
 interface RelatedBrandsProps {
   brand: BrandWithCategory;
@@ -13,6 +15,13 @@ interface RelatedBrandsProps {
 }
 
 export function RelatedBrands({ related, brand }: RelatedBrandsProps) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <SlugRelatedBrandsSkeleton />;
+  }
+
   return (
     <>
       {related.length > 0 && (

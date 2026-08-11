@@ -6,6 +6,9 @@
   --foreground: #f6f2e7;
   --border: #4c8a55;
 
+  --destructive: #b3261e;
+  --destructive-foreground: #f6f2e7;
+
   /* Quanta Paper brand palette — forest + paper */
   --color-forest-deep: #1e3b2a;
   --color-forest: #2f5c3a;
@@ -23,6 +26,8 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
 
   --color-forest-deep: var(--color-forest-deep);
   --color-forest: var(--color-forest);

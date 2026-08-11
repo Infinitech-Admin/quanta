@@ -1,11 +1,28 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { Eyebrow } from "@/components/about/ui";
 import { BrandsShowcase } from "@/components/brands/BrandsShowcase";
 import { motion } from "framer-motion";
+import {
+  BrandsHeroSkeleton,
+  BrandsShowcaseSkeleton,
+} from "@/components/skeleton/BrandSkeleton";
 
 export default function BrandsPage() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return (
+      <div>
+        <BrandsHeroSkeleton />
+        <BrandsShowcaseSkeleton />
+      </div>
+    );
+  }
+
   return (
     <div>
       {/* ── Hero — matches the site's forest theme ──────── */}

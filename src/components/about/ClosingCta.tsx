@@ -1,10 +1,19 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { PaperRollMark } from "./ui";
 import { motion } from "framer-motion";
+import { ClosingCtaSkeleton } from "@/components/skeleton/AboutSkeleton";
 
 export function ClosingCta() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <ClosingCtaSkeleton />;
+  }
+
   return (
     <section className="section-green-gradient px-6 py-24 text-center text-[var(--color-cream)] sm:px-10">
       <div className="mx-auto max-w-6xl">
