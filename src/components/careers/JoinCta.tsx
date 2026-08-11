@@ -1,12 +1,23 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { Mail } from "lucide-react";
 import { motion } from "framer-motion";
+import {
+  JoinCtaSkeleton,
+} from "@/components/skeleton/CareersSkeleton";
 
 export function JoinCta() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <JoinCtaSkeleton />;
+  }
+
   return (
-      <section className="relative overflow-hidden bg-[var(--forest-light)] px-4 py-20 text-center text-[var(--paper)] sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden bg-[var(--forest-light)] px-4 py-20 text-center text-[var(--paper)] sm:px-6 lg:px-8">
       <div
         className="pointer-events-none absolute inset-0"
         style={{

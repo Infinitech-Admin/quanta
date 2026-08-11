@@ -1,8 +1,9 @@
 "use client";
 
-import * as React from "react";
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { CompanyTabsSkeleton } from "@/components/skeleton/GroupCompaniesSkeleton";
 
 type Company = {
   id: string;
@@ -74,6 +75,12 @@ export function CompanyTabs() {
   const [activeId, setActiveId] = React.useState(companies[0].id);
   const active = companies.find((c) => c.id === activeId) ?? companies[0];
 
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <CompanyTabsSkeleton />;
+  }
   return (
     <section className="bg-[var(--paper)] px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl">
@@ -128,10 +135,10 @@ export function CompanyTabs() {
 
           <div className="mt-6 space-y-4 font-[var(--font-body)] text-base leading-relaxed text-[var(--ink)]/80">
             {active.paragraphs.map((p, index) => (
-               <motion.div
+              <motion.div
                 key={index}
-              initial={{ opacity: 0, x: -200 }}
-              whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, x: -200 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 transition={{
                   duration: 1,
                   delay: index * 0.2,

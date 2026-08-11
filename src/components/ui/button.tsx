@@ -16,7 +16,10 @@ const buttonVariants = cva(
         outline:
           "border border-white/50 bg-white/20 backdrop-blur-md text-cream hover:bg-white/30 hover:border-white/70 shadow-lg",
         ghost: "hover:bg-forest/10 text-forest focus-visible:ring-forest",
+        light: "bg-forest-vivid/40 border border-white/50 hover:bg-forest/10 text-forest focus-visible:ring-forest",
         sun: "bg-sun text-forest-deep hover:bg-sun-light focus-visible:ring-sun",
+        accent:
+          "bg-forest-deep text-cream border border-sun/60 hover:bg-forest hover:border-sun shadow-md focus-visible:ring-sun",
       },
       size: {
         default: "h-11 px-6 py-2",

@@ -162,9 +162,24 @@ export function SiteHeader() {
           })}
         </nav>
 
-        <div className="hidden lg:block">
-          <Button variant={scrolled ? "default" : "sun"} size="sm" asChild>
+        {/* Desktop actions — fixed: was "hidden flex lg:block" which
+            broke row layout (block wins over flex at lg), collapsing
+            the three buttons instead of laying them out side by side. */}
+        <div className="hidden lg:flex lg:items-center lg:gap-2">
+          <Button variant={scrolled ? "light" : "sun"} size="sm" asChild>
             <Link href="/contact">Get In Touch</Link>
+          </Button>
+
+          {/* Shop Now is now visually distinct from Login instead of
+              sharing the exact same variant. */}
+          <Button variant="accent" size="sm" asChild>
+            <Link href="http://tissuemarket.com/" target="_blank">
+              Shop Now
+            </Link>
+          </Button>
+
+          <Button variant={scrolled ? "sun" : "outline"} size="sm" asChild>
+            <Link href="/login">Login</Link>
           </Button>
         </div>
 
@@ -221,10 +236,26 @@ export function SiteHeader() {
                 })}
               </nav>
 
-              <div className="mt-6 border-t border-border pt-6">
+              <div className="flex flex-col gap-3 mt-6 border-t border-border pt-6">
                 <Button className="w-full" asChild>
                   <Link href="/contact" onClick={() => setOpen(false)}>
                     Get In Touch
+                  </Link>
+                </Button>
+
+                <Button variant="accent" className="w-full" asChild>
+                  <Link
+                    href="http://tissuemarket.com/"
+                    target="_blank"
+                    onClick={() => setOpen(false)}
+                  >
+                    Shop Now
+                  </Link>
+                </Button>
+
+                <Button variant="sun" className="w-full" asChild>
+                  <Link href="/login" onClick={() => setOpen(false)}>
+                    Login
                   </Link>
                 </Button>
               </div>

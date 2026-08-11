@@ -1,10 +1,19 @@
 "use client";
 
+import { useState } from "react";
 import { Eyebrow } from "./ui";
 import { certifications } from "./content";
 import { motion } from "framer-motion";
+import { AboutCertificationsSkeleton } from "@/components/skeleton/AboutSkeleton";
 
 export function Certifications() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <AboutCertificationsSkeleton />;
+  }
+
   return (
     <section className="section-green-gradient py-24 text-[var(--color-cream)]">
       <div className="mx-auto max-w-6xl px-6 sm:px-10">

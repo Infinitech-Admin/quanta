@@ -4,6 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import { MapPin, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
+import {
+  JobListingsSkeleton,
+} from "@/components/skeleton/CareersSkeleton";
 
 type Department = "Corporate" | "Logistics & Operations";
 
@@ -60,7 +63,13 @@ const filters: Array<"All" | Department> = [
 ];
 
 export function JobListings() {
+  const [isLoading, setIsLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<"All" | Department>("All");
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <JobListingsSkeleton />;
+  }
 
   const visibleJobs =
     activeFilter === "All"
@@ -135,7 +144,7 @@ export function JobListings() {
                 delay: index * 0.2,
                 ease: "easeOut",
               }}
-            viewport={{ once: true, amount: 0.3 }}
+              viewport={{ once: true, amount: 0.3 }}
             >
               <Link
                 key={job.slug}

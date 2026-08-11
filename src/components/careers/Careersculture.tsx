@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   HeartHandshake,
@@ -11,6 +12,9 @@ import {
   Trophy,
   PartyPopper,
 } from "lucide-react";
+import {
+  CareersCultureSkeleton,
+} from "@/components/skeleton/CareersSkeleton";
 
 const values = [
   {
@@ -51,6 +55,13 @@ const perks = [
 ];
 
 export function CareersCulture() {
+    const [isLoading, setIsLoading] = useState(true);
+  
+    if (isLoading) {
+      setTimeout(() => setIsLoading(false), 4000);
+      return <CareersCultureSkeleton />;
+    }
+    
   return (
     <section className="bg-[var(--paper)] px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl">

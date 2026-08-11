@@ -1,9 +1,18 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { GroupClosingCtaSkeleton } from "@/components/skeleton/GroupCompaniesSkeleton";
 
 export function ClosingCta() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <GroupClosingCtaSkeleton />;
+  }
+
   return (
     <section className="relative overflow-hidden bg-[var(--forest-light)] px-4 py-20 text-center text-[var(--paper)] sm:px-6 lg:px-8">
       <div

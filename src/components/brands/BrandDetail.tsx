@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { Check } from "lucide-react";
 import { motion } from "framer-motion";
+import { BrandSlugDetailSkeleton } from "@/components/skeleton/BrandSkeleton";
 
 interface Brand {
   name: string;
@@ -17,6 +19,13 @@ interface Brand {
 }
 
 export function BrandDetail({ brand }: { brand: Brand }) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    setTimeout(() => setIsLoading(false), 4000);
+    return <BrandSlugDetailSkeleton />;
+  }
+
   return (
     <>
       {/* ── Detail — product card + copy + features, stacks on mobile ── */}

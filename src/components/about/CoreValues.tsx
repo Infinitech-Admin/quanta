@@ -1,10 +1,19 @@
 "use client";
 
+import { useState } from "react";
 import { Eyebrow, Icon, type IconShape } from "./ui";
 import { coreValues } from "./content";
 import { motion } from "framer-motion";
+import { CoreValuesSkeleton } from "@/components/skeleton/AboutSkeleton";
 
 export function CoreValues() {
+    const [isLoading, setIsLoading] = useState(true);
+  
+    if (isLoading) {
+      setTimeout(() => setIsLoading(false), 4000);
+      return <CoreValuesSkeleton />;
+    }
+  
   return (
     <section className="section-green-gradient py-24 text-[var(--color-cream)]">
       <div className="mx-auto max-w-6xl px-6 sm:px-10">

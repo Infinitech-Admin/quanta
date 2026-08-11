@@ -1,10 +1,19 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { CtaBannerSkeleton } from "../skeleton/HomeSkeleton";
 
 export function CtaBanner() {
+   const [isLoading, setIsLoading] = useState(true);
+  
+    if (isLoading) {
+      setTimeout(() => setIsLoading(false), 4000);
+      return <CtaBannerSkeleton />;
+    }
+
   return (
     <section className="section-green-gradient py-20 px-6 md:px-16 text-center">
       <motion.div
