@@ -58,8 +58,14 @@ export function LoginForm() {
 
       // Reset on successful login
       setFailedAttempts(0);
-
-      router.push("/dashboard");
+      const role = data?.user?.user_role || data?.data?.user?.user_role || data?.user?.user_role;
+      
+      console.log("Role:", role);
+      if (role === "admin") {
+        router.push("/admin/dashboard");
+      } else {
+        router.push("/");
+      }
       router.refresh();
     } catch {
       setError("Something went wrong. Please try again.");
@@ -162,7 +168,7 @@ export function LoginForm() {
       </Button>
 
       <p className="text-center text-sm text-forest-deep/70">
-        New to the mill?{" "}
+        New to Quanta Paper?{" "}
         <Link
           href="/register"
           className="font-medium text-forest-deep underline-offset-4 hover:underline"

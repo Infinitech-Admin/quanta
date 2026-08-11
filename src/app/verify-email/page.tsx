@@ -14,20 +14,18 @@ type Status = "loading" | "approved" | "error";
 function VerifyEmailContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [status, setStatus] = useState<Status>("loading");
-  const [message, setMessage] = useState("");
+  const token = searchParams.get("token");
+  const [status, setStatus] = useState<Status>(token ? "loading" : "error");
+  const [message, setMessage] = useState(
+    token ? "" : "Invalid verification link. No token provided.",
+  );
   const [debugInfo, setDebugInfo] = useState("");
 
   useEffect(() => {
-    const token = searchParams.get("token");
-    if (!token) {
-      setStatus("error");
-      setMessage("Invalid verification link. No token provided.");
-      return;
-    }
+    if (!token) return;
     verifyEmail(token);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
+  }, [token]);
 
   const verifyEmail = async (token: string) => {
     try {

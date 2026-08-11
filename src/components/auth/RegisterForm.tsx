@@ -20,7 +20,6 @@ export function SignupForm() {
   const [agreed, setAgreed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState("");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -78,7 +77,6 @@ export function SignupForm() {
         description: "Account created! Please check your email to confirm.",
       });
       
-      setSuccess("Account created! Please check your email to confirm.");
       router.push("/");
       router.refresh();
     } catch {

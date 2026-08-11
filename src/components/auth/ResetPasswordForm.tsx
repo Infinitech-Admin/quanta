@@ -21,7 +21,7 @@ export default function ResetPasswordForm() {
   });
 
   useEffect(() => {
-    const tokenParam = searchParams.get("token");
+    const tokenParam = searchParams.get("auth_token");
     const emailParam = searchParams.get("email");
 
     if (!tokenParam || !emailParam) {

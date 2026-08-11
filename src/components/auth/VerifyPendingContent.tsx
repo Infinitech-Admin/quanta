@@ -1,17 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-
+import { useSearchParams } from "next/navigation";
 import { Loader2, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/auth/FadeIn";
 import { toast } from "@/components/ui/use-toast";
 
 export function VerifyPendingContent() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const emailFromUrl = searchParams.get("email") || "";
   const [email, setEmail] = useState(emailFromUrl);
