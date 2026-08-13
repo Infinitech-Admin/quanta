@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Fraunces, Roboto } from "next/font/google";
 import { CareersHero } from "@/components/careers/CareersHero";
 import { CareersCulture } from "@/components/careers/Careersculture";
 import { JobListings } from "@/components/careers/JobListings";
@@ -13,12 +13,11 @@ const display = Fraunces({
   variable: "--font-display",
 });
 
-const body = Inter({
+const body = Roboto({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-body",
 });
-
 export const metadata: Metadata = {
   title: "Careers At Quanta | Quanta Paper Corporation",
   description:

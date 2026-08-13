@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Fraunces, Inter } from "next/font/google";
+import { Fraunces, Roboto } from "next/font/google";
 import { JobDetail } from "@/components/careers/JobDetail";
 import { jobs } from "@/lib/jobs-data";
 
@@ -12,12 +12,11 @@ const display = Fraunces({
   variable: "--font-display",
 });
 
-const body = Inter({
+const body = Roboto({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-body",
 });
-
 type PageParams = { slug: string };
 
 export function generateStaticParams() {

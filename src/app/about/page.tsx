@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Fraunces, Roboto } from "next/font/google";
 import { Hero } from "@/components/about/Hero";
 import { OurHistory } from "@/components/about/OurHistory";
 import { WhoWeAre } from "@/components/about/WhoWeAre";
@@ -23,7 +23,7 @@ const display = Fraunces({
   variable: "--font-display",
 });
 
-const body = Inter({
+const body = Roboto({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-body",

@@ -23,38 +23,50 @@ function VerifyEmailContent() {
 
   useEffect(() => {
     if (!token) return;
-    verifyEmail(token);
+
+    let cancelled = false;
+
+    const verifyEmail = async () => {
+      try {
+        const response = await fetch(`/api/auth/verify-email/${token}`, {
+          method: "GET",
+        });
+
+        const data = await response.json();
+
+        if (cancelled) return;
+
+        if (response.ok && data.success) {
+          setStatus("approved");
+          setMessage(data.message || "Email verified successfully!");
+          setTimeout(() => router.push("/login"), 3000);
+        } else {
+          setStatus("error");
+          setMessage(data.message || "Verification failed. Please try again.");
+          const hint =
+            data.message?.includes("Invalid or expired") ||
+            data.message?.includes("already verified")
+              ? "If you already clicked this link, your email may be verified — try logging in. Otherwise, request a new verification email."
+              : data.message ||
+                "The link may have expired or already been used.";
+          setDebugInfo(hint);
+        }
+      } catch (error) {
+        if (cancelled) return;
+        setStatus("error");
+        setMessage("An error occurred during verification. Please try again.");
+        setDebugInfo(error instanceof Error ? error.message : "Unknown error");
+      }
+    };
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    verifyEmail();
+
+    return () => {
+      cancelled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
-
-  const verifyEmail = async (token: string) => {
-    try {
-      const response = await fetch(`/api/auth/verify-email/${token}`, {
-        method: "GET",
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.success) {
-        setStatus("approved");
-        setMessage(data.message || "Email verified successfully!");
-        setTimeout(() => router.push("/login"), 3000);
-      } else {
-        setStatus("error");
-        setMessage(data.message || "Verification failed. Please try again.");
-        const hint =
-          data.message?.includes("Invalid or expired") ||
-          data.message?.includes("already verified")
-            ? "If you already clicked this link, your email may be verified — try logging in. Otherwise, request a new verification email."
-            : data.message || "The link may have expired or already been used.";
-        setDebugInfo(hint);
-      }
-    } catch (error) {
-      setStatus("error");
-      setMessage("An error occurred during verification. Please try again.");
-      setDebugInfo(error instanceof Error ? error.message : "Unknown error");
-    }
-  };
 
   return (
     <section className="relative isolate flex min-h-[100vh] w-full items-center justify-center overflow-hidden bg-[#a7e667] px-4 py-16">
@@ -136,14 +148,20 @@ function VerifyEmailContent() {
                 </div>
 
                 <div className="w-full rounded-xl border border-red-600/20 bg-red-600/10 px-4 py-3 text-left text-sm text-red-800">
-                  {debugInfo || "The link may have expired or already been used."}
+                  {debugInfo ||
+                    "The link may have expired or already been used."}
                 </div>
 
                 <div className="flex w-full gap-3">
                   <Button variant="sun" size="lg" asChild className="flex-1">
                     <Link href="/verify-pending">Resend Email</Link>
                   </Button>
-                  <Button variant="outline" size="lg" asChild className="flex-1">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    asChild
+                    className="flex-1"
+                  >
                     <Link href="/login">Go to Login</Link>
                   </Button>
                 </div>

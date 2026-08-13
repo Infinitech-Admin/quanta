@@ -46,6 +46,32 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 /* ─────────────────────────────────────────────
+   RAW BACKEND SHAPES
+   Loosely typed on purpose: the backend response
+   shape is inconsistent (see extractUser below),
+   so every field here is optional/unknown rather
+   than asserted.
+───────────────────────────────────────────── */
+interface RawUser {
+  id?: string | number;
+  name?: string;
+  fullName?: string;
+  email?: string;
+  role?: string;
+  user_role?: string;
+}
+
+interface RawAuthResponse {
+  user?: RawUser;
+  data?: {
+    user?: RawUser;
+    data?: {
+      user?: RawUser;
+    };
+  };
+}
+
+/* ─────────────────────────────────────────────
    RESPONSE NORMALIZATION
    The Laravel backend nests the user under
    `data.user` (not top-level `user`), and names
@@ -55,7 +81,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
    rest of the app expects, so every call site
    stays consistent.
 ───────────────────────────────────────────── */
-function extractUser(raw: any): AuthUser | null {
+function extractUser(raw: RawAuthResponse): AuthUser | null {
   const rawUser = raw?.data?.user ?? raw?.user ?? raw?.data?.data?.user ?? null;
 
   if (!rawUser) return null;
@@ -64,7 +90,7 @@ function extractUser(raw: any): AuthUser | null {
     rawUser.user_role ??
     rawUser.role ??
     "user"
-  ).toLowerCase();
+  ).toLowerCase() as Role;
 
   return {
     id: String(rawUser.id),

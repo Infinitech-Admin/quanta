@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Fraunces, Inter } from "next/font/google";
+import { Fraunces, Roboto } from "next/font/google";
 import Link from "next/link";
 import {
   Mail,
@@ -27,7 +27,7 @@ const display = Fraunces({
   variable: "--font-display",
 });
 
-const body = Inter({
+const body = Roboto({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-body",

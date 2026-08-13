@@ -9,8 +9,8 @@ import { toast } from "@/components/ui/use-toast";
 
 export default function ResetPasswordForm() {
   const searchParams = useSearchParams();
-  const [token, setToken] = useState("");
-  const [email, setEmail] = useState("");
+  const [token] = useState(() => searchParams.get("auth_token") ?? "");
+  const [email] = useState(() => searchParams.get("email") ?? "");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -21,21 +21,16 @@ export default function ResetPasswordForm() {
   });
 
   useEffect(() => {
-    const tokenParam = searchParams.get("auth_token");
-    const emailParam = searchParams.get("email");
-
-    if (!tokenParam || !emailParam) {
+    if (!token || !email) {
       toast({
         variant: "destructive",
         title: "Invalid reset link",
         description:
           "This password reset link is invalid. Please request a new one.",
       });
-    } else {
-      setToken(tokenParam);
-      setEmail(emailParam);
     }
-  }, [searchParams]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
