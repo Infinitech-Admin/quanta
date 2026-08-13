@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 
 import { SiteHeader } from "@/components/site-header";
@@ -8,31 +8,18 @@ import { SiteFooter } from "@/components/site-footer";
 import { FloatingSocial } from "@/components/floating-social";
 import { Chatbot } from "@/components/chatbot";
 import { PromoModal } from "@/components/promo-modal";
-import AdminSidebar from "@/components/admin/AdminSidebar";
-import AdminHeader from "@/components/admin/AdminHeader";
 import { AuthProvider } from "@/contexts/AuthContext";
 
 /* ─────────────────────────────────────────────
    ADMIN SHELL
-   Sidebar + top header, no public nav/footer/
-   marketing widgets
+   No sidebar/header here — app/admin/layout.tsx
+   owns that chrome for every /admin/* route.
+   This just passes children through untouched so
+   admin pages don't inherit the public site's
+   nav/footer/marketing widgets.
 ───────────────────────────────────────────── */
 function AdminShell({ children }: { children: ReactNode }) {
-  const [collapsed, setCollapsed] = useState(false);
-  const toggleCollapsed = () => setCollapsed((prev) => !prev);
-
-  return (
-    <div className="flex h-screen overflow-hidden admin-shell">
-      <AdminSidebar collapsed={collapsed} onToggle={toggleCollapsed} />
-
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <AdminHeader collapsed={collapsed} onToggle={toggleCollapsed} />
-        <main className="min-h-screen flex-1 overflow-y-auto p-6">
-          {children}
-        </main>
-      </div>
-    </div>
-  );
+  return <>{children}</>;
 }
 
 /* ─────────────────────────────────────────────

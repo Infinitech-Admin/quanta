@@ -6,15 +6,17 @@ import Link from "next/link";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function LoginForm() {
   const router = useRouter();
+  const { login } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
   const [failedAttempts, setFailedAttempts] = useState(0);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -24,51 +26,35 @@ export function LoginForm() {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
+      // login() hits /api/auth/login, sets cookies server-side, and updates
+      // the shared AuthProvider context — so by the time we redirect,
+      // useAuth().isAdmin etc. downstream are already correct.
+      const user = await login({ email, password });
 
-      const data = await res.json();
-
-      if (!res.ok || data.success === false) {
-        const attempts = failedAttempts + 1;
-
-        setFailedAttempts(attempts);
-
-        if (attempts >= 5) {
-          router.push(`/forgot-password?email=${encodeURIComponent(email)}`);
-          return;
-        }
-
-        setError(
-          `That email and password don't match. ${
-            5 - attempts
-          } attempt${5 - attempts === 1 ? "" : "s"} remaining.`,
-        );
-
-        return;
-      }
-
-      // Reset on successful login
       setFailedAttempts(0);
-      const role = data?.user?.user_role || data?.data?.user?.user_role || data?.user?.user_role;
-      
-      console.log("Role:", role);
-      if (role === "admin") {
+
+      if (user.role === "admin") {
         router.push("/admin/dashboard");
       } else {
         router.push("/");
       }
       router.refresh();
-    } catch {
-      setError("Something went wrong. Please try again.");
+    } catch (err) {
+      const attempts = failedAttempts + 1;
+      setFailedAttempts(attempts);
+
+      if (attempts >= 5) {
+        router.push(`/forgot-password?email=${encodeURIComponent(email)}`);
+        return;
+      }
+
+      setError(
+        err instanceof Error
+          ? err.message
+          : `That email and password don't match. ${
+              5 - attempts
+            } attempt${5 - attempts === 1 ? "" : "s"} remaining.`,
+      );
     } finally {
       setIsSubmitting(false);
     }

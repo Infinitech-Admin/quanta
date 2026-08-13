@@ -44,8 +44,8 @@ export default function LoginPage() {
 
           <FadeIn delay={0.2}>
             <p className="mt-6 max-w-md text-base leading-relaxed text-cream/80 sm:text-lg">
-              Sign in to manage your orders, track deliveries, and keep up
-              with what&apos;s growing at Quanta.
+              Sign in to manage your orders, track deliveries, and keep up with
+              what&apos;s growing at Quanta.
             </p>
           </FadeIn>
         </div>

@@ -46,15 +46,44 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 /* ─────────────────────────────────────────────
+   RESPONSE NORMALIZATION
+   The Laravel backend nests the user under
+   `data.user` (not top-level `user`), and names
+   the role field `user_role` instead of `role`.
+   This is the single place that translates the
+   raw backend shape into the AuthUser shape the
+   rest of the app expects, so every call site
+   stays consistent.
+───────────────────────────────────────────── */
+function extractUser(raw: any): AuthUser | null {
+  const rawUser = raw?.data?.user ?? raw?.user ?? raw?.data?.data?.user ?? null;
+
+  if (!rawUser) return null;
+
+  const role: Role = (
+    rawUser.user_role ??
+    rawUser.role ??
+    "user"
+  ).toLowerCase();
+
+  return {
+    id: String(rawUser.id),
+    name: rawUser.name ?? rawUser.fullName ?? "",
+    email: rawUser.email ?? "",
+    role,
+  };
+}
+
+/* ─────────────────────────────────────────────
    PROVIDER
    Assumes an httpOnly-cookie session managed by
    your backend, with these routes:
-     GET  /api/auth/me      -> { user } | 401
-     POST /api/auth/login   -> { user }
-     POST /api/auth/register-> { user }
+     GET  /api/auth/me      -> { data: { user } } | 401
+     POST /api/auth/login   -> { data: { user } }
+     POST /api/auth/register-> { data: { user } }
      POST /api/auth/logout  -> 204
-   Adjust the fetch calls if you use a different
-   auth strategy (e.g. bearer tokens in localStorage).
+   Adjust extractUser() above if the backend shape
+   changes.
 ───────────────────────────────────────────── */
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -71,7 +100,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return;
       }
       const data = await res.json();
-      setUser(data?.user ?? null);
+      setUser(extractUser(data));
     } catch {
       setUser(null);
     }
@@ -97,8 +126,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       throw new Error(err.message ?? "Invalid email or password");
     }
     const data = await res.json();
-    setUser(data.user);
-    return data.user as AuthUser;
+    const nextUser = extractUser(data);
+    setUser(nextUser);
+    if (!nextUser) {
+      throw new Error("Login succeeded but the user could not be loaded.");
+    }
+    return nextUser;
   }, []);
 
   const register = useCallback(async (payload: RegisterPayload) => {
@@ -113,8 +146,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       throw new Error(err.message ?? "Could not create account");
     }
     const data = await res.json();
-    setUser(data.user);
-    return data.user as AuthUser;
+    const nextUser = extractUser(data);
+    setUser(nextUser);
+    if (!nextUser) {
+      throw new Error(
+        "Registration succeeded but the user could not be loaded.",
+      );
+    }
+    return nextUser;
   }, []);
 
   const logout = useCallback(async () => {

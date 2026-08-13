@@ -41,8 +41,8 @@ export function SignupForm() {
       return;
     }
 
-    if (phone.length < 13) {
-      setError("Use at least 13 characters for your phone.");
+    if (!/^09\d{9}$/.test(phone)) {
+      setError("Enter a valid phone number (11 digits, starting with 09).");
       return;
     }
 
@@ -76,7 +76,7 @@ export function SignupForm() {
         title: "Register successful",
         description: "Account created! Please check your email to confirm.",
       });
-      
+
       router.push("/");
       router.refresh();
     } catch {
@@ -138,12 +138,17 @@ export function SignupForm() {
         <input
           id="phone"
           name="phone"
-          type="phone"
-          autoComplete="phone"
+          type="tel"
+          inputMode="numeric"
+          autoComplete="tel"
           required
+          maxLength={11}
+          pattern="09[0-9]{9}"
           value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          placeholder="+639XXXXXXXXX"
+          onChange={(e) =>
+            setPhone(e.target.value.replace(/\D/g, "").slice(0, 11))
+          }
+          placeholder="09XXXXXXXXX"
           className="mt-2 w-full rounded-xl border border-forest-deep/15 bg-white/70 px-4 py-3 text-sm text-forest-deep placeholder:text-forest-deep/40 outline-none transition-colors focus-visible:border-sun focus-visible:ring-2 focus-visible:ring-sun/40"
         />
       </div>

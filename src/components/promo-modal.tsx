@@ -3,26 +3,28 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 
-
 const COOKIE_NAME = "promoModalShown";
-const INTERVAL_SECONDS = 5000*60; // 5 minutes
+const INTERVAL_SECONDS = 5 * 60; // 5 minutes
 
 function getCookie(name: string): string | null {
   const match = document.cookie.match(
-    new RegExp("(?:^|;\\s*)" + name + "=([^;]*)")
+    new RegExp("(?:^|;\\s*)" + name + "=([^;]*)"),
   );
+
   return match ? decodeURIComponent(match[1]) : null;
 }
 
 function setCookie(name: string, value: string, maxAgeSeconds: number) {
-  document.cookie = `${name}=${encodeURIComponent(value)}; max-age=${maxAgeSeconds}; path=/; SameSite=Lax`;
+  document.cookie = `${name}=${encodeURIComponent(
+    value,
+  )}; max-age=${maxAgeSeconds}; path=/; SameSite=Lax`;
 }
 
 export function PromoModal() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-   if(getCookie(COOKIE_NAME)) return;
+    if (getCookie(COOKIE_NAME)) return;
 
     // Slight delay so it doesn't fight the page's own load-in.
     const timer = setTimeout(() => {
@@ -37,9 +39,13 @@ export function PromoModal() {
     if (!open) return;
 
     document.body.style.overflow = "hidden";
+
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+      }
     };
+
     window.addEventListener("keydown", onKeyDown);
 
     return () => {
@@ -56,7 +62,7 @@ export function PromoModal() {
       onClick={() => setOpen(false)}
       role="dialog"
       aria-modal="true"
-      aria-label="Q-Store is now online"
+      aria-label="Tissuemarket is now online"
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -72,15 +78,15 @@ export function PromoModal() {
         </button>
 
         <a
-          href="https://www.qstore.ph"
+          href="https://www.tissuemarket.com"
           target="_blank"
           rel="noopener noreferrer"
           className="block"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/qstore.jpg"
-            alt="Q-Store is now online — visit us at www.Qstore.ph"
+            src="/tissuemarket.png"
+            alt="Tissuemarket is now online — visit tissuemarket.com"
             className="block w-full"
           />
         </a>

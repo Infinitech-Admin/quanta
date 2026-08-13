@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Play, Pause, X } from "lucide-react";
+import { X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -11,30 +11,11 @@ import { HeroSkeleton } from "@/components/skeleton/HomeSkeleton";
 
 export function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isPlaying, setIsPlaying] = useState(true);
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [showVideo, setShowVideo] = useState(false); // NEW
-
-  const toggleVideo = () => {
-    if (!videoRef.current) return;
-
-    try {
-      if (videoRef.current.paused) {
-        videoRef.current.play();
-        setIsPlaying(true);
-      } else {
-        videoRef.current.pause();
-        setIsPlaying(false);
-      }
-    } catch (error) {
-      console.error("Error toggling video playback:", error);
-    }
-  };
 
   const closeVideo = () => {
     videoRef.current?.pause();
-    setIsPlaying(false);
     setIsVideoOpen(false);
   };
 
@@ -61,8 +42,8 @@ export function Hero() {
       <div className="absolute inset-0 bg-gradient-to-t from-[#a7e667]/20 via-[#a7e667]/10 to-[#a7e667]/10" />
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pt-24 pb-16 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
-          {/* Left column — copy */}
+        <div className="grid items-center gap-12">
+          {/* Copy */}
           <div className="max-w-2xl">
             <motion.div
               initial={{ opacity: 0, x: -200 }}
@@ -129,89 +110,17 @@ export function Hero() {
                 <Button
                   variant="default"
                   size="lg"
-                  onClick={() => setShowVideo(true)}
+                  onClick={() => setIsVideoOpen(true)}
                 >
                   Play Video
                 </Button>
               </motion.div>
             </div>
           </div>
-
-          {/* Right column — video */}
-          {/* <motion.div
-            initial={{ opacity: 0, x: 200 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.4, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
-          > */}
-          <div className="relative mx-auto w-full max-w-md lg:mx-0 lg:max-w-none">
-            <div className="group relative block w-full overflow-hidden rounded-2xl border border-cream/20 shadow-2xl shadow-black/40 ring-1 ring-black/10">
-              <div className="aspect-video w-full">
-                {showVideo ? (
-                  <video
-                    ref={videoRef}
-                    className="h-full w-full object-cover"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="auto"
-                  >
-                    <source src="/videos/quanta.mp4" type="video/mp4" />
-                  </video>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => setShowVideo(true)}
-                    className="relative h-full w-full cursor-pointer"
-                    aria-label="Play video"
-                  >
-                    <Image
-                      src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1200&auto=format&fit=crop"
-                      alt="Video preview"
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/30 transition-colors group-hover:bg-black/40">
-                      <span className="flex h-14 w-14 items-center justify-center rounded-full bg-cream/90">
-                        <Play className="h-5 w-5 fill-green-900 text-green-900" />
-                      </span>
-                    </div>
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {showVideo && (
-              <>
-                <button
-                  type="button"
-                  onClick={() => setIsVideoOpen(true)}
-                  className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full bg-slate-50 hover:bg-slate-200 px-3 py-1.5 text-xs font-medium text-green-900 backdrop-blur-sm transition-colors"
-                  aria-label="Open full video"
-                >
-                  Full Video
-                </button>
-                <button
-                  type="button"
-                  onClick={toggleVideo}
-                  className="absolute bottom-4 right-4 flex items-center gap-2 rounded-full bg-slate-50 hover:bg-slate-200 px-3 py-1.5 text-xs font-medium text-green-900 backdrop-blur-sm transition-colors"
-                >
-                  {isPlaying ? (
-                    <Pause className="h-3.5 w-3.5 fill-green-900 text-green-900" />
-                  ) : (
-                    <Play className="h-3.5 w-3.5 fill-green-900 text-green-900" />
-                  )}
-                  {isPlaying ? "Pause Video" : "Play Video"}
-                </button>
-              </>
-            )}
-          </div>
-          {/* </motion.div> */}
         </div>
       </div>
 
-      {/* Full video lightbox */}
+      {/* Full video lightbox — only shows when Play Video is clicked */}
       {isVideoOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4"
