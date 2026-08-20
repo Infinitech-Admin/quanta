@@ -212,7 +212,6 @@ export default function AdminDashboardPage() {
           },
     );
   }, []);
-
   useEffect(() => {
     if (loading) return;
     if (!isAuthenticated) {
@@ -223,8 +222,52 @@ export default function AdminDashboardPage() {
       router.replace("/");
       return;
     }
-    loadDashboard();
-  }, [loading, isAuthenticated, isAdmin, router, loadDashboard]);
+
+    let cancelled = false;
+
+    (async () => {
+      const [statsResult, trendsResult, activityResult] =
+        await Promise.allSettled([
+          fetchJson<DashboardStats>("/api/admin/dashboard/stats"),
+          fetchJson<TrendPoint[]>("/api/admin/dashboard/trends?days=30"),
+          fetchJson<RecentSubmission[]>(
+            "/api/admin/dashboard/recent-activity?limit=8",
+          ),
+        ]);
+
+      if (cancelled) return;
+
+      setStats(
+        statsResult.status === "fulfilled"
+          ? { status: "ready", data: statsResult.value }
+          : {
+              status: "error",
+              message: statsResult.reason?.message ?? "Failed to load stats",
+            },
+      );
+      setTrends(
+        trendsResult.status === "fulfilled"
+          ? { status: "ready", data: trendsResult.value }
+          : {
+              status: "error",
+              message: trendsResult.reason?.message ?? "Failed to load trends",
+            },
+      );
+      setRecentActivity(
+        activityResult.status === "fulfilled"
+          ? { status: "ready", data: activityResult.value }
+          : {
+              status: "error",
+              message:
+                activityResult.reason?.message ?? "Failed to load activity",
+            },
+      );
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [loading, isAuthenticated, isAdmin, router]);
 
   if (loading || !isAuthenticated || !isAdmin) {
     return (
