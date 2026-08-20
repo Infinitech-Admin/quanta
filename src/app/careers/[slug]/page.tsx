@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Fraunces, Roboto } from "next/font/google";
 import { JobDetail } from "@/components/careers/JobDetail";
-import { jobs } from "@/lib/jobs-data";
+import { getJobBySlug, getJobs } from "@/lib/jobs-data";
 
 const display = Fraunces({
   subsets: ["latin"],
@@ -17,9 +17,13 @@ const body = Roboto({
   weight: ["400", "500", "600", "700"],
   variable: "--font-body",
 });
+
 type PageParams = { slug: string };
 
-export function generateStaticParams() {
+// Pre-render known slugs at build time; slugs added later in the admin
+// panel still resolve on demand since dynamicParams defaults to true.
+export async function generateStaticParams() {
+  const jobs = await getJobs();
   return jobs.map((job) => ({ slug: job.slug }));
 }
 
@@ -29,7 +33,7 @@ export async function generateMetadata({
   params: Promise<PageParams>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const job = jobs.find((j) => j.slug === slug);
+  const job = await getJobBySlug(slug);
   if (!job) return { title: "Job Not Found | Quanta Paper Corporation" };
   return {
     title: `${job.title} | Quanta Paper Corporation`,
@@ -43,7 +47,7 @@ export default async function JobDetailPage({
   params: Promise<PageParams>;
 }) {
   const { slug } = await params;
-  const job = jobs.find((j) => j.slug === slug);
+  const job = await getJobBySlug(slug);
   if (!job) notFound();
 
   return (

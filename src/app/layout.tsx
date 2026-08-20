@@ -1,9 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Manrope } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 
 import RootLayout from "@/components/RootLayout";
-import { Toaster } from "@/components/ui/use-toast";
 import "./globals.css";
+import { Toaster } from "sonner";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -69,6 +70,15 @@ export const metadata: Metadata = {
     },
   },
 
+  // Stops browsers/OSes from auto-linking things like the phone number
+  // or address in JSON-LD/body copy into tap-to-call or map links —
+  // worth disabling on a corporate site where that's rarely wanted.
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+
   // Social share previews (Facebook, LinkedIn, etc.)
   openGraph: {
     type: "website",
@@ -123,6 +133,12 @@ export const viewport: Viewport = {
 // JSON-LD structured data — helps Google understand this is a real
 // company, surfaces rich results (knowledge panel, sitelinks, local
 // business info), and connects your site to your social profiles.
+//
+// Two entities on purpose: `Organization` describes the company,
+// `WebSite` describes this specific site (and is what lets Google
+// show your site name instead of a raw URL in search results). They
+// share an @id-free, name/url overlap deliberately — that's expected
+// and is how Google's own examples model it.
 // ————————————————————————————————————————————————————————————————
 const organizationJsonLd = {
   "@context": "https://schema.org",
@@ -131,6 +147,11 @@ const organizationJsonLd = {
   url: siteUrl,
   logo: `${siteUrl}/logo.png`,
   description: siteDescription,
+  foundingDate: "2003",
+  numberOfEmployees: {
+    "@type": "QuantitativeValue",
+    minValue: 1000,
+  },
   address: {
     "@type": "PostalAddress",
     streetAddress: "149-A Rev. Aglipay St., Bgy. Old Zaniga",
@@ -156,6 +177,17 @@ const organizationJsonLd = {
   ],
 };
 
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: siteName,
+  url: siteUrl,
+  // If/when a real on-site search page exists, add a `potentialAction`
+  // SearchAction here to unlock Google's sitelinks search box. Leaving
+  // it out for now since a fabricated search URL would be worse than
+  // no SearchAction at all.
+};
+
 export default function Layout({
   children,
 }: Readonly<{
@@ -173,12 +205,19 @@ export default function Layout({
             __html: JSON.stringify(organizationJsonLd),
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteJsonLd),
+          }}
+        />
       </head>
       <body>
         <RootLayout>
-          <Toaster />
+          <Toaster richColors position="top-right" closeButton />
           {children}
         </RootLayout>
+        <Analytics />
       </body>
     </html>
   );

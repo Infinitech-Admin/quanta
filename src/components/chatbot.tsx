@@ -21,7 +21,7 @@ const CONTACT = {
     "Ninoy Aquino Highway beside TIPCO Gate 3, Barangay Paralayunan, Mabalacat City, Pampanga",
   mapUrl: "https://maps.app.goo.gl/JPqUN64Ry6JCeG8M7",
   contactFormUrl: "/contact",
-  shopUrl: "https://qstore.ph/products",
+  shopUrl: "https://www.tissuemarket.com/shop",
   groupUrl: "/group-of-companies",
   hours: "Mon–Sun 9AM–6PM",
   departments: {
@@ -132,7 +132,7 @@ function detectIntent(text: string): Intent {
     )
   )
     intent.action = "contact";
-  if (/\b(shop|buy|purchase|order online|qstore|store)\b/.test(lower))
+  if (/\b(shop|buy|purchase|order online|tissuemarket|store)\b/.test(lower))
     intent.action = "shop";
   if (
     /\b(group|companies|subsidiar(y|ies)|marketing inc|eco hygiene|foundation)\b/.test(
@@ -215,7 +215,7 @@ function getStaticResponse(
 
     case "shop":
       return {
-        text: `🛒 Shop our full lineup online: [qstore.ph/products](${CONTACT.shopUrl})`,
+        text: `🛒 Shop our full lineup online: [https://www.tissuemarket.com/shop](${CONTACT.shopUrl})`,
         suggestions: withBack(["Browse products", "Contact us"]),
       };
 
@@ -509,8 +509,11 @@ export function Chatbot() {
 
       {/* FAB */}
       <button
-          {...(isOpen
-            ? { onClick: () => setIsOpen(false), setUnreadCount: () => setUnreadCount(0) }
+        {...(isOpen
+          ? {
+              onClick: () => setIsOpen(false),
+              setUnreadCount: () => setUnreadCount(0),
+            }
           : { onClick: () => setIsOpen(true) })}
         className="relative w-14 h-14 rounded-full bg-gradient-to-br -top-1 -right-4 from-green-700 to-green-500 text-white shadow-xl shadow-green-900/25 hover:shadow-green-700/35 hover:scale-105 transition-all duration-300 flex items-center justify-center border border-green-400/30"
       >

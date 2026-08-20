@@ -207,3 +207,79 @@ export function TissueStackMark({ className = "" }: { className?: string }) {
     </svg>
   );
 }
+// A single leafy branch silhouette — the decorative accent used in the
+// corners of light sections, echoing the reference's plant/foliage motif.
+export function LeafSpray({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 200 300"
+      className={className}
+      aria-hidden="true"
+      fill="none"
+    >
+      <path
+        d="M100 300 C 96 220 92 160 60 100"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      {[
+        [70, 210, 30, -20],
+        [55, 175, 34, -35],
+        [48, 140, 30, -40],
+        [50, 105, 26, -30],
+      ].map(([cx, cy, r, rot], i) => (
+        <ellipse
+          key={i}
+          cx={cx}
+          cy={cy}
+          rx={r}
+          ry={r * 0.55}
+          fill="currentColor"
+          fillOpacity={0.85 - i * 0.08}
+          transform={`rotate(${rot} ${cx} ${cy})`}
+        />
+      ))}
+    </svg>
+  );
+}
+
+// A circular outline badge for icons — the small "Quality First /
+// Customer Focused / ..." style marks used throughout light sections.
+export function IconBadge({
+  shape,
+  className = "",
+  size = "md",
+}: {
+  shape: IconShape;
+  className?: string;
+  size?: "sm" | "md" | "lg";
+}) {
+  const dims = { sm: "h-12 w-12", md: "h-16 w-16", lg: "h-20 w-20" }[size];
+  const iconDims = { sm: "h-5 w-5", md: "h-6 w-6", lg: "h-8 w-8" }[size];
+  return (
+    <span
+      className={`inline-flex flex-none items-center justify-center rounded-full border border-current ${dims} ${className}`}
+    >
+      <Icon shape={shape} className={iconDims} />
+    </span>
+  );
+}
+
+// A solid-fill circular badge, for the small number/step markers on a
+// horizontal timeline (connected by a straight line behind them).
+export function TimelineNode({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <span
+      className={`relative z-10 inline-flex h-10 w-10 flex-none items-center justify-center rounded-full border-2 border-current bg-[var(--color-forest-deep)] text-xs font-semibold ${className}`}
+    >
+      {children}
+    </span>
+  );
+}

@@ -1,10 +1,12 @@
 import type { CSSProperties } from "react";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Fraunces, Roboto } from "next/font/google";
 import { CareersHero } from "@/components/careers/CareersHero";
 import { CareersCulture } from "@/components/careers/Careersculture";
 import { JobListings } from "@/components/careers/JobListings";
 import { JoinCta } from "@/components/careers/JoinCta";
+import { JobListingsSkeleton } from "@/components/skeleton/CareersSkeleton";
 
 const display = Fraunces({
   subsets: ["latin"],
@@ -46,7 +48,9 @@ export default function CareersPage() {
     >
       <CareersHero />
       <CareersCulture />
-      <JobListings />
+      <Suspense fallback={<JobListingsSkeleton />}>
+        <JobListings />
+      </Suspense>
       <JoinCta />
     </main>
   );

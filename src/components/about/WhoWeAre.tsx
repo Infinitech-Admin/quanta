@@ -73,10 +73,10 @@ export function WhoWeAre() {
               transition={{ duration: 1.6, ease: "easeOut" }}
               viewport={{ once: true, amount: 0.3 }}
             >
-              <p className="mt-4 font-[var(--font-fraunces)] text-[26px] leading-snug text-[var(--color-cream)] sm:text-2xl">
-                A reputable brand builder of high-quality, affordable, hygienic,
-                and environment-friendly products — made with concern, care, and
-                love.
+              <p className="mt-4 font-[var(--font-fraunces)] text-xl leading-snug text-[var(--color-cream)] sm:text-2xl">
+                A reputable brand builder of High-quality, Affordable, Hygienic
+                and Environment-friendly products with CONCERN, CARE, and LOVE
+                -- People can rely on everyday.
               </p>
             </motion.div>
           </div>
@@ -97,10 +97,10 @@ export function WhoWeAre() {
               transition={{ duration: 1.2, ease: "easeOut" }}
               viewport={{ once: true, amount: 0.3 }}
             >
-              <p className="mt-4 text-base leading-relaxed text-[var(--color-cream)]/80">
-                Build a market-centric, highly competent organization through
-                innovative and caring solutions for every stakeholder. We learn,
-                grow, and contribute together as one.
+              <p className="mt-4 font-[var(--font-fraunces)] text-lg leading-relaxed text-[var(--color-cream)]/80 sm:text-xl">
+                Build a market-centric and highly competent organization through
+                innovative and caring solutions for all partners and
+                stakeholders. We LEARN, GROW, and CONTRIBUTE together as ONE.
               </p>
             </motion.div>
           </div>
@@ -138,7 +138,7 @@ export function WhoWeAre() {
                 <span className="font-[var(--font-fraunces)] text-sm text-[var(--color-sun)]">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <span className="text-[14px] leading-relaxed text-[var(--color-cream)]/85">
+                <span className="text-sm leading-relaxed text-[var(--color-cream)]/85">
                   {line}
                 </span>
               </div>

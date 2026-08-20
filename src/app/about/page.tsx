@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import { Fraunces, Roboto } from "next/font/google";
 import { Hero } from "@/components/about/Hero";
 import { OurHistory } from "@/components/about/OurHistory";
+import { DistributionCenters } from "@/components/about/DistributionCenters";
 import { WhoWeAre } from "@/components/about/WhoWeAre";
 import { CoreValues } from "@/components/about/CoreValues";
 import { Certifications } from "@/components/about/Certifications";
-import { ClosingCta } from "@/components/about/ClosingCta";
+import { HeadOffice } from "@/components/about/HeadOffice";
+// import { ClosingCta } from "@/components/about/ClosingCta";
 
 // ————————————————————————————————————————————————————————————————
 // Type system
@@ -55,10 +57,13 @@ export default function AboutPage() {
     >
       <Hero />
       <OurHistory />
-      <WhoWeAre />
+      <HeadOffice />
+      <DistributionCenters />
       <CoreValues />
+      <WhoWeAre />
+
       <Certifications />
-      <ClosingCta />
+      {/* <ClosingCta /> */}
     </main>
   );
 }

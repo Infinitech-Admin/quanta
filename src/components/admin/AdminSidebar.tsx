@@ -9,16 +9,58 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
-  X,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 
 const navItems = [
-  { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
-  { label: "Products", href: "/admin/products", icon: Package },
-  { label: "Users", href: "/admin/users", icon: Users },
-  { label: "Settings", href: "/admin/settings", icon: Settings },
+  {
+    label: "Dashboard",
+    href: "/admin",
+    icon: LayoutDashboard,
+  },
+  {
+    label: "Job Listings",
+    href: "/admin/job-listing",
+    icon: Package,
+  },
+  {
+    label: "Group of Companies",
+    href: "/admin/group-companies",
+    icon: Users,
+  },
+  {
+    label: "Brand",
+    href: "/admin/brand",
+    icon: Package,
+  },
+  {
+    label: "Institutional-products",
+    href: "/admin/institutional-products",
+    icon: Package,
+  },
+
+  {
+    label: "Our Customers",
+    href: "/admin/customers",
+    icon: Users,
+  },
+  {
+    label: "Contact",
+    href: "/admin/contact",
+    icon: Package,
+  },
+  {
+    label: "Settings",
+    href: "/admin/settings",
+    icon: Settings,
+  },
 ];
 
 interface AdminSidebarProps {
@@ -43,6 +85,7 @@ export default function AdminSidebar({
     <nav className="flex-1 space-y-1 overflow-y-auto p-3">
       {navItems.map(({ label, href, icon: Icon }) => {
         const active = isActive(href);
+
         return (
           <Link
             key={href}
@@ -58,6 +101,7 @@ export default function AdminSidebar({
             title={collapsed ? label : undefined}
           >
             <Icon className="h-5 w-5 shrink-0" />
+
             <span className={cn(collapsed && "lg:hidden")}>{label}</span>
           </Link>
         );
@@ -67,7 +111,7 @@ export default function AdminSidebar({
 
   return (
     <>
-      {/* ── Desktop rail ─────────────────────── */}
+      {/* Desktop Sidebar */}
       <aside
         className={cn(
           "hidden h-full flex-col border-r border-forest/10 bg-forest-deep text-cream transition-[width] duration-200 lg:flex",
@@ -80,7 +124,9 @@ export default function AdminSidebar({
               Quanta Admin
             </span>
           )}
+
           <button
+            type="button"
             onClick={onToggle}
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
             className="ml-auto flex h-8 w-8 items-center justify-center rounded-full text-cream/70 transition-colors hover:bg-cream/10 hover:text-cream"
@@ -92,40 +138,32 @@ export default function AdminSidebar({
             )}
           </button>
         </div>
+
         {nav}
       </aside>
 
-      {/* ── Mobile drawer + backdrop ─────────── */}
-      <div
-        className={cn(
-          "fixed inset-0 z-40 bg-forest-deep/50 backdrop-blur-sm transition-opacity duration-200 lg:hidden",
-          mobileOpen
-            ? "pointer-events-auto opacity-100"
-            : "pointer-events-none opacity-0",
-        )}
-        onClick={onMobileClose}
-        aria-hidden="true"
-      />
-      <aside
-        className={cn(
-          "fixed inset-y-0 left-0 z-50 flex w-72 max-w-[80vw] flex-col bg-forest-deep text-cream transition-transform duration-200 lg:hidden",
-          mobileOpen ? "translate-x-0" : "-translate-x-full",
-        )}
-        role="dialog"
-        aria-modal="true"
+      {/* Mobile Sidebar */}
+      <Sheet
+        open={mobileOpen}
+        onOpenChange={(open) => {
+          if (!open) {
+            onMobileClose();
+          }
+        }}
       >
-        <div className="flex h-16 items-center justify-between border-b border-cream/10 px-4">
-          <span className="font-fraunces text-lg text-cream">Quanta Admin</span>
-          <button
-            onClick={onMobileClose}
-            aria-label="Close menu"
-            className="flex h-8 w-8 items-center justify-center rounded-full text-cream/70 transition-colors hover:bg-cream/10 hover:text-cream"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
-        {nav}
-      </aside>
+        <SheetContent
+          side="left"
+          className="w-72 max-w-[80vw] border-r-0 bg-forest-deep p-0 text-cream"
+        >
+          <SheetHeader className="flex h-16 flex-row items-center border-b border-cream/10 px-4">
+            <SheetTitle className="font-fraunces text-lg text-cream">
+              Quanta Admin
+            </SheetTitle>
+          </SheetHeader>
+
+          {nav}
+        </SheetContent>
+      </Sheet>
     </>
   );
 }

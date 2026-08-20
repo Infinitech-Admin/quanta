@@ -230,7 +230,6 @@ export function BrandsShowcase() {
               key={cat.id}
               initial={{ opacity: 0, y: 200 }}
               whileInView={{ opacity: 1, y: 0 }}
-              // transition={{ duration: 0.5 }}
               transition={{
                 duration: 0.8,
                 delay: index * 0.2,
@@ -257,7 +256,6 @@ export function BrandsShowcase() {
         <motion.div
           initial={{ opacity: 0, y: 200 }}
           whileInView={{ opacity: 1, y: 0 }}
-          // transition={{ duration: 0.5 }}
           transition={{
             duration: 1,
           }}
@@ -295,12 +293,14 @@ export function BrandsShowcase() {
               </div>
             )}
 
-            {/* Bottom scrim so the name stays readable over any image */}
-            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/70 to-transparent" />
+            {/* Stronger, taller scrim so the name stays readable even
+                over busy/colorful hero images (was too faint before) */}
+            <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
 
-            {/* Brand name, overlaid on the image */}
+            {/* Brand name, overlaid on the image, with a drop-shadow as
+                a second line of defense against low-contrast images */}
             <div className="absolute inset-x-0 bottom-0 px-8 pb-6 text-center text-white">
-              <h3 className="font-serif text-2xl sm:text-3xl">
+              <h3 className="font-serif text-2xl sm:text-3xl [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">
                 {selectedBrand.name}
               </h3>
             </div>
@@ -317,7 +317,6 @@ export function BrandsShowcase() {
                   key={index}
                   initial={{ opacity: 0, y: 200 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  // transition={{ duration: 0.5 }}
                   transition={{
                     duration: 0.8,
                     delay: index * 0.1,
@@ -349,12 +348,17 @@ export function BrandsShowcase() {
                         }}
                       />
                       {brand.image ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={brand.image}
-                          alt={brand.name}
-                          className="relative z-10 h-full w-full object-contain p-4"
-                        />
+                        // White backing card behind the logo so it stays
+                        // legible no matter what color the logo is or how
+                        // busy/similar the gradient behind it looks.
+                        <div className="relative z-10 flex h-[78%] w-[82%] items-center justify-center rounded-lg bg-white/95 shadow-sm">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={brand.image}
+                            alt={brand.name}
+                            className="h-full w-full object-contain p-3"
+                          />
+                        </div>
                       ) : (
                         <span className="relative z-10 font-serif text-2xl font-bold text-white/90">
                           {brand.name.charAt(0)}

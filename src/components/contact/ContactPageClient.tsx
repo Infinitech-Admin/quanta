@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Fraunces, Roboto } from "next/font/google";
+import Image from "next/image";
 import Link from "next/link";
 import {
   Mail,
@@ -93,134 +94,150 @@ export default function ContactUsPage() {
         } as React.CSSProperties
       }
     >
-      {/* Organic "sunlight through leaves" glow layer */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 60% 50% at 25% 20%, var(--sunlight) 0%, transparent 55%), " +
-            "radial-gradient(ellipse 45% 40% at 80% 70%, var(--leaf) 0%, transparent 60%), " +
-            "linear-gradient(135deg, var(--forest-vivid) 0%, var(--forest) 100%)",
-          opacity: 0.55,
-        }}
-        aria-hidden
-      />
+      {/* ———————————————————————— Hero: header + departments, with background photo ———————————————————————— */}
+      <div className="relative overflow-hidden">
+        {/* Background photo */}
+        <Image
+          src="/contact-bg.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
 
-      {/* Soft blurred leaf-shaped blobs for depth */}
-      <div
-        className="pointer-events-none absolute  -top-24 h-96 w-96 rounded-full blur-3xl"
-        style={{ background: "var(--leaf)", opacity: 0.25 }}
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute -bottom-32 h-[28rem] w-[28rem] rounded-full blur-3xl"
-        style={{ background: "var(--sunlight)", opacity: 0.2 }}
-        aria-hidden
-      />
+        {/* Green tint over the photo so the existing glow layer + text stay legible */}
+        <div className="absolute inset-0 bg-[#4c8a55]/85" aria-hidden />
 
-      {/* ———————————————————————— Compact page header ———————————————————————— */}
-      <section className="bg-[#4c8a55] pt-8 text-[var(--paper)]">
-        <div className="relative mx-auto max-w-6xl px-4 pt-14 pb-14 sm:px-6 sm:pt-16 sm:pb-16 lg:px-8 xl:px-0 lg:pt-24 lg:pb-12">
-          <motion.div
-            initial={{ opacity: 0, y: -40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <p className="font-[var(--font-display)] text-sm uppercase tracking-[0.3em] text-[var(--mustard)]">
-              Contact
-            </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: -40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <h1 className="mt-3 font-[var(--font-display)] text-3xl italic sm:text-4xl md:text-5xl">
-              Get In Touch
-            </h1>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: -40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-[var(--paper)]/70">
-              Questions, feedback, or a partnership inquiry — reach us directly
-              below or send a message and we&apos;ll route it to the right team.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+        {/* Organic "sunlight through leaves" glow layer */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 60% 50% at 25% 20%, var(--sunlight) 0%, transparent 55%), " +
+              "radial-gradient(ellipse 45% 40% at 80% 70%, var(--leaf) 0%, transparent 60%), " +
+              "linear-gradient(135deg, var(--forest-vivid) 0%, var(--forest) 100%)",
+            opacity: 0.35,
+          }}
+          aria-hidden
+        />
 
-      {/* ———————————————————————— Departments, right up top since it's the info people look for first ———————————————————————— */}
-      <section className="bg-[#4c8a55] px-4 pb-12 text-[var(--paper)] sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: -200 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          <div className="mx-auto max-w-6xl border-t border-[var(--paper)]/10 pt-10" />
-        </motion.div>
-        <div className="mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: -200 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.4, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <h2 className="font-[var(--font-display)] text-lg">
-              By Department
-            </h2>
-          </motion.div>
+        {/* Soft blurred leaf-shaped blobs for depth */}
+        <div
+          className="pointer-events-none absolute -top-24 h-96 w-96 rounded-full blur-3xl"
+          style={{ background: "var(--leaf)", opacity: 0.25 }}
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute -bottom-32 h-[28rem] w-[28rem] rounded-full blur-3xl"
+          style={{ background: "var(--sunlight)", opacity: 0.2 }}
+          aria-hidden
+        />
 
+        {/* ———————————————————————— Compact page header ———————————————————————— */}
+        <section className="relative z-10 pt-8 text-[var(--paper)]">
+          <div className="relative mx-auto max-w-6xl px-4 pt-14 pb-14 sm:px-6 sm:pt-16 sm:pb-16 lg:px-8 xl:px-0 lg:pt-24 lg:pb-12">
+            <motion.div
+              initial={{ opacity: 0, y: -40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.3 }}
+            >
+              <p className="font-[var(--font-display)] text-sm uppercase tracking-[0.3em] text-[var(--mustard)]">
+                Contact
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: -40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.3 }}
+            >
+              <h1 className="mt-3 font-[var(--font-display)] text-3xl italic sm:text-4xl md:text-5xl">
+                Get In Touch
+              </h1>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: -40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.3 }}
+            >
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-[var(--paper)]/70">
+                Questions, feedback, or a partnership inquiry — reach us
+                directly below or send a message and we&apos;ll route it to the
+                right team.
+              </p>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ———————————————————————— Departments, right up top since it's the info people look for first ———————————————————————— */}
+        <section className="relative z-10 px-4 pb-12 text-[var(--paper)] sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: -200 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
             viewport={{ once: true, amount: 0.3 }}
           >
-            <p className="mb-3 text-sm text-[var(--paper)]/60">
-              Reach the right team directly.
-            </p>
+            <div className="mx-auto max-w-6xl border-t border-[var(--paper)]/10 pt-10" />
           </motion.div>
-          <div className="flex  items-center justify-between  items-center justify-center grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {departments.map((dept, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: -200 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                // transition={{ duration: 0.5 }}
-                transition={{
-                  duration: 0.6,
-                  delay: index * 0.2,
-                  ease: "easeOut",
-                }}
-                viewport={{ once: true, amount: 0.3 }}
-              >
-                <Link
-                  key={dept.label}
-                  href={`mailto:${dept.email}`}
-                  className="group flex items-center justify-between rounded-xl border border-[var(--paper)]/25 bg-[var(--paper)]/[0.06] px-5 py-5 transition-colors hover:border-[#E3B563] hover:bg-[var(--paper)]/[0.12]"
+          <div className="mx-auto max-w-6xl">
+            <motion.div
+              initial={{ opacity: 0, y: -200 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.4, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.3 }}
+            >
+              <h2 className="font-[var(--font-display)] text-lg">
+                By Department
+              </h2>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: -200 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.3 }}
+            >
+              <p className="mb-3 text-sm text-[var(--paper)]/60">
+                Reach the right team directly.
+              </p>
+            </motion.div>
+            <div className="flex  items-center justify-between  items-center justify-center grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {departments.map((dept, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: -200 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.6,
+                    delay: index * 0.2,
+                    ease: "easeOut",
+                  }}
+                  viewport={{ once: true, amount: 0.3 }}
                 >
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.1em] text-[#E3B563]">
-                      {dept.label}
-                    </p>
-                    <p className="mt-1 text-sm font-medium text-[var(--paper)]">
-                      {dept.email}
-                    </p>
-                  </div>
-                  <Mail className="h-4 w-4 shrink-0 text-[#E3B563] opacity-0 transition-opacity group-hover:opacity-100" />
-                </Link>
-              </motion.div>
-            ))}
+                  <Link
+                    key={dept.label}
+                    href={`mailto:${dept.email}`}
+                    className="group flex items-center justify-between rounded-xl border border-[var(--paper)]/25 bg-[var(--paper)]/[0.06] px-5 py-5 transition-colors hover:border-[#E3B563] hover:bg-[var(--paper)]/[0.12]"
+                  >
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.1em] text-[#E3B563]">
+                        {dept.label}
+                      </p>
+                      <p className="mt-1 text-sm font-medium text-[var(--paper)]">
+                        {dept.email}
+                      </p>
+                    </div>
+                    <Mail className="h-4 w-4 shrink-0 text-[#E3B563] opacity-0 transition-opacity group-hover:opacity-100" />
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       {/* ———————————————————————— Info + Form, side by side ———————————————————————— */}
       <section className="px-4 py-12 sm:px-6 lg:px-8">

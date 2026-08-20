@@ -1,3 +1,7 @@
-export function getApiUrl() {
-  return process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'
+export function getApiUrl(): string {
+  const url = process.env.NEXT_PUBLIC_API_URL;
+  if (!url) {
+    throw new Error("NEXT_PUBLIC_API_URL is not set");
+  }
+  return url.replace(/\/$/, "");
 }

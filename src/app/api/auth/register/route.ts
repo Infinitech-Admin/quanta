@@ -1,17 +1,16 @@
-
-import { NextRequest, NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
-import { getApiUrl } from '@/lib/api-url'
+import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { getApiUrl } from "@/lib/api-url";
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    
+    const body = await request.json();
+
     const response = await fetch(`${getApiUrl()}/api/auth/register`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify({
         fullName: body.fullName,
@@ -21,30 +20,31 @@ export async function POST(request: NextRequest) {
         password_confirmation: body.confirm,
         userRole: body.userRole,
       }),
-    })
+    });
 
-    const data = await response.json()
+    const data = await response.json();
 
     if (!response.ok) {
-      return NextResponse.json(data, { status: response.status })
+      return NextResponse.json(data, { status: response.status });
     }
 
     // Store token in httpOnly cookie
     if (data.data?.token) {
-      (await cookies()).set('auth_token', data.data.token, {
+      (await cookies()).set("auth_token", data.data.token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
         maxAge: 60 * 60 * 24 * 7, // 7 days
-        path: '/',
-      })
+        path: "/",
+      });
     }
 
-    return NextResponse.json(data, { status: response.status })
-  } catch {
+    return NextResponse.json(data, { status: response.status });
+  } catch (err) {
+    console.error("Register proxy error:", err);
     return NextResponse.json(
-      { success: false, message: 'Server error' },
-      { status: 500 }
-    )
+      { success: false, message: "Server error" },
+      { status: 500 },
+    );
   }
 }

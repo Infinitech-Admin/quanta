@@ -82,10 +82,18 @@ const socialLinks = [
 
 export function SiteFooter() {
   return (
-    <footer className="relative mt-auto bg-[#183D2D] text-cream">
+    <footer className="relative mt-auto overflow-hidden bg-[#183D2D] text-cream">
       <PaperEdge fill="fill-[#183D2D]" className="-translate-y-px" />
 
-      <div className="mx-auto max-w-7xl px-4 pb-6 pt-2 sm:px-6 lg:px-8">
+      {/* Oversized watermark — sits behind everything, purely decorative */}
+      <p
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-[-0.12em] select-none whitespace-nowrap text-center font-serif text-[18vw] font-semibold uppercase leading-none tracking-tight text-cream/[0.04] sm:text-[12vw] lg:text-[9rem]"
+      >
+        Quanta Paper Corp
+      </p>
+
+      <div className="relative mx-auto max-w-7xl px-4 pb-6 pt-2 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 py-6 sm:grid-cols-2 lg:grid-cols-3">
           <div className="sm:col-span-2 lg:col-span-1">
             <Logo dark />
@@ -149,12 +157,23 @@ export function SiteFooter() {
 
         <Separator className="bg-cream/10" />
 
-        <div className="flex flex-col items-center justify-between gap-3 pt-4 text-xs text-cream/50 sm:flex-row">
+        <div className="flex flex-col items-center justify-between gap-2 pt-4 text-xs text-cream/50 sm:flex-row">
           <p>
             &copy; {new Date().getFullYear()} {siteConfig.name}. All rights
             reserved.
           </p>
           <p>Grown with care, made to last.</p>
+          <p>
+            Powered by:{" "}
+            <Link
+              href="https://infinitechphil.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-cream/70 underline-offset-2 transition-colors hover:text-sun-light hover:underline"
+            >
+              Infinitech Advertising Corporation
+            </Link>
+          </p>
         </div>
       </div>
     </footer>

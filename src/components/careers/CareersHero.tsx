@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import {
-  CareersHeroSkeleton,
-} from "@/components/skeleton/CareersSkeleton";
+import { CareersHeroSkeleton } from "@/components/skeleton/CareersSkeleton";
 
 const stats = [
   { label: "20+ Years", sub: "Serving Filipino homes" },
@@ -22,6 +21,22 @@ export function CareersHero() {
 
   return (
     <section className="relative overflow-hidden bg-[var(--forest-deep)] px-4 py-10 text-[var(--paper)] sm:px-6 lg:px-8">
+      {/* Background photo */}
+      <Image
+        src="/career.png"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-center"
+      />
+
+      {/* Forest tint over the photo so the gradient/dot layers + text stay legible */}
+      <div
+        className="pointer-events-none absolute inset-0 bg-[var(--forest-deep)]/40"
+        aria-hidden
+      />
+
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -29,7 +44,7 @@ export function CareersHero() {
             "radial-gradient(ellipse 60% 50% at 25% 20%, var(--sunlight) 0%, transparent 55%), " +
             "radial-gradient(ellipse 45% 40% at 80% 70%, var(--forest-vivid) 0%, transparent 60%), " +
             "linear-gradient(135deg, var(--forest-light) 0%, var(--forest-vivid) 100%)",
-          opacity: 0.55,
+          opacity: 0.35,
         }}
         aria-hidden
       />
@@ -53,7 +68,7 @@ export function CareersHero() {
         aria-hidden
       />
 
-      <div className="relative mx-auto max-w-6xl px-6 pt-12 sm:px-10 sm:pt-18 sm:pb-12 mb-6 text-center">
+      <div className="relative z-10 mx-auto max-w-6xl px-6 pt-12 sm:px-10 sm:pt-18 sm:pb-12 mb-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: -120 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -91,7 +106,7 @@ export function CareersHero() {
 
       {/* Ticket-stub stat row — perforated dividers echo the paper-roll motif
           used again on the job cards below. */}
-      <div className="relative mx-auto flex max-w-3xl flex-col overflow-hidden rounded-2xl bg-[var(--paper)]/10 ring-1 ring-[var(--paper)]/15 backdrop-blur-sm sm:flex-row">
+      <div className="relative z-10 mx-auto flex max-w-3xl flex-col overflow-hidden rounded-2xl bg-[var(--paper)]/10 ring-1 ring-[var(--paper)]/15 backdrop-blur-sm sm:flex-row">
         {stats.map((stat, index) => (
           <motion.div
             key={index}

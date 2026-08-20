@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { getApiUrl } from "@/lib/api-url";
 
 function contactEmailHtml({
   name,
@@ -144,8 +145,47 @@ function contactEmailHtml({
 `;
 }
 
+type ContactPayload = {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+};
+
+// Fire-and-log: saving to the backend should never be what breaks the
+// contact form for the visitor, so failures here are only logged.
+async function saveToBackend(contact: ContactPayload, emailSent: boolean) {
+  try {
+    const res = await fetch(`${getApiUrl()}/api/contact-submissions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ ...contact, email_sent: emailSent }),
+    });
+
+    if (!res.ok) {
+      const raw = await res.text();
+      console.error(
+        "Failed to save contact submission to backend:",
+        res.status,
+        raw,
+      );
+    }
+  } catch (error) {
+    console.error("Error saving contact submission to backend:", error);
+  }
+}
+
 export async function POST(req: NextRequest) {
   const data = await req.json();
+  const contact: ContactPayload = {
+    name: String(data.name),
+    email: String(data.email),
+    subject: String(data.subject),
+    message: String(data.message),
+  };
 
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
@@ -157,22 +197,25 @@ export async function POST(req: NextRequest) {
     },
   });
 
+  let emailSent = false;
   try {
     const result = await transporter.sendMail({
       from: `"Quanta Paper Corporation Website" <${process.env.SMTP_USER}>`,
       to: process.env.CONTACT_RECEIVER_EMAIL,
-      subject: `New Contact Form Submission - Subject: ${data.subject} from ${data.name}`,
-      html: contactEmailHtml({
-        name: String(data.name),
-        email: String(data.email),
-        subject: String(data.subject),
-        message: String(data.message),
-      }),
+      subject: `New Contact Form Submission - Subject: ${contact.subject} from ${contact.name}`,
+      html: contactEmailHtml(contact),
     });
-
     console.log("Email sent successfully:", result);
+    emailSent = true;
   } catch (error) {
     console.error("Error sending email:", error);
+  }
+
+  // Save regardless of email outcome, so a submission is never lost
+  // even if SMTP is briefly down.
+  await saveToBackend(contact, emailSent);
+
+  if (!emailSent) {
     return NextResponse.json({ message: "error" }, { status: 500 });
   }
   return NextResponse.json({ message: "success" });

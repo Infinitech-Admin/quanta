@@ -1,22 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin, ArrowLeft } from "lucide-react";
+import { motion } from "framer-motion";
 import type { Job } from "@/lib/jobs-data";
 import { JobApplicationForm } from "@/components/careers/JobApplicationForm";
-import { motion } from "framer-motion";
-import { JobDetailSkeleton } from "../skeleton/CareersSkeleton";
 
 export function JobDetail({ job }: { job: Job }) {
-  const [isLoading, setIsLoading] = useState(true);
-
-  if (isLoading) {
-    setTimeout(() => setIsLoading(false), 4000);
-    return <JobDetailSkeleton />;
-  }
-
   return (
     <>
       {/* Header banner */}
@@ -36,8 +27,6 @@ export function JobDetail({ job }: { job: Job }) {
           }}
           aria-hidden
         />
-
-        {/* Light darkening wash so text stays legible over the photo without hiding it */}
         <div
           className="pointer-events-none absolute inset-0 bg-black/10"
           aria-hidden
@@ -79,63 +68,74 @@ export function JobDetail({ job }: { job: Job }) {
 
       {/* Job content */}
       <section className="bg-[var(--paper)] px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl">
-          {job.verified ? (
-            <div className="space-y-10">
-              {job.summary ? (
-                <div>
-                  <h2 className="font-[var(--font-display)] text-xl italic text-[var(--forest-deep)]">
-                    Job Summary
-                  </h2>
-                  <p className="mt-3 font-[var(--font-body)] text-base leading-relaxed text-[var(--ink)]/80">
-                    {job.summary}
-                  </p>
+        <div className="mx-auto max-w-6xl">
+          {/*
+            Form first in DOM order (order-1) so on mobile it shows right
+            after the banner, before the job description. On desktop it
+            becomes a sticky sidebar (order-2, lg:sticky) that stays in
+            view alongside the content instead of trailing at the very
+            bottom of the page.
+          */}
+          <div className="grid gap-10 lg:grid-cols-[1fr_480px] lg:items-start">
+            <aside className="order-1 lg:order-2 lg:sticky lg:top-10">
+              <JobApplicationForm jobTitle={job.title} />
+            </aside>
+
+            <div className="order-2 lg:order-1">
+              {job.verified ? (
+                <div className="space-y-10">
+                  {job.summary ? (
+                    <div>
+                      <h2 className="font-[var(--font-display)] text-xl italic text-[var(--forest-deep)]">
+                        Job Summary
+                      </h2>
+                      <p className="mt-3 font-[var(--font-body)] text-base leading-relaxed text-[var(--ink)]/80">
+                        {job.summary}
+                      </p>
+                    </div>
+                  ) : null}
+
+                  {job.education?.length ? (
+                    <JobSection title="Education" items={job.education} />
+                  ) : null}
+
+                  {job.workExperience?.length ? (
+                    <JobSection
+                      title="Work Experience"
+                      items={job.workExperience}
+                    />
+                  ) : null}
+
+                  {job.skills?.length ? (
+                    <JobSection
+                      title="Competencies and Skills"
+                      items={job.skills}
+                      grid
+                    />
+                  ) : null}
+
+                  {job.responsibilities?.length ? (
+                    <JobSection
+                      title="Key Responsibilities"
+                      items={job.responsibilities}
+                    />
+                  ) : null}
                 </div>
-              ) : null}
-
-              {job.education ? (
-                <JobSection title="Education" items={job.education} />
-              ) : null}
-
-              {job.workExperience ? (
-                <JobSection
-                  title="Work Experience"
-                  items={job.workExperience}
-                />
-              ) : null}
-
-              {job.skills ? (
-                <JobSection
-                  title="Competencies and Skills"
-                  items={job.skills}
-                  grid
-                />
-              ) : null}
-
-              {job.responsibilities ? (
-                <JobSection
-                  title="Key Responsibilities"
-                  items={job.responsibilities}
-                />
-              ) : null}
+              ) : (
+                <div className="rounded-2xl bg-[var(--mist)] p-6 font-[var(--font-body)] text-sm leading-relaxed text-[var(--ink)]/70 ring-1 ring-[var(--leaf)]/15">
+                  Full job details for this position haven&apos;t been added
+                  yet. Contact our HR team at{" "}
+                  <a
+                    href="mailto:human.resources@quantapaper.com"
+                    className="font-medium text-[var(--forest)] underline underline-offset-2"
+                  >
+                    human.resources@quantapaper.com
+                  </a>{" "}
+                  for the complete job description, or submit your application
+                  and indicate your desired position.
+                </div>
+              )}
             </div>
-          ) : (
-            <div className="rounded-2xl bg-[var(--mist)] p-6 font-[var(--font-body)] text-sm leading-relaxed text-[var(--ink)]/70 ring-1 ring-[var(--leaf)]/15">
-              Full job details for this position haven&apos;t been added yet.
-              Contact our HR team at{" "}
-              <a
-                href="mailto:human.resources@quantapaper.com"
-                className="font-medium text-[var(--forest)] underline underline-offset-2"
-              >
-                human.resources@quantapaper.com
-              </a>{" "}
-              for the complete job description, or submit your application below
-              and indicate your desired position.
-            </div>
-          )}
-
-          <div className="mt-16 border-t border-[var(--leaf)]/15 pt-16">
-            <JobApplicationForm jobTitle={job.title} />
           </div>
         </div>
       </section>

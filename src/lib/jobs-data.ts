@@ -1,7 +1,10 @@
+export type Department = "Corporate" | "Logistics & Operations";
+
 export type Job = {
   slug: string;
   title: string;
   location: string;
+  department: Department;
   summary?: string;
   education?: string[];
   workExperience?: string[];
@@ -10,74 +13,60 @@ export type Job = {
   verified: boolean;
 };
 
-export const jobs: Job[] = [
-  {
-    slug: "business-control",
-    title: "Business Control",
-    location: "Mandaluyong",
-    verified: true,
-    summary:
-      "Responsible for monitoring and improving the company's financial and operational performance. The role involves preparing budgets and forecasts, analyzing business results, tracking key performance indicators (KPIs), identifying cost-saving opportunities, and ensuring compliance with company policies and financial controls. The position works closely with finance, operations, sales, and management to support strategic decision-making, improve profitability, and ensure efficient business processes.",
-    education: [
-      "Bachelor's degree in Industrial Engineering, Accounting, Finance, Business Administration, Economics, or a related field.",
-      "Professional certifications (e.g., CPA, CMA, or ACCA) are an advantage.",
-    ],
-    workExperience: [
-      "2–5 years of experience in business control, financial analysis, accounting, budgeting, controlling, or a related finance role.",
-      "Experience in manufacturing, paper, FMCG, or industrial companies is preferred.",
-      "Ability to work with cross-functional teams and support management with data-driven business decisions.",
-    ],
-    skills: [
-      "Budgeting and forecasting",
-      "Financial reporting and analysis",
-      "Cost control and variance analysis",
-      "Internal controls and compliance",
-      "ERP systems (e.g., SAP, Oracle, Microsoft Dynamics) and advanced Microsoft Excel",
-      "Business performance management",
-      "Analytical and problem-solving skills",
-      "Communication and stakeholder management",
-      "Attention to detail",
-      "Knowledge of accounting and internal controls",
-    ],
-    responsibilities: [
-      "Prepare and monitor budgets, forecasts, and financial reports.",
-      "Analyze financial and operational performance.",
-      "Track KPIs and identify performance trends.",
-      "Support cost control and profitability improvement initiatives.",
-      "Ensure compliance with internal controls and company policies.",
-      "Assist management with business planning and strategic decisions.",
-      "Collaborate with cross-functional teams to improve operational efficiency.",
-      "Conduct variance analysis and recommend corrective actions.",
-    ],
-  },
-  {
-    slug: "admin-staff",
-    title: "Admin Staff",
-    location: "Pampanga",
-    verified: false,
-  },
-  {
-    slug: "logistic-officer",
-    title: "Logistic Officer",
-    location: "Tacloban",
-    verified: false,
-  },
-  {
-    slug: "dc-supervisor",
-    title: "DC Supervisor",
-    location: "Davao and Tacloban",
-    verified: false,
-  },
-  {
-    slug: "logistic-coordinator",
-    title: "Logistic Coordinator",
-    location: "Cebu",
-    verified: false,
-  },
-  {
-    slug: "accounting-supervisor",
-    title: "Accounting Supervisor",
-    location: "Pampanga",
-    verified: false,
-  },
-];
+type ApiResponse<T> = {
+  success: boolean;
+  data: T;
+  message?: string;
+};
+
+// Point this at your Laravel app, e.g. https://api.quantapaper.com/api
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:8000/api";
+
+/**
+ * All active job listings, for the /careers grid.
+ * Cached for 60s (ISR) — new/edited listings in the admin panel show up
+ * within a minute without needing a redeploy. Lower/raise as needed.
+ */
+export async function getJobs(): Promise<Job[]> {
+  try {
+    console.log("Fetching jobs from:", `${API_BASE_URL}/job-listings`);
+    const res = await fetch(`${API_BASE_URL}/job-listings`, {
+      next: { revalidate: 60 },
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch job listings (${res.status})`);
+    }
+
+    const json: ApiResponse<Job[]> = await res.json();
+    return json.data ?? [];
+  } catch (error) {
+    console.error("getJobs failed:", error);
+    return [];
+  }
+}
+
+/**
+ * A single job by slug, for /careers/[slug].
+ * Returns null for "not found" or "inactive" — both should 404 on the page.
+ */
+export async function getJobBySlug(slug: string): Promise<Job | null> {
+  try {
+    const res = await fetch(
+      `${API_BASE_URL}/job-listings/${encodeURIComponent(slug)}`,
+      { next: { revalidate: 60 } },
+    );
+
+    if (res.status === 404) return null;
+    if (!res.ok) {
+      throw new Error(`Failed to fetch job listing (${res.status})`);
+    }
+
+    const json: ApiResponse<Job> = await res.json();
+    return json.data ?? null;
+  } catch (error) {
+    console.error("getJobBySlug failed:", error);
+    return null;
+  }
+}

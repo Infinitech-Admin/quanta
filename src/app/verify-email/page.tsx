@@ -59,7 +59,6 @@ function VerifyEmailContent() {
       }
     };
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     verifyEmail();
 
     return () => {

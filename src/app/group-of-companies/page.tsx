@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import { Hero } from "@/components/our-group/Hero";
 import { CompanyTabs } from "@/components/our-group/CompanyTabs";
-import { FoundationFunds } from "@/components/our-group/FoundationFunds";
+// import { FoundationFunds } from "@/components/our-group/FoundationFunds";
 import { ClosingCta } from "@/components/our-group/ClosingCta";
 
 // ————————————————————————————————————————————————————————————————
@@ -55,7 +55,7 @@ export default function OurGroupOfCompaniesPage() {
     >
       <Hero />
       <CompanyTabs />
-      <FoundationFunds />
+      {/* <FoundationFunds /> */}
       <ClosingCta />
     </main>
   );

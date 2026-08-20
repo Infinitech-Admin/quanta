@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
-import { Eyebrow, Icon, PaperRollMark, type IconShape } from "./ui";
-import { specs, historyMilestones } from "./content";
+import { useEffect, useState } from "react";
+import { Eyebrow, Icon, TimelineNode, type IconShape } from "./ui";
+import { historyMilestones, specs } from "./content";
 import { motion } from "framer-motion";
 import { OurHistorySkeleton } from "@/components/skeleton/AboutSkeleton";
 
@@ -19,114 +18,95 @@ const specIcons: Record<string, IconShape> = {
 export function OurHistory() {
   const [isLoading, setIsLoading] = useState(true);
 
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 4000);
+    return () => clearTimeout(timer);
+  }, []);
+
   if (isLoading) {
-    setTimeout(() => setIsLoading(false), 4000);
     return <OurHistorySkeleton />;
   }
+
   return (
-    <section className="relative isolate overflow-hidden py-24 text-[var(--color-cream)]">
-      <Image src="/bg-innerpage.jpg" alt="" fill className="object-cover" />
-      {/* Green gradient wash — darker now so text stays legible, photo still shows through */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-forest-deep)]/95 via-[var(--color-forest)]/92 to-[var(--color-forest-vivid)]/88" />
+    <section className="relative overflow-hidden bg-gradient-to-b from-[var(--color-forest)] via-[var(--color-forest-deep)] to-[var(--color-forest)] py-24 text-[var(--color-cream)]">
+      {/* Soft radial glow behind the timeline so the section doesn't
+          read as a flat block of green */}
+      <div className="pointer-events-none absolute left-1/2 top-40 h-[420px] w-[820px] -translate-x-1/2 rounded-full bg-[var(--color-sun)]/10 blur-3xl" />
 
-      <div className="relative mx-auto max-w-6xl px-6 sm:px-10">
-        <div className="max-w-2xl">
+      <div className="relative mx-auto max-w-6xl px-6 text-center sm:px-10">
+        <Eyebrow className="justify-center text-[var(--color-sun)]">
+          Our History
+        </Eyebrow>
+        <h2 className="mx-auto mt-4 max-w-xl font-[var(--font-display)] text-2xl leading-tight text-[var(--color-cream)] sm:text-3xl">
+          Built on Experience. Focused on the Future.
+        </h2>
+
+        <div className="relative mt-20">
+          {/* Line draws in left-to-right on scroll instead of just
+              appearing, so the timeline feels like it's unrolling */}
           <motion.div
-            initial={{ opacity: 0, x: -200 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 2, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <Eyebrow className="text-[var(--color-sun)]">Our History</Eyebrow>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: -200 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.8, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <h2 className="mt-4 font-[var(--font-display)] text-2xl leading-tight text-[var(--color-cream)] sm:text-3xl">
-              Two decades of doing more with less.
-            </h2>
-          </motion.div>
-        </div>
-
-        <div className="mt-16 grid gap-12 md:grid-cols-[1.1fr_0.9fr] md:gap-16">
-          {/* Timeline */}
-          <div className="relative">
-            <motion.div
-              initial={{ opacity: 0, x: -200 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <div className="absolute left-[7px] top-2 bottom-2 w-px bg-[var(--color-cream)]/20" />
-            </motion.div>
-            <div className="space-y-10">
-              {historyMilestones.map((m, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 1.2 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{
-                    duration: 1,
-                    delay: index * 0.2,
-                    ease: "easeOut",
-                  }}
-                  viewport={{ once: true, amount: 0.3 }}
-                >
-                  <div key={m.year} className="relative pl-8">
-                    <span className="absolute left-0 top-1.5 h-3.5 w-3.5 rounded-full border-2 border-[var(--color-sun)] bg-[var(--color-forest-deep)]" />
-                    <span className="text-[13px] font-semibold uppercase tracking-[0.2em] text-[var(--color-sun)]">
-                      {m.year}
-                    </span>
-                    <h3 className="mt-2 font-[var(--font-fraunces)] text-xl text-[var(--color-cream)]">
-                      {m.title}
-                    </h3>
-                    <p className="mt-2 text-[15px] leading-relaxed text-[var(--color-cream)]/90">
-                      {m.copy}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+            className="absolute left-0 right-0 top-6 hidden h-px origin-left bg-[var(--color-sun)]/40 sm:block"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.4 }}
+          />
+          <div className="grid gap-14 sm:grid-cols-3 sm:gap-6">
+            {historyMilestones.map((m, index) => (
+              <motion.div
+                key={m.year}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.2 + 0.3,
+                  ease: "easeOut",
+                }}
+                viewport={{ once: true, amount: 0.4 }}
+                className="flex flex-col items-center"
+              >
+                <TimelineNode className="h-12 w-12 border-2 border-[var(--color-sun)] bg-[var(--color-forest)] text-base text-[var(--color-sun)] shadow-[0_0_0_6px_var(--color-forest)]">
+                  {index + 1}
+                </TimelineNode>
+                <span className="mt-5 text-[13px] font-semibold uppercase tracking-[0.25em] text-[var(--color-sun)]">
+                  {m.year}
+                </span>
+                <h3 className="mt-2 font-[var(--font-display)] text-xl text-[var(--color-cream)]">
+                  {m.title}
+                </h3>
+                <p className="mt-2 max-w-[22rem] text-sm leading-relaxed text-[var(--color-cream)]/60">
+                  {m.copy}
+                </p>
+              </motion.div>
+            ))}
           </div>
-
-          {/* Spec sheet */}
-          <motion.div
-            initial={{ opacity: 0, x: 200 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.3, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <aside className="relative self-start overflow-hidden rounded-lg border border-[var(--color-cream)]/15 bg-[var(--color-cream)]/[0.06] p-8 backdrop-blur-sm">
-              <PaperRollMark className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 text-[var(--color-cream)]/20" />
-              <p className="font-[var(--font-display)] text-sm italic text-[var(--color-sun)]">
-                The plant, by the numbers
-              </p>
-              <dl className="mt-6 divide-y divide-[var(--color-cream)]/15">
-                {specs.map((s) => (
-                  <div
-                    key={s.label}
-                    className="flex items-center justify-between gap-4 py-3.5"
-                  >
-                    <dt className="flex items-center gap-2.5 text-sm text-[var(--color-cream)]/80">
-                      <Icon
-                        shape={specIcons[s.label] ?? "target"}
-                        className="h-4 w-4 flex-none text-[var(--color-sun)]"
-                      />
-                      {s.label}
-                    </dt>
-                    <dd className="font-[var(--font-display)] text-xl text-[var(--color-cream)]">
-                      {s.value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </aside>
-          </motion.div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.3 }}
+          className="relative mt-16 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6"
+        >
+          {specs.map((s) => (
+            <div
+              key={s.label}
+              className="group flex flex-col items-center gap-2 rounded-lg border-t-2 border-[var(--color-sun)] bg-[var(--color-cream)]/95 px-4 py-6 text-[var(--color-forest-deep)] shadow-md transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg"
+            >
+              <Icon
+                shape={specIcons[s.label] ?? "target"}
+                className="h-6 w-6 text-[var(--color-forest)] transition-transform duration-300 group-hover:scale-110"
+              />
+              <span className="font-[var(--font-display)] text-xl">
+                {s.value}
+              </span>
+              <span className="text-[11px] uppercase tracking-[0.15em] text-[var(--color-forest-deep)]/60">
+                {s.label}
+              </span>
+            </div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
