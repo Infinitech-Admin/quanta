@@ -60,6 +60,11 @@ interface RecentSubmission {
   created_at: string;
 }
 
+interface BarDatum {
+  name: string;
+  total: number;
+}
+
 type Loadable<T> =
   | { status: "loading" }
   | { status: "error"; message: string }
@@ -172,10 +177,6 @@ export default function AdminDashboardPage() {
   >({ status: "loading" });
 
   const loadDashboard = useCallback(async () => {
-    setStats({ status: "loading" });
-    setTrends({ status: "loading" });
-    setRecentActivity({ status: "loading" });
-
     const [statsResult, trendsResult, activityResult] =
       await Promise.allSettled([
         fetchJson<DashboardStats>("/api/admin/dashboard/stats"),
@@ -233,10 +234,10 @@ export default function AdminDashboardPage() {
     );
   }
 
-  const barData =
+  const barData: BarDatum[] =
     stats.status === "ready"
       ? [
-          { name: "Our Customers", total: stats.data.customers.total },
+          { name: "Customers", total: stats.data.customers.total },
           { name: "Products", total: stats.data.institutionalProducts.total },
           { name: "Job listings", total: stats.data.jobListings.total },
           { name: "Group cos.", total: stats.data.groupCompanies.total },
@@ -285,7 +286,7 @@ export default function AdminDashboardPage() {
                 swatch="bg-red-500"
               />
               <StatCard
-                label="Our Customers"
+                label="Customers"
                 value={stats.data.customers.total}
                 subLabel={`+${stats.data.customers.last30d} in 30d`}
                 deltaPercent={stats.data.customers.deltaPercent}
@@ -488,48 +489,49 @@ export default function AdminDashboardPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {recentActivity.data.map((submission) => (
-                        <tr
-                          key={submission.id}
-                          className="border-t border-forest-deep/5 text-forest-deep/80"
-                        >
-                          <td className="px-5 py-3 font-medium text-forest-deep">
-                            {submission.name}
-                          </td>
-                          <td className="px-5 py-3">{submission.email}</td>
-                          <td className="px-5 py-3">
-                            {submission.subject ?? "—"}
-                          </td>
-                          <td className="px-5 py-3 tabular-nums">
-                            {new Date(submission.created_at).toLocaleDateString(
-                              "en-PH",
-                              {
+                      {recentActivity.data.map(
+                        (submission: RecentSubmission) => (
+                          <tr
+                            key={submission.id}
+                            className="border-t border-forest-deep/5 text-forest-deep/80"
+                          >
+                            <td className="px-5 py-3 font-medium text-forest-deep">
+                              {submission.name}
+                            </td>
+                            <td className="px-5 py-3">{submission.email}</td>
+                            <td className="px-5 py-3">
+                              {submission.subject ?? "—"}
+                            </td>
+                            <td className="px-5 py-3 tabular-nums">
+                              {new Date(
+                                submission.created_at,
+                              ).toLocaleDateString("en-PH", {
                                 month: "short",
                                 day: "numeric",
                                 year: "numeric",
-                              },
-                            )}
-                          </td>
-                          <td className="px-5 py-3">
-                            <span
-                              className={cn(
-                                "rounded-full px-2.5 py-1 text-xs font-medium",
-                                submission.is_read
-                                  ? "bg-forest-deep/10 text-forest-deep"
-                                  : "bg-red-100 text-red-700",
-                              )}
-                            >
-                              {submission.is_read ? "Read" : "Unread"}
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
+                              })}
+                            </td>
+                            <td className="px-5 py-3">
+                              <span
+                                className={cn(
+                                  "rounded-full px-2.5 py-1 text-xs font-medium",
+                                  submission.is_read
+                                    ? "bg-forest-deep/10 text-forest-deep"
+                                    : "bg-red-100 text-red-700",
+                                )}
+                              >
+                                {submission.is_read ? "Read" : "Unread"}
+                              </span>
+                            </td>
+                          </tr>
+                        ),
+                      )}
                     </tbody>
                   </table>
                 </div>
 
                 <ul className="divide-y divide-forest-deep/5 sm:hidden">
-                  {recentActivity.data.map((submission) => (
+                  {recentActivity.data.map((submission: RecentSubmission) => (
                     <li
                       key={submission.id}
                       className="flex items-center justify-between px-4 py-3.5"
