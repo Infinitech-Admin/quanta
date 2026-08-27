@@ -213,7 +213,7 @@ export function FlagshipProduct() {
         >
           <div className="relative h-[260px] md:h-[400px] overflow-visible">
             {/* soft glow behind the roll for depth */}
-            <div className="absolute right-[-48%] md:right-[-54%] top-[58%] h-[150%] md:h-[175%]-translate-y-1/2 rounded-full bg-white/10 blur-2xl" />
+            <div className="absolute right-[-48%] md:right-[-54%] top-[58%] h-[150%] md:h-[175%] -translate-y-1/2 rounded-full bg-white/10 blur-2xl"></div>
 
             {/* grounding shadow so the roll feels staged, not floating */}
             <div className="absolute bottom-[12%] right-[2%] h-8 w-56 rounded-full bg-black/20 blur-md" />

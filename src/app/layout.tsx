@@ -194,7 +194,7 @@ export default function Layout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${manrope.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${manrope.variable} h-full antialiased overflow-x-hidden`}
     >
       <head>
         <script

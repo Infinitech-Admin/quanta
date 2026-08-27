@@ -14,11 +14,11 @@ const HERO_IMAGE =
 
 // Stagger the copy block's children instead of hand-tuning each duration
 const fadeInUp = {
-  hidden: { opacity: 0, x: -200 },
+  hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
-    x: 0,
-    transition: { duration: 1 + i * 0.15, ease: "easeOut" as const },
+    y: 0,
+    transition: { duration: 0.6 + i * 0.1, ease: "easeOut" as const },
   }),
 };
 
