@@ -36,6 +36,11 @@ const navItems = [
     icon: Users,
   },
   {
+    label: "Gallery",
+    href: "/admin/gallery",
+    icon: Package,
+  },
+  {
     label: "Brand",
     href: "/admin/brand",
     icon: Package,

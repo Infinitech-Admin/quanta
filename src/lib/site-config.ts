@@ -9,6 +9,7 @@ export const mainNav = [
   { label: "About Us", href: "/about" },
   { label: "Brands", href: "/brands" },
   { label: "Our Group of Companies", href: "/group-of-companies" },
+  { label: "Gallery", href: "/gallery" },
   { label: "Work With Us", href: "/careers" },
 ];
 

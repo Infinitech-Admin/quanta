@@ -1,0 +1,21 @@
+{
+  "name": "Quanta Paper Corporation",
+  "short_name": "Quanta Paper",
+  "description": "High-quality, affordable, hygienic, and environment-friendly tissue and paper products.",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#0B3B22",
+  "background_color": "#F7F5EC",
+  "display": "standalone",
+  "start_url": "/"
+}

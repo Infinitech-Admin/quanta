@@ -199,19 +199,22 @@ export function SiteHeader() {
                 <Menu className="h-6 w-6" />
               </button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[85%] sm:w-80">
+            <SheetContent
+              side="right"
+              className="w-[85%] sm:w-80 bg-forest-deep text-cream border-l border-cream/10"
+            >
               <SheetHeader>
-                <SheetTitle>Menu</SheetTitle>
+                <SheetTitle className="text-cream">Menu</SheetTitle>
               </SheetHeader>
               <nav className="mt-8 flex flex-col gap-1">
                 <Link
                   href="/"
                   onClick={() => setOpen(false)}
                   className={cn(
-                    "rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-forest/10",
+                    "rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-cream/10",
                     pathname === "/"
-                      ? "bg-forest/10 text-forest"
-                      : "text-forest-deep",
+                      ? "bg-cream/10 text-sun-light"
+                      : "text-cream/90",
                   )}
                 >
                   Home
@@ -224,10 +227,8 @@ export function SiteHeader() {
                       href={item.href}
                       onClick={() => setOpen(false)}
                       className={cn(
-                        "rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-forest/10",
-                        active
-                          ? "bg-forest/10 text-forest"
-                          : "text-forest-deep",
+                        "rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-cream/10",
+                        active ? "bg-cream/10 text-sun-light" : "text-cream/90",
                       )}
                     >
                       {item.label}
@@ -236,8 +237,8 @@ export function SiteHeader() {
                 })}
               </nav>
 
-              <div className="flex flex-col gap-3 mt-6 border-t border-border pt-6">
-                <Button className="w-full" asChild>
+              <div className="flex flex-col gap-3 mt-6 border-t border-cream/15 pt-6">
+                <Button variant="sun" className="w-full" asChild>
                   <Link href="/contact" onClick={() => setOpen(false)}>
                     Get In Touch
                   </Link>
@@ -253,7 +254,11 @@ export function SiteHeader() {
                   </Link>
                 </Button>
 
-                <Button variant="sun" className="w-full" asChild>
+                <Button
+                  variant="outline"
+                  className="w-full border-cream/40 text-cream hover:bg-cream/10"
+                  asChild
+                >
                   <Link href="/login" onClick={() => setOpen(false)}>
                     Login
                   </Link>
@@ -261,25 +266,25 @@ export function SiteHeader() {
               </div>
 
               {/* Quick contact info */}
-              <div className="mt-6 space-y-3 border-t border-border pt-6">
+              <div className="mt-6 space-y-3 border-t border-cream/15 pt-6">
                 <Link
                   href="tel:+63285339250"
-                  className="flex items-center gap-3 text-sm text-forest-deep/80 transition-colors hover:text-forest"
+                  className="flex items-center gap-3 text-sm text-cream/80 transition-colors hover:text-sun-light"
                 >
-                  <Phone className="h-4 w-4 shrink-0 text-forest" />
+                  <Phone className="h-4 w-4 shrink-0 text-sun-light" />
                   (632) 8533.9250
                 </Link>
                 <Link
                   href="mailto:wecare@quantapaper.com"
-                  className="flex items-center gap-3 text-sm text-forest-deep/80 transition-colors hover:text-forest"
+                  className="flex items-center gap-3 text-sm text-cream/80 transition-colors hover:text-sun-light"
                 >
-                  <Mail className="h-4 w-4 shrink-0 text-forest" />
+                  <Mail className="h-4 w-4 shrink-0 text-sun-light" />
                   wecare@quantapaper.com
                 </Link>
               </div>
 
               {/* Social icons */}
-              <div className="mt-6 flex gap-3 border-t border-border pt-6">
+              <div className="mt-6 flex gap-3 border-t border-cream/15 pt-6">
                 {socialLinks.map(({ label, href, Icon }) => (
                   <Link
                     key={label}
@@ -287,7 +292,7 @@ export function SiteHeader() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-forest/20 text-forest-deep/70 transition-colors hover:border-forest hover:text-forest"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-cream/30 text-cream/80 transition-colors hover:border-sun-light hover:text-sun-light"
                   >
                     <Icon className="h-4 w-4" />
                   </Link>

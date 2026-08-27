@@ -28,8 +28,13 @@ function initialValuesFrom(
   initialData: InstitutionalProduct | null,
 ): InstitutionalProductFormValues {
   if (!initialData) return EMPTY_FORM;
-  const { id, created_at, updated_at, ...rest } = initialData;
-  return rest;
+  // Pick only the fields the form actually edits, rather than
+  // destructuring (and discarding) id/created_at/updated_at.
+  return {
+    name: initialData.name,
+    image: initialData.image,
+    is_active: initialData.is_active,
+  };
 }
 
 export function InstitutionalProductFormDialog({

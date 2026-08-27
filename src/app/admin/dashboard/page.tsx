@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   AlertCircle,
@@ -176,42 +176,6 @@ export default function AdminDashboardPage() {
     Loadable<RecentSubmission[]>
   >({ status: "loading" });
 
-  const loadDashboard = useCallback(async () => {
-    const [statsResult, trendsResult, activityResult] =
-      await Promise.allSettled([
-        fetchJson<DashboardStats>("/api/admin/dashboard/stats"),
-        fetchJson<TrendPoint[]>("/api/admin/dashboard/trends?days=30"),
-        fetchJson<RecentSubmission[]>(
-          "/api/admin/dashboard/recent-activity?limit=8",
-        ),
-      ]);
-
-    setStats(
-      statsResult.status === "fulfilled"
-        ? { status: "ready", data: statsResult.value }
-        : {
-            status: "error",
-            message: statsResult.reason?.message ?? "Failed to load stats",
-          },
-    );
-    setTrends(
-      trendsResult.status === "fulfilled"
-        ? { status: "ready", data: trendsResult.value }
-        : {
-            status: "error",
-            message: trendsResult.reason?.message ?? "Failed to load trends",
-          },
-    );
-    setRecentActivity(
-      activityResult.status === "fulfilled"
-        ? { status: "ready", data: activityResult.value }
-        : {
-            status: "error",
-            message:
-              activityResult.reason?.message ?? "Failed to load activity",
-          },
-    );
-  }, []);
   useEffect(() => {
     if (loading) return;
     if (!isAuthenticated) {
