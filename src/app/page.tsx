@@ -1,6 +1,8 @@
+import { Suspense } from "react";
 import { Hero } from "@/components/sections/hero";
 import { WhyChooseUs } from "@/components/sections/why-choose-us";
 import { BrandsShowcase } from "@/components/sections/brands-showcase";
+import { BrandsShowcaseSkeleton } from "@/components/skeleton/HomeSkeleton";
 import { FlagshipProduct } from "@/components/sections/flagship-product";
 import { Certifications } from "@/components/sections/certifications";
 import { OurCustomers } from "@/components/sections/our-customers";
@@ -12,7 +14,9 @@ export default function Home() {
     <>
       <Hero />
       <WhyChooseUs />
-      <BrandsShowcase />
+      <Suspense fallback={<BrandsShowcaseSkeleton />}>
+        <BrandsShowcase />
+      </Suspense>
       <FlagshipProduct />
       <Certifications />
       <OurCustomers />
