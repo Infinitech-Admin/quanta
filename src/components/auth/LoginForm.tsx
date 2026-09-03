@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
@@ -32,6 +33,10 @@ export function LoginForm() {
       const user = await login({ email, password });
 
       setFailedAttempts(0);
+
+      toast.success("Signed in successfully", {
+        description: "Welcome back!",
+      });
 
       if (user.role === "admin") {
         router.push("/admin/dashboard");

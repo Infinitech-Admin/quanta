@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { ArrowLeft, Mail } from "lucide-react";
 import Link from "next/link";
-
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 
 export default function ChangePasswordForm() {
   const [email, setEmail] = useState("");
@@ -15,9 +14,7 @@ export default function ChangePasswordForm() {
     e.preventDefault();
 
     if (!email) {
-      toast({
-        variant: "destructive",
-        title: "Email required",
+      toast.error("Email required", {
         description: "Please enter your email address",
       });
       return;
@@ -25,9 +22,7 @@ export default function ChangePasswordForm() {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      toast({
-        variant: "destructive",
-        title: "Invalid email",
+      toast.error("Invalid email", {
         description: "Please enter a valid email address",
       });
       return;
@@ -46,24 +41,20 @@ export default function ChangePasswordForm() {
 
       if (response.ok) {
         setSubmitted(true);
-        toast({
-          variant: "default",
-          title: "Check your email",
+        toast.success("Check your email", {
           description: data.message,
         });
       } else {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: data.message || "Failed to send reset email. Please try again.",
+        toast.error("Error", {
+          description:
+            data.message || "Failed to send reset email. Please try again.",
         });
       }
     } catch (error) {
       console.error("Change password error:", error);
-      toast({
-        variant: "destructive",
-        title: "Connection error",
-        description: "Unable to connect to the server. Please check your internet connection and try again.",
+      toast.error("Connection error", {
+        description:
+          "Unable to connect to the server. Please check your internet connection and try again.",
       });
     } finally {
       setLoading(false);
@@ -95,16 +86,22 @@ export default function ChangePasswordForm() {
           <li className="flex items-start gap-2">
             <span className="text-sun">•</span>
             <span>
-              The link will expire in <strong className="text-forest-deep">1 hour</strong>
+              The link will expire in{" "}
+              <strong className="text-forest-deep">1 hour</strong>
             </span>
           </li>
           <li className="flex items-start gap-2">
             <span className="text-sun">•</span>
-            <span>Check your spam/junk folder if you don&apos;t see the email</span>
+            <span>
+              Check your spam/junk folder if you don&apos;t see the email
+            </span>
           </li>
           <li className="flex items-start gap-2">
             <span className="text-sun">•</span>
-            <span>If you don&apos;t receive an email, please try again or contact support</span>
+            <span>
+              If you don&apos;t receive an email, please try again or contact
+              support
+            </span>
           </li>
         </ul>
 

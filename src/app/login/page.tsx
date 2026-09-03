@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 
 import { FadeIn } from "@/components/auth/FadeIn";
 import { LoginForm } from "@/components/auth/LoginForm";
@@ -59,18 +58,6 @@ export default function LoginPage() {
             </p>
 
             <LoginForm />
-
-            <p className="mt-8 text-center text-xs text-forest-deep/50">
-              By continuing you agree to our{" "}
-              <Link href="/terms" className="underline underline-offset-4">
-                Terms
-              </Link>{" "}
-              and{" "}
-              <Link href="/privacy" className="underline underline-offset-4">
-                Privacy Policy
-              </Link>
-              .
-            </p>
           </div>
         </FadeIn>
       </div>

@@ -4,12 +4,11 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Eye, EyeOff, CheckCircle } from "lucide-react";
 import Link from "next/link";
-
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 
 export default function ResetPasswordForm() {
   const searchParams = useSearchParams();
-  const [token] = useState(() => searchParams.get("auth_token") ?? "");
+  const [token] = useState(() => searchParams.get("token") ?? "");
   const [email] = useState(() => searchParams.get("email") ?? "");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -22,9 +21,7 @@ export default function ResetPasswordForm() {
 
   useEffect(() => {
     if (!token || !email) {
-      toast({
-        variant: "destructive",
-        title: "Invalid reset link",
+      toast.error("Invalid reset link", {
         description:
           "This password reset link is invalid. Please request a new one.",
       });
@@ -63,9 +60,7 @@ export default function ResetPasswordForm() {
     e.preventDefault();
 
     if (!token || !email) {
-      toast({
-        variant: "destructive",
-        title: "Invalid reset link",
+      toast.error("Invalid reset link", {
         description:
           "This password reset link is invalid. Please request a new one.",
       });
@@ -73,9 +68,7 @@ export default function ResetPasswordForm() {
     }
 
     if (!formData.password || !formData.password_confirmation) {
-      toast({
-        variant: "destructive",
-        title: "Missing information",
+      toast.error("Missing information", {
         description: "Please fill in all fields",
       });
       return;
@@ -83,18 +76,14 @@ export default function ResetPasswordForm() {
 
     const passwordError = validatePassword(formData.password);
     if (passwordError) {
-      toast({
-        variant: "destructive",
-        title: "Invalid password",
+      toast.error("Invalid password", {
         description: passwordError,
       });
       return;
     }
 
     if (formData.password !== formData.password_confirmation) {
-      toast({
-        variant: "destructive",
-        title: "Passwords don't match",
+      toast.error("Passwords don't match", {
         description: "Please make sure both passwords match",
       });
       return;
@@ -118,23 +107,17 @@ export default function ResetPasswordForm() {
 
       if (response.ok) {
         setSuccess(true);
-        toast({
-          variant: "default",
-          title: "Password reset successful",
+        toast.success("Password reset successful", {
           description: data.message,
         });
       } else {
-        toast({
-          variant: "destructive",
-          title: "Reset failed",
+        toast.error("Reset failed", {
           description: data.message || "Failed to reset password",
         });
       }
     } catch (error) {
       console.error("Reset password error:", error);
-      toast({
-        variant: "destructive",
-        title: "Connection error",
+      toast.error("Connection error", {
         description: "Unable to connect to the server. Please try again.",
       });
     } finally {
