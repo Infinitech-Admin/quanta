@@ -23,10 +23,17 @@ export function TermsPrivacyModal({
 
   useEffect(() => setMounted(true), []);
 
-  // Reset to whichever tab was requested each time the modal opens
-  useEffect(() => {
-    if (open) setTab(initialTab);
-  }, [open, initialTab]);
+  // Reset to whichever tab was requested each time the modal opens.
+  // Derived during render (not in an effect) by tracking the previous
+  // `open` value, so we avoid the "setState directly within an effect"
+  // lint warning and the extra render it would otherwise cost.
+  const prevOpenRef = useRef(open);
+  if (prevOpenRef.current !== open) {
+    prevOpenRef.current = open;
+    if (open && tab !== initialTab) {
+      setTab(initialTab);
+    }
+  }
 
   // Esc to close + lock background scroll while open
   useEffect(() => {
@@ -154,18 +161,18 @@ function TermsContent() {
         laws.
       </Section>
       <Section title="Your account">
-        You're responsible for keeping your login credentials secure and for all
-        activity that happens under your account. Let us know right away if you
-        suspect unauthorized access.
+        You&apos;re responsible for keeping your login credentials secure and
+        for all activity that happens under your account. Let us know right away
+        if you suspect unauthorized access.
       </Section>
       <Section title="Orders and payments">
         Placing an order through Quanta Paper is an offer to purchase at the
-        listed price. We'll confirm availability and pricing before your order
-        is finalized.
+        listed price. We&apos;ll confirm availability and pricing before your
+        order is finalized.
       </Section>
       <Section title="Acceptable use">
-        Don't use the platform to violate any law, infringe on others' rights,
-        or interfere with the service's normal operation.
+        Don&apos;t use the platform to violate any law, infringe on others&apos;
+        rights, or interfere with the service&apos;s normal operation.
       </Section>
       <Section title="Changes to these terms">
         We may update these terms from time to time. Continued use of the
@@ -185,7 +192,7 @@ function PrivacyContent() {
       </Section>
       <Section title="How we use it">
         We use your information to process orders, send account and delivery
-        updates, and improve the platform. We don't sell your personal
+        updates, and improve the platform. We don&apos;t sell your personal
         information to third parties.
       </Section>
       <Section title="Data storage">
