@@ -162,23 +162,26 @@ export function SiteHeader() {
           })}
         </nav>
 
-        {/* Desktop actions — fixed: was "hidden flex lg:block" which
-            broke row layout (block wins over flex at lg), collapsing
-            the three buttons instead of laying them out side by side. */}
-        <div className="hidden lg:flex lg:items-center lg:gap-2">
-          <Button variant={scrolled ? "light" : "sun"} size="sm" asChild>
-            <Link href="/contact">Get In Touch</Link>
-          </Button>
-
-          {/* Shop Now is now visually distinct from Login instead of
-              sharing the exact same variant. */}
-          <Button variant="accent" size="sm" asChild>
+        {/* Desktop actions — Shop Now is first and sized up slightly so it
+            reads as the highlighted / primary action; Get In Touch and
+            Login follow at their normal size. */}
+        <div className="hidden lg:flex lg:items-center lg:gap-3">
+          <Button
+            variant="sun"
+            size="default"
+            className="px-6 font-semibold shadow-sm"
+            asChild
+          >
             <Link href="http://tissuemarket.com/" target="_blank">
               Shop Now
             </Link>
           </Button>
 
-          <Button variant={scrolled ? "sun" : "outline"} size="sm" asChild>
+          <Button variant={scrolled ? "light" : "outline"} size="sm" asChild>
+            <Link href="/contact">Get In Touch</Link>
+          </Button>
+
+          <Button variant={scrolled ? "light" : "outline"} size="sm" asChild>
             <Link href="/login">Login</Link>
           </Button>
         </div>
@@ -238,19 +241,27 @@ export function SiteHeader() {
               </nav>
 
               <div className="flex flex-col gap-3 mt-6 border-t border-cream/15 pt-6">
-                <Button variant="sun" className="w-full" asChild>
-                  <Link href="/contact" onClick={() => setOpen(false)}>
-                    Get In Touch
-                  </Link>
-                </Button>
-
-                <Button variant="accent" className="w-full" asChild>
+                <Button
+                  variant="sun"
+                  className="w-full text-base py-6 font-semibold shadow-sm"
+                  asChild
+                >
                   <Link
                     href="http://tissuemarket.com/"
                     target="_blank"
                     onClick={() => setOpen(false)}
                   >
                     Shop Now
+                  </Link>
+                </Button>
+
+                <Button
+                  variant="outline"
+                  className="w-full border-cream/40 text-cream hover:bg-cream/10"
+                  asChild
+                >
+                  <Link href="/contact" onClick={() => setOpen(false)}>
+                    Get In Touch
                   </Link>
                 </Button>
 
