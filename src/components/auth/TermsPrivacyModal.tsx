@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 
@@ -17,58 +17,71 @@ export function TermsPrivacyModal({
   onClose,
   initialTab = "terms",
 }: TermsPrivacyModalProps) {
-  const [tab, setTab] = useState<Tab>(initialTab);
-  const [mounted, setMounted] = useState(false);
-  const panelRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => setMounted(true), []);
-
-  // Reset to whichever tab was requested each time the modal opens.
-  // Derived during render (not in an effect) by tracking the previous
-  // `open` value, so we avoid the "setState directly within an effect"
-  // lint warning and the extra render it would otherwise cost.
-  const prevOpenRef = useRef(open);
-  if (prevOpenRef.current !== open) {
-    prevOpenRef.current = open;
-    if (open && tab !== initialTab) {
-      setTab(initialTab);
-    }
+  // Do not render anything while closed or during server rendering.
+  if (!open || typeof document === "undefined") {
+    return null;
   }
+
+  return createPortal(
+    <TermsPrivacyModalContent initialTab={initialTab} onClose={onClose} />,
+    document.body,
+  );
+}
+
+interface TermsPrivacyModalContentProps {
+  initialTab: Tab;
+  onClose: () => void;
+}
+
+function TermsPrivacyModalContent({
+  initialTab,
+  onClose,
+}: TermsPrivacyModalContentProps) {
+  // Because this component is mounted when the modal opens,
+  // the initial tab is set without needing setState inside an effect.
+  const [tab, setTab] = useState<Tab>(initialTab);
 
   // Esc to close + lock background scroll while open
   useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+
     document.addEventListener("keydown", onKey);
-    const prevOverflow = document.body.style.overflow;
+
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prevOverflow;
+      document.body.style.overflow = previousOverflow;
     };
-  }, [open, onClose]);
+  }, [onClose]);
 
-  if (!mounted || !open) return null;
-
-  return createPortal(
+  return (
     <div
       role="dialog"
       aria-modal="true"
       aria-labelledby="tp-modal-title"
       className="fixed inset-0 z-[999] flex items-center justify-center p-4"
       onMouseDown={(e) => {
-        if (e.target === e.currentTarget) onClose();
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
       }}
     >
+      {/* Background overlay */}
       <div className="absolute inset-0 bg-forest-deep/60 backdrop-blur-sm" />
 
+      {/* Modal panel */}
       <div
-        ref={panelRef}
         className="relative flex w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-forest-deep/10 bg-cream shadow-2xl shadow-black/40"
         style={{ maxHeight: "min(640px, 85vh)" }}
       >
         {/* Header */}
-        <div className="flex items-start justify-between gap-4 border-b border-forest-deep/10 px-6 pt-6 pb-4 sm:px-8">
+        <div className="flex items-start justify-between gap-4 border-b border-forest-deep/10 px-6 pb-4 pt-6 sm:px-8">
           <div>
             <h2
               id="tp-modal-title"
@@ -76,10 +89,12 @@ export function TermsPrivacyModal({
             >
               {tab === "terms" ? "Terms of Service" : "Privacy Policy"}
             </h2>
+
             <p className="mt-1 text-sm text-forest-deep/60">
               Last updated September 2026
             </p>
           </div>
+
           <button
             type="button"
             onClick={onClose}
@@ -94,6 +109,7 @@ export function TermsPrivacyModal({
         <div className="flex gap-1 border-b border-forest-deep/10 px-6 sm:px-8">
           {(["terms", "privacy"] as Tab[]).map((t) => {
             const active = tab === t;
+
             return (
               <button
                 key={t}
@@ -106,6 +122,7 @@ export function TermsPrivacyModal({
                 }`}
               >
                 {t === "terms" ? "Terms" : "Privacy"}
+
                 {active && (
                   <span className="absolute inset-x-4 -bottom-px h-0.5 rounded-full bg-sun" />
                 )}
@@ -130,8 +147,7 @@ export function TermsPrivacyModal({
           </button>
         </div>
       </div>
-    </div>,
-    document.body,
+    </div>
   );
 }
 
@@ -147,6 +163,7 @@ function Section({
       <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-forest-deep/70">
         {title}
       </h3>
+
       <p className="text-sm leading-relaxed text-forest-deep/80">{children}</p>
     </div>
   );
@@ -160,20 +177,24 @@ function TermsContent() {
         Terms of Service and to use our platform in accordance with applicable
         laws.
       </Section>
+
       <Section title="Your account">
         You&apos;re responsible for keeping your login credentials secure and
         for all activity that happens under your account. Let us know right away
         if you suspect unauthorized access.
       </Section>
+
       <Section title="Orders and payments">
         Placing an order through Quanta Paper is an offer to purchase at the
         listed price. We&apos;ll confirm availability and pricing before your
         order is finalized.
       </Section>
+
       <Section title="Acceptable use">
         Don&apos;t use the platform to violate any law, infringe on others&apos;
         rights, or interfere with the service&apos;s normal operation.
       </Section>
+
       <Section title="Changes to these terms">
         We may update these terms from time to time. Continued use of the
         platform after changes take effect means you accept the revised terms.
@@ -190,19 +211,23 @@ function PrivacyContent() {
         email, phone number, and delivery details — along with order history and
         basic usage data.
       </Section>
+
       <Section title="How we use it">
         We use your information to process orders, send account and delivery
         updates, and improve the platform. We don&apos;t sell your personal
         information to third parties.
       </Section>
+
       <Section title="Data storage">
         Your data is stored securely and retained only as long as needed to
         provide our services or as required by law.
       </Section>
+
       <Section title="Your choices">
         You can request access to, correction of, or deletion of your personal
         data at any time by contacting our support team.
       </Section>
+
       <Section title="Contact">
         Questions about this policy can be sent to privacy@quantapaper.example.
       </Section>
