@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 
@@ -17,26 +17,32 @@ export function TermsPrivacyModal({
   onClose,
   initialTab = "terms",
 }: TermsPrivacyModalProps) {
+  // Do not render anything while closed or during server rendering.
+  if (!open || typeof document === "undefined") {
+    return null;
+  }
+
+  return createPortal(
+    <TermsPrivacyModalContent initialTab={initialTab} onClose={onClose} />,
+    document.body,
+  );
+}
+
+interface TermsPrivacyModalContentProps {
+  initialTab: Tab;
+  onClose: () => void;
+}
+
+function TermsPrivacyModalContent({
+  initialTab,
+  onClose,
+}: TermsPrivacyModalContentProps) {
+  // Because this component is mounted when the modal opens,
+  // the initial tab is set without needing setState inside an effect.
   const [tab, setTab] = useState<Tab>(initialTab);
-  const [mounted, setMounted] = useState(false);
-  const panelRef = useRef<HTMLDivElement>(null);
-
-  // Mount portal only on the client
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Reset to the requested tab whenever the modal opens
-  useEffect(() => {
-    if (open) {
-      setTab(initialTab);
-    }
-  }, [open, initialTab]);
 
   // Esc to close + lock background scroll while open
   useEffect(() => {
-    if (!open) return;
-
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onClose();
@@ -52,11 +58,9 @@ export function TermsPrivacyModal({
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = previousOverflow;
     };
-  }, [open, onClose]);
+  }, [onClose]);
 
-  if (!mounted || !open) return null;
-
-  return createPortal(
+  return (
     <div
       role="dialog"
       aria-modal="true"
@@ -68,10 +72,11 @@ export function TermsPrivacyModal({
         }
       }}
     >
+      {/* Background overlay */}
       <div className="absolute inset-0 bg-forest-deep/60 backdrop-blur-sm" />
 
+      {/* Modal panel */}
       <div
-        ref={panelRef}
         className="relative flex w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-forest-deep/10 bg-cream shadow-2xl shadow-black/40"
         style={{ maxHeight: "min(640px, 85vh)" }}
       >
@@ -142,8 +147,7 @@ export function TermsPrivacyModal({
           </button>
         </div>
       </div>
-    </div>,
-    document.body,
+    </div>
   );
 }
 
