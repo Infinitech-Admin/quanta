@@ -5,3 +5,4 @@ export function getApiUrl(): string {
   }
   return url.replace(/\/$/, "");
 }
+//deployment
