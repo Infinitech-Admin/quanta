@@ -5,12 +5,9 @@
 // image we need to prefix it with where Laravel is actually served.
 //
 // Set this in .env.local:
-//   NEXT_PUBLIC_IMAGE_URL=http://localhost:8000
+//   IMAGE_UR=http://localhost:8000
 // In production this should be your real API/asset domain.
-const IMAGE_BASE_URL = (process.env.NEXT_PUBLIC_IMAGE_URL ?? "").replace(
-  /\/$/,
-  "",
-);
+const IMAGE_BASE_URL = (process.env.IMAGE_UR ?? "").replace(/\/$/, "");
 
 /**
  * Resolves a possibly-relative image path to a fully-qualified URL.

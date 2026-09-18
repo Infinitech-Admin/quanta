@@ -20,8 +20,7 @@ type ApiResponse<T> = {
 };
 
 // Point this at your Laravel app, e.g. https://api.quantapaper.com/api
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:8000/api";
+const API_BASE_URL = process.env.BASE_URL ?? "http://localhost:8000/api";
 
 /**
  * All active job listings, for the /careers grid.

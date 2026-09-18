@@ -8,7 +8,7 @@ export async function POST(request: Request) {
   const incomingFormData = await request.formData();
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/admin/group-companies/upload-image`,
+    `${process.env.API_URL}/api/admin/group-companies/upload-image`,
     {
       method: "POST",
       headers, // do NOT set Content-Type manually — fetch sets the multipart boundary itself
