@@ -6,26 +6,22 @@ import { CompanyTabs } from "@/components/our-group/CompanyTabs";
 // import { FoundationFunds } from "@/components/our-group/FoundationFunds";
 import { ClosingCta } from "@/components/our-group/ClosingCta";
 
-// ————————————————————————————————————————————————————————————————
 // Type system
-// Fraunces: a warm, slightly industrial serif — used with restraint for
+// Fraunces: a warm, slightly industrial serif, used with restraint for
 // display moments only (headlines, big stats, pull quotes).
 // Inter: quiet, legible workhorse for everything people actually read.
-// Both are exposed as CSS variables on <main> below, so every section
-// component can reference font-[var(--font-display)] / --font-body
-// without importing next/font itself.
-// ————————————————————————————————————————————————————————————————
+// Both are variable fonts, so no explicit weight list is needed.
 const display = Fraunces({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
   style: ["normal", "italic"],
   variable: "--font-display",
+  display: "swap",
 });
 
 const body = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
   variable: "--font-body",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
