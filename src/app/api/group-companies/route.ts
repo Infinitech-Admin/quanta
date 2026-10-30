@@ -2,10 +2,13 @@ import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-const API_URL = process.env.LARAVEL_API_URL ?? "http://localhost:8000/api/v1";
+// Bare origin, no trailing slash and no /api/v1.
+const BASE_URL = (process.env.LARAVEL_API_URL ?? "http://localhost:8000")
+  .replace(/\/api\/v1\/?$/, "")
+  .replace(/\/$/, "");
 
 export async function GET() {
-  const upstream = `${API_URL}/group-companies`;
+  const upstream = `${BASE_URL}/api/v1/group-companies`;
 
   try {
     const res = await fetch(upstream, {
@@ -16,7 +19,6 @@ export async function GET() {
     const text = await res.text();
 
     if (!res.ok) {
-      // Temporary: remove `upstream` once this is working.
       return NextResponse.json(
         { message: "Upstream request failed", upstream, status: res.status },
         { status: res.status },
@@ -24,10 +26,9 @@ export async function GET() {
     }
 
     // Stored image URLs may still point at localhost; swap in the real API origin.
-    const origin = new URL(API_URL).origin;
     const fixed = JSON.stringify(JSON.parse(text)).replace(
       /https?:\/\/localhost:8000/g,
-      origin,
+      BASE_URL,
     );
 
     return new NextResponse(fixed, {
