@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "infinitech-api14.site",
+      },
+      {
+        protocol: "https",
         hostname: "images.unsplash.com",
       },
       {

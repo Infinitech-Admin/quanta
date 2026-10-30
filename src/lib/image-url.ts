@@ -1,20 +1,18 @@
-// Laravel returns relative paths for uploaded images, e.g. "/brands/kami.png"
-// (see BrandController::uploadImage, which saves straight to public/ and
-// returns "/" + folder + "/" + filename). Those paths are only valid on the
-// Laravel origin, not the Next.js one, so anywhere we render an uploaded
-// image we need to prefix it with where Laravel is actually served.
+// Laravel returns relative paths for uploaded images, e.g. "/customers/xxx.jpg".
+// Those only resolve on the Laravel origin, so prefix them with where Laravel
+// is served.
 //
-// Set this in .env.local:
-//   IMAGE_URL=http://localhost:8000
-// In production this should be your real API/asset domain.
-const IMAGE_BASE_URL = (process.env.IMAGE_URL ?? "").replace(/\/$/, "");
+// .env.local:
+//   NEXT_PUBLIC_IMAGE_URL=https://infinitech-api14.site
+const IMAGE_BASE_URL = (process.env.NEXT_PUBLIC_IMAGES_URL ?? "").replace(
+  /\/$/,
+  "",
+);
 
 /**
  * Resolves a possibly-relative image path to a fully-qualified URL.
- * - Already-absolute URLs (http/https) and blob: previews pass through
- *   unchanged.
- * - null/empty stays null, so callers can keep using it directly in
- *   conditionals like `{value && <img src={getImageUrl(value)} />}`.
+ * - Absolute http(s), blob: and data: URLs pass through unchanged.
+ * - null/empty returns null.
  */
 export function getImageUrl(path: string | null | undefined): string | null {
   if (!path) return null;
