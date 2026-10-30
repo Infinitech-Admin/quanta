@@ -30,7 +30,7 @@ type ApiGroupCompany = {
   content: ContentBlock[] | string | null;
 };
 
-const API_URL = process.env.API_URL ?? "http://localhost:8000/api/v1";
+const API_URL = process.env.LARAVEL_API_URL ?? "http://localhost:8000/api/v1";
 
 function toContentBlocks(
   value: ContentBlock[] | string | null | undefined,
