@@ -1,36 +1,27 @@
 import { NextResponse } from "next/server";
-import { getApiUrl } from "@/lib/api-url";
+
+export const dynamic = "force-dynamic";
+
+const API_URL = process.env.LARAVEL_API_URL ?? "http://localhost:8000/api/v1";
 
 export async function GET() {
   try {
-    const res = await fetch(`${getApiUrl()}/api/group-companies`, {
+    const res = await fetch(`${API_URL}/group-companies`, {
+      cache: "no-store",
       headers: { Accept: "application/json" },
-      // public marketing content — safe to cache briefly instead of no-store
-      next: { revalidate: 60 },
     });
-    return await forwardJson(res);
-  } catch (error) {
-    console.error("GET /api/group-companies error:", error);
-    return NextResponse.json(
-      { success: false, message: "Server error" },
-      { status: 500 },
-    );
-  }
-}
 
-async function forwardJson(res: Response) {
-  const raw = await res.text();
-  try {
-    const data = JSON.parse(raw);
-    return NextResponse.json(data, { status: res.status });
-  } catch {
-    console.error("Non-JSON response from Laravel:", res.status, raw);
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Backend returned an invalid response.",
-        debug: raw.slice(0, 2000),
+    const body = await res.text();
+
+    return new NextResponse(body, {
+      status: res.status,
+      headers: {
+        "Content-Type": res.headers.get("content-type") ?? "application/json",
       },
+    });
+  } catch {
+    return NextResponse.json(
+      { message: "Unable to reach the API" },
       { status: 502 },
     );
   }

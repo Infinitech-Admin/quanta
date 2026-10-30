@@ -30,8 +30,6 @@ type ApiGroupCompany = {
   content: ContentBlock[] | string | null;
 };
 
-const API_URL = process.env.LARAVEL_API_URL ?? "http://localhost:8000/api/v1";
-
 function toContentBlocks(
   value: ContentBlock[] | string | null | undefined,
 ): ContentBlock[] {
@@ -70,7 +68,7 @@ export function CompanyTabs() {
         setIsLoading(true);
         setError(null);
 
-        const res = await fetch(`${API_URL}/group-companies`, {
+        const res = await fetch("/api/group-companies", {
           cache: "no-store",
         });
 
