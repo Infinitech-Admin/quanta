@@ -3,7 +3,13 @@ export type ContentBlock =
   | { type: "bullets"; items: string[] }
   | { type: "cards"; items: string[] }
   | { type: "heading"; eyebrow?: string; text: string }
-  | { type: "image"; url: string; alt?: string };
+  | { type: "image"; url: string; alt?: string }
+  | { type: "columns"; items: { title: string; text: string }[] }
+  | {
+      type: "stats";
+      items: { value: string; label: string }[];
+      tags?: string[];
+    };
 
 export type GroupCompany = {
   id: string;

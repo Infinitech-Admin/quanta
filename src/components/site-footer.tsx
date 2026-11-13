@@ -1,132 +1,50 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Mail, MapPin, Phone } from "lucide-react";
 
-import { Logo } from "@/components/logo";
-import { PaperEdge } from "@/components/paper-edge";
-import { Separator } from "@/components/ui/separator";
 import { contactInfo, footerNav, siteConfig } from "@/lib/site-config";
 
-/** Minimal inline marks — lucide-react no longer ships brand/logo icons. */
-function FacebookMark(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <path d="M13.5 21v-7.5h2.5l.4-3H13.5V8.4c0-.87.24-1.46 1.5-1.46h1.6V4.35C16.3 4.24 15.32 4.15 14.2 4.15c-2.34 0-3.95 1.43-3.95 4.05V10.5H7.75v3h2.5V21h3.25Z" />
-    </svg>
-  );
-}
-function InstagramMark(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.7"
-      {...props}
-    >
-      <rect x="3.5" y="3.5" width="17" height="17" rx="4.5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
-function YouTubeMark(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <path d="M21.6 7.2s-.21-1.49-.86-2.15c-.82-.86-1.74-.86-2.16-.91C15.64 4 12 4 12 4h-.01s-3.64 0-6.58.14c-.42.05-1.34.05-2.16.91C2.6 5.71 2.4 7.2 2.4 7.2S2.19 8.94 2.19 10.69v1.63c0 1.75.21 3.49.21 3.49s.2 1.49.85 2.15c.82.87 1.9.84 2.38.93 1.73.17 7.36.22 7.36.22s3.64 0 6.58-.15c.42-.05 1.34-.05 2.16-.91.65-.66.86-2.15.86-2.15s.21-1.74.21-3.49v-1.63c0-1.75-.21-3.49-.21-3.49ZM9.98 14.6V8.98l5.4 2.82-5.4 2.8Z" />
-    </svg>
-  );
-}
-function TikTokMark(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <path d="M16.6 3h-2.9v12.4a2.75 2.75 0 1 1-2-2.65V9.7a5.65 5.65 0 1 0 4.9 5.6V9.3a7.6 7.6 0 0 0 4.4 1.4V7.7a4.75 4.75 0 0 1-4.4-4.7Z" />
-    </svg>
-  );
-}
-function TwitterMark(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <path d="M13.6 10.7 20.3 3h-1.6l-5.8 6.7L8.3 3H3l7 10.1L3 21h1.6l6.2-7.1 5 7.1H21l-7.4-10.3Zm-2.2 2.5-.7-1L5 4.3h2.4l4.6 6.6.7 1 6 8.6h-2.4l-4.9-7Z" />
-    </svg>
-  );
-}
-
-const socialLinks = [
-  {
-    label: "Facebook",
-    href: "https://www.facebook.com/quantapaper/",
-    Icon: FacebookMark,
-  },
-  {
-    label: "Instagram",
-    href: "https://www.instagram.com/quantapaper_ph/",
-    Icon: InstagramMark,
-  },
-  {
-    label: "YouTube",
-    href: "https://www.youtube.com/channel/UCpm4vyQ1WcpBVkAd7ElQsEQ",
-    Icon: YouTubeMark,
-  },
-  {
-    label: "TikTok",
-    href: "https://www.tiktok.com/@quantapaper",
-    Icon: TikTokMark,
-  },
-  {
-    label: "Twitter",
-    href: "https://twitter.com/quantapaper",
-    Icon: TwitterMark,
-  },
+// Adjust these hrefs to match your routes.
+const exploreLinks = [
+  { label: "Our Brands", href: "/brands", external: false },
+  { label: "For Businesses", href: "/institutional-products", external: false },
+  { label: "Request a Quote", href: "/contact", external: false },
+  { label: "Shop Now", href: "http://tissuemarket.com/", external: true },
 ];
+
+const linkClass =
+  "text-[13px] text-white/90 transition-colors hover:text-white hover:underline underline-offset-4";
 
 export function SiteFooter() {
   return (
-    <footer className="relative mt-auto overflow-hidden bg-[#183D2D] text-cream">
-      <PaperEdge fill="fill-[#183D2D]" className="-translate-y-px" />
-
-      {/* Oversized watermark — sits behind everything, purely decorative */}
-      <p
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-[-0.12em] select-none whitespace-nowrap text-center font-serif text-[18vw] font-semibold uppercase leading-none tracking-tight text-cream/[0.04] sm:text-[12vw] lg:text-[9rem]"
-      >
-        Quanta Paper Corp
-      </p>
-
-      <div className="relative mx-auto max-w-7xl px-4 pb-6 pt-2 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 py-6 sm:grid-cols-2 lg:grid-cols-3">
+    <footer className="mt-auto bg-[#046A3C] text-white">
+      <div className="mx-auto max-w-6xl px-4 pb-8 pt-14 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] lg:gap-8">
+          {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <Logo dark />
-            <p className="mt-3 max-w-xs text-sm leading-relaxed text-cream/70">
+            <Link href="/" aria-label="Go to homepage" className="inline-block">
+              <Image
+                src="/images/footer-logo.png"
+                alt="Quanta Paper Corporation"
+                width={518}
+                height={124}
+                className="h-14 w-auto"
+              />
+            </Link>
+            <p className="mt-6 max-w-sm text-[13px] leading-[1.9] text-white/90">
               {siteConfig.description}
             </p>
-            <div className="mt-4 flex flex-wrap gap-3">
-              {socialLinks.map(({ label, href, Icon }) => (
-                <Link
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-cream/20 text-cream/70 transition-colors hover:border-sun hover:text-sun-light"
-                >
-                  <Icon className="h-4 w-4" />
-                </Link>
-              ))}
-            </div>
+            <p className="mt-6 text-[13px] text-white/50">
+              Founded in 2003 · Philippines
+            </p>
           </div>
 
+          {/* Company */}
           <div>
-            <h3 className="font-serif text-sm uppercase tracking-[0.2em] text-sun-light">
-              Company
-            </h3>
-            <ul className="mt-3 space-y-2">
+            <h3 className="text-sm font-bold">Company</h3>
+            <ul className="mt-5 space-y-3">
               {footerNav.company.map((item) => (
                 <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-cream/70 transition-colors hover:text-cream"
-                  >
+                  <Link href={item.href} className={linkClass}>
                     {item.label}
                   </Link>
                 </li>
@@ -134,46 +52,71 @@ export function SiteFooter() {
             </ul>
           </div>
 
+          {/* Explore */}
           <div>
-            <h3 className="font-serif text-sm uppercase tracking-[0.2em] text-sun-light">
-              Get In Touch
-            </h3>
-            <ul className="mt-3 space-y-2 text-sm text-cream/70">
-              <li className="flex items-start gap-3">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-sun-light" />
-                <span>{contactInfo.address}</span>
+            <h3 className="text-sm font-bold">Explore</h3>
+            <ul className="mt-5 space-y-3">
+              {exploreLinks.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    {...(item.external
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                    className={linkClass}
+                  >
+                    {item.label}
+                    {item.external && " ↗"}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Get in touch */}
+          <div>
+            <h3 className="text-sm font-bold">Get in Touch</h3>
+            <ul className="mt-5 space-y-3 text-[13px] text-white/90">
+              <li>{contactInfo.address}</li>
+              <li>
+                <Link
+                  href={`mailto:${contactInfo.email}`}
+                  className={linkClass}
+                >
+                  {contactInfo.email}
+                </Link>
               </li>
-              <li className="flex items-center gap-3">
-                <Phone className="h-4 w-4 shrink-0 text-sun-light" />
-                <span>{contactInfo.phone}</span>
+              <li>
+                <Link
+                  href={`tel:${contactInfo.phone.replace(/[^+\d]/g, "")}`}
+                  className={linkClass}
+                >
+                  {contactInfo.phone}
+                </Link>
               </li>
-              <li className="flex items-center gap-3">
-                <Mail className="h-4 w-4 shrink-0 text-sun-light" />
-                <span>{contactInfo.email}</span>
+              <li className="pt-2">
+                <Link href="/contact" className={linkClass}>
+                  Contact the right team →
+                </Link>
               </li>
             </ul>
           </div>
         </div>
 
-        <Separator className="bg-cream/10" />
-
-        <div className="flex flex-col items-center justify-between gap-2 pt-4 text-xs text-cream/50 sm:flex-row">
+        <div className="mt-12 flex flex-col gap-2 border-t border-white/15 pt-6 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
           <p>
-            &copy; {new Date().getFullYear()} {siteConfig.name}. All rights
-            reserved.
-          </p>
-          <p>Grown with care, made to last.</p>
-          <p>
-            Powered by:{" "}
+            &copy; {new Date().getFullYear()} {siteConfig.name}
+            {" · Powered by "}
             <Link
               href="https://infinitechphil.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-cream/70 underline-offset-2 transition-colors hover:text-sun-light hover:underline"
+              className="underline-offset-2 transition-colors hover:text-white hover:underline"
             >
               Infinitech Advertising Corporation
             </Link>
           </p>
+          <p>Embracing sustainability. Delivering quality.</p>
         </div>
       </div>
     </footer>

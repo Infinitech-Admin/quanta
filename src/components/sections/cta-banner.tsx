@@ -1,56 +1,58 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { CtaBannerSkeleton } from "../skeleton/HomeSkeleton";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 export function CtaBanner() {
-   const [isLoading, setIsLoading] = useState(true);
-  
-    if (isLoading) {
-      setTimeout(() => setIsLoading(false), 4000);
-      return <CtaBannerSkeleton />;
-    }
-
   return (
-    <section className="section-green-gradient py-20 px-6 md:px-16 text-center">
+    <section className="bg-[#f7f6f2] px-6 py-16 md:py-[68px]">
       <motion.div
-        initial={{ opacity: 0, y: 200 }}
+        initial={{ opacity: 0, y: 32 }}
         whileInView={{ opacity: 1, y: 0 }}
-        // animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
         viewport={{ once: true, amount: 0.3 }}
+        className="relative mx-auto max-w-6xl overflow-hidden rounded-2xl bg-[#e7f0e6] px-8 py-12 md:px-[60px] md:py-[58px]"
       >
-        <h2 className="font-serif text-3xl md:text-4xl text-[var(--color-cream)] max-w-2xl mx-auto mb-6">
-          Let&apos;s grow something together.
-        </h2>
-      </motion.div>
+        {/* soft decorative ring, top right */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-[47px] -top-[104px] h-[310px] w-[310px] rounded-full border-[45px] border-[#dcebdc]"
+        />
 
-      <motion.div
-        initial={{ opacity: 0, y: 200 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        viewport={{ once: true, amount: 0.3 }}
-      >
-        <p className="text-[var(--color-cream)]/70 max-w-xl mx-auto mb-8">
-          Reach out for inquiries, partnerships, or product information.
-        </p>
-      </motion.div>
+        <div className="relative flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#00a651]">
+              Let&apos;s Connect
+            </p>
+            <h2 className="mt-4 text-4xl font-bold leading-[1.1] tracking-[-0.04em] text-[#1f2623] md:text-[40px]">
+              Let&apos;s find the right
+              <br />
+              Quanta solution for you.
+            </h2>
+            <p className="mt-4 max-w-[500px] text-sm leading-[1.9] text-[#5b6460]">
+              From everyday essentials to business supply and partnership
+              inquiries, there&apos;s a clear next step for everyone.
+            </p>
+          </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 200 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true, amount: 0.3 }}
-      >
-        <Button
-          asChild
-          className="bg-[var(--color-sun)] hover:bg-[var(--color-sun-light)] text-[var(--color-forest-deep)]"
-        >
-          <Link href="/contact">Get In Touch</Link>
-        </Button>
+          <div className="flex shrink-0 flex-wrap items-center gap-3">
+            <Link
+              href="/brands"
+              className="inline-flex items-center gap-2 rounded-full bg-[#00a651] px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-[#009147]"
+            >
+              Explore Our Products
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 rounded-full border border-[#0b6b3a] px-6 py-3.5 text-sm font-bold text-[#0b5a32] transition-colors hover:bg-[#0b6b3a]/10"
+            >
+              Get in Touch
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
       </motion.div>
     </section>
   );

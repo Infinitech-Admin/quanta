@@ -1,55 +1,55 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Eyebrow, LeafSpray } from "./ui";
-import { motion } from "framer-motion";
-import { HeroSkeleton } from "@/components/skeleton/AboutSkeleton";
+import { Wrap, greenBg } from "./ui";
 
 export function Hero() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 4000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isLoading) {
-    return <HeroSkeleton />;
-  }
-
   return (
-    <section className="relative overflow-hidden bg-[var(--color-forest-deep)] pt-24 sm:pt-32 md:pt-24 text-[var(--color-cream)]">
+    <section
+      className={`relative overflow-hidden ${greenBg} pt-36 pb-24 text-white`}
+    >
+      {/* Image 1: background art */}
       <Image
-        src="/images/about/plant-floor.jpg"
-        alt="Quanta Paper technicians on the manufacturing floor in Mabalacat, Pampanga"
+        src="/about-hero.png"
+        alt=""
         fill
         priority
-        className="object-cover"
+        aria-hidden
+        className="pointer-events-none object-cover"
       />
-      <div className="absolute inset-0 bg-[var(--color-forest-vivid)]/80" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-forest-deep)]/95 via-[var(--color-forest-deep)]/50 to-transparent" />
 
-      <LeafSpray className="pointer-events-none absolute -right-6 -top-10 h-64 w-40 rotate-[135deg] text-[var(--color-cream)]/25" />
-
-      <div className="relative mx-auto max-w-6xl px-6 py-24 sm:px-10 sm:py-28">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          <Eyebrow className="text-[var(--color-sun)]">About Us</Eyebrow>
-          <h1 className="mt-4 max-w-xl font-[var(--font-display)] text-4xl leading-[1.1] tracking-tight sm:text-5xl md:text-6xl">
-            About Us
+      <Wrap className="relative grid items-center gap-12 lg:grid-cols-[1.05fr_1fr]">
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-[0.25em]">
+            About us
+          </p>
+          <h1 className="mt-5 text-5xl font-bold leading-[1.02] tracking-tight sm:text-6xl">
+            A closer look at the people, purpose, and progress behind Quanta.
           </h1>
-          <p className="mt-5 max-w-md text-base leading-relaxed text-[var(--color-cream)]/85 sm:text-lg">
+          <p className="mt-6 max-w-md text-base leading-8 text-white/85">
             We&apos;re committed to delivering quality products and exceptional
             service that stand out — trusted by customers, partners, and
             communities alike.
           </p>
-        </motion.div>
-      </div>
+          <a
+            href="#history"
+            className="mt-8 inline-flex rounded-full border border-white/25 bg-white/10 px-5 py-3 text-sm font-bold transition hover:bg-white/20"
+          >
+            Explore the Quanta story ↗
+          </a>
+        </div>
+
+        {/* Image 2: photo inside the card */}
+        <div className="rounded-3xl border border-white/20 bg-white/5 p-5">
+          <div className="relative aspect-[1.45] overflow-hidden rounded-2xl">
+            <Image
+              src="/machinery.png"
+              alt="Quanta Paper technicians operating a converting line"
+              fill
+              priority
+              className="object-cover"
+            />
+          </div>
+        </div>
+      </Wrap>
     </section>
   );
 }

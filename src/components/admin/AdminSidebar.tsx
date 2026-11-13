@@ -1,3 +1,4 @@
+// components/admin/admin-sidebar.tsx
 "use client";
 
 import Link from "next/link";
@@ -7,6 +8,8 @@ import {
   Package,
   Users,
   Settings,
+  Newspaper,
+  ClipboardList,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
@@ -31,9 +34,19 @@ const navItems = [
     icon: Package,
   },
   {
+    label: "Job Applications",
+    href: "/admin/job-applications",
+    icon: ClipboardList,
+  },
+  {
     label: "Group of Companies",
     href: "/admin/group-companies",
     icon: Users,
+  },
+  {
+    label: "News",
+    href: "/admin/news",
+    icon: Newspaper,
   },
   {
     label: "Gallery",

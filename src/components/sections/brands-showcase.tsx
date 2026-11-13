@@ -1,7 +1,7 @@
 import { getBrandsGroupedByCategory } from "@/lib/brands";
-import { BrandsShowcase as BrandsShowcaseUI } from "@/components/brands/BrandsShowcase";
+import { BrandsMarquee } from "@/components/sections/brands-marquee";
 
 export async function BrandsShowcase() {
   const categories = await getBrandsGroupedByCategory();
-  return <BrandsShowcaseUI categories={categories} />;
+  return <BrandsMarquee categories={categories} />;
 }

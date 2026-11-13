@@ -4,12 +4,14 @@ import { useRef, useState } from "react";
 import {
   ArrowDown,
   ArrowUp,
+  Hash,
   Heading,
   ImageIcon,
   LayoutGrid,
   List,
   Loader2,
   Plus,
+  SeparatorVertical,
   Trash2,
   Type,
   X,
@@ -20,6 +22,14 @@ import {
   GroupCompany,
   GroupCompanyFormValues,
 } from "@/types/group-company";
+
+/*
+ * NOTE: add these two members to the ContentBlock union in
+ * "@/types/group-company":
+ *
+ *   | { type: "columns"; items: { title: string; text: string }[] }
+ *   | { type: "stats"; items: { value: string; label: string }[]; tags?: string[] }
+ */
 
 type Props = {
   open: boolean;
@@ -47,7 +57,15 @@ const blockLabels: Record<
   cards: { icon: LayoutGrid, label: "Card grid" },
   heading: { icon: Heading, label: "Section heading" },
   image: { icon: ImageIcon, label: "Image" },
+  columns: { icon: SeparatorVertical, label: "Columns strip" },
+  stats: { icon: Hash, label: "Stats card" },
 };
+
+const inputClass =
+  "w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500";
+
+const addButtonClass =
+  "flex items-center gap-1 rounded-lg border border-gray-200 px-2.5 py-1 text-xs font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900";
 
 function buildFormValues(
   initialData: GroupCompany | null,
@@ -119,40 +137,11 @@ export function GroupCompanyFormDialog({
     });
   }
 
-  function addParagraphBlock() {
-    setValues((prev) => ({
-      ...prev,
-      content: [...prev.content, { type: "paragraph", text: "" }],
-    }));
+  function appendBlock(block: ContentBlock) {
+    setValues((prev) => ({ ...prev, content: [...prev.content, block] }));
   }
 
-  function addBulletsBlock() {
-    setValues((prev) => ({
-      ...prev,
-      content: [...prev.content, { type: "bullets", items: [""] }],
-    }));
-  }
-
-  function addCardsBlock() {
-    setValues((prev) => ({
-      ...prev,
-      content: [...prev.content, { type: "cards", items: [""] }],
-    }));
-  }
-
-  function addHeadingBlock() {
-    setValues((prev) => ({
-      ...prev,
-      content: [...prev.content, { type: "heading", eyebrow: "", text: "" }],
-    }));
-  }
-
-  function addImageBlock() {
-    setValues((prev) => ({
-      ...prev,
-      content: [...prev.content, { type: "image", url: "", alt: "" }],
-    }));
-  }
+  /* ---------- bullets / cards items ---------- */
 
   function updateItem(blockIndex: number, itemIndex: number, value: string) {
     setValues((prev) => {
@@ -189,6 +178,98 @@ export function GroupCompanyFormDialog({
     });
   }
 
+  /* ---------- columns items ---------- */
+
+  function updateColumn(
+    blockIndex: number,
+    itemIndex: number,
+    patch: Partial<{ title: string; text: string }>,
+  ) {
+    setValues((prev) => {
+      const block = prev.content[blockIndex];
+      if (block.type !== "columns") return prev;
+      const items = block.items.map((it, i) =>
+        i === itemIndex ? { ...it, ...patch } : it,
+      );
+      const next = [...prev.content];
+      next[blockIndex] = { ...block, items };
+      return { ...prev, content: next };
+    });
+  }
+
+  function addColumn(blockIndex: number) {
+    setValues((prev) => {
+      const block = prev.content[blockIndex];
+      if (block.type !== "columns") return prev;
+      const next = [...prev.content];
+      next[blockIndex] = {
+        ...block,
+        items: [...block.items, { title: "", text: "" }],
+      };
+      return { ...prev, content: next };
+    });
+  }
+
+  function removeColumn(blockIndex: number, itemIndex: number) {
+    setValues((prev) => {
+      const block = prev.content[blockIndex];
+      if (block.type !== "columns") return prev;
+      const next = [...prev.content];
+      next[blockIndex] = {
+        ...block,
+        items: block.items.filter((_, i) => i !== itemIndex),
+      };
+      return { ...prev, content: next };
+    });
+  }
+
+  /* ---------- stats items ---------- */
+
+  function updateStat(
+    blockIndex: number,
+    itemIndex: number,
+    patch: Partial<{ value: string; label: string }>,
+  ) {
+    setValues((prev) => {
+      const block = prev.content[blockIndex];
+      if (block.type !== "stats") return prev;
+      const items = block.items.map((it, i) =>
+        i === itemIndex ? { ...it, ...patch } : it,
+      );
+      const next = [...prev.content];
+      next[blockIndex] = { ...block, items };
+      return { ...prev, content: next };
+    });
+  }
+
+  function addStat(blockIndex: number) {
+    setValues((prev) => {
+      const block = prev.content[blockIndex];
+      if (block.type !== "stats") return prev;
+      const next = [...prev.content];
+      next[blockIndex] = {
+        ...block,
+        items: [...block.items, { value: "", label: "" }],
+      };
+      return { ...prev, content: next };
+    });
+  }
+
+  function removeStat(blockIndex: number, itemIndex: number) {
+    setValues((prev) => {
+      const block = prev.content[blockIndex];
+      if (block.type !== "stats") return prev;
+      const next = [...prev.content];
+      next[blockIndex] = {
+        ...block,
+        items: block.items.filter((_, i) => i !== itemIndex),
+      };
+      return { ...prev, content: next };
+    });
+  }
+
+  /* ---------- image upload ---------- */
+
   async function handleImageFileSelected(
     blockIndex: number,
     file: File | undefined,
@@ -199,13 +280,8 @@ export function GroupCompanyFormDialog({
       const formData = new FormData();
       formData.append("image", file);
 
-      // NOTE: no manual Authorization header here — this relies on
-      // Laravel Sanctum's cookie/session auth (credentials: "include"),
-      // matching however the rest of the admin UI is authenticated.
-      // If your app actually uses a stored bearer token instead, swap
-      // `credentials: "include"` for
-      //   headers: { Authorization: `Bearer ${yourRealTokenVariable}` }
-      // using whatever variable/hook the rest of your admin fetches use.
+      // Auth is added server-side by the Next route handler, which reads the
+      // httpOnly auth_token cookie, so nothing to attach here.
       const res = await fetch("/api/admin/group-companies/upload-image", {
         method: "POST",
         headers: {
@@ -246,6 +322,8 @@ export function GroupCompanyFormDialog({
     }
   }
 
+  /* ---------- submit ---------- */
+
   function handleSubmit() {
     const cleaned: GroupCompanyFormValues = {
       ...values,
@@ -263,7 +341,8 @@ export function GroupCompanyFormDialog({
           if (block.type === "heading") {
             const text = block.text.trim();
             const eyebrow = block.eyebrow?.trim();
-            return text
+            // A heading may be just an eyebrow label (e.g. "How we operate").
+            return text || eyebrow
               ? { type: "heading", text, eyebrow: eyebrow || undefined }
               : null;
           }
@@ -271,6 +350,23 @@ export function GroupCompanyFormDialog({
             const url = block.url.trim();
             const alt = block.alt?.trim();
             return url ? { type: "image", url, alt: alt || undefined } : null;
+          }
+          if (block.type === "columns") {
+            const items = block.items
+              .map((it) => ({ title: it.title.trim(), text: it.text.trim() }))
+              .filter((it) => it.title || it.text);
+            return items.length ? { type: "columns", items } : null;
+          }
+          if (block.type === "stats") {
+            const items = block.items
+              .map((it) => ({ value: it.value.trim(), label: it.label.trim() }))
+              .filter((it) => it.value);
+            const tags = (block.tags ?? [])
+              .map((t) => t.trim())
+              .filter(Boolean);
+            return items.length
+              ? { type: "stats", items, tags: tags.length ? tags : undefined }
+              : null;
           }
           return null;
         })
@@ -316,7 +412,7 @@ export function GroupCompanyFormDialog({
                   setValues((p) => ({ ...p, short_name: e.target.value }))
                 }
                 placeholder="Quanta Foundation, Inc."
-                className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+                className={`mt-1 ${inputClass}`}
               />
             </div>
             <div>
@@ -330,14 +426,14 @@ export function GroupCompanyFormDialog({
                   setValues((p) => ({ ...p, full_name: e.target.value }))
                 }
                 placeholder="Quanta Foundation, Inc."
-                className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+                className={`mt-1 ${inputClass}`}
               />
             </div>
           </div>
 
           <div>
             <label className="text-sm font-medium text-gray-700">
-              Tagline (optional)
+              Tagline / headline (optional)
             </label>
             <input
               type="text"
@@ -345,55 +441,96 @@ export function GroupCompanyFormDialog({
               onChange={(e) =>
                 setValues((p) => ({ ...p, tagline: e.target.value }))
               }
-              placeholder="Big dreams come in small packages."
-              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+              placeholder="Making the essentials *people rely on.*"
+              className={`mt-1 ${inputClass}`}
             />
+            <p className="mt-1 text-xs text-gray-400">
+              Shown as the big headline on the public page. Put the green italic
+              part in *asterisks*. A Section heading block at the top of the
+              content overrides this.
+            </p>
           </div>
 
           {/* Content blocks */}
           <div>
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-gray-700">
+            <div className="flex items-start justify-between gap-3">
+              <label className="pt-1 text-sm font-medium text-gray-700">
                 Content
               </label>
               <div className="flex flex-wrap justify-end gap-2">
                 <button
                   type="button"
-                  onClick={addParagraphBlock}
-                  className="flex items-center gap-1 rounded-lg border border-gray-200 px-2.5 py-1 text-xs font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                  onClick={() => appendBlock({ type: "paragraph", text: "" })}
+                  className={addButtonClass}
                 >
                   <Type className="h-3.5 w-3.5" /> Paragraph
                 </button>
                 <button
                   type="button"
-                  onClick={addBulletsBlock}
-                  className="flex items-center gap-1 rounded-lg border border-gray-200 px-2.5 py-1 text-xs font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                  onClick={() => appendBlock({ type: "bullets", items: [""] })}
+                  className={addButtonClass}
                 >
                   <List className="h-3.5 w-3.5" /> Bullets
                 </button>
                 <button
                   type="button"
-                  onClick={addCardsBlock}
-                  className="flex items-center gap-1 rounded-lg border border-gray-200 px-2.5 py-1 text-xs font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                  onClick={() => appendBlock({ type: "cards", items: [""] })}
+                  className={addButtonClass}
                 >
                   <LayoutGrid className="h-3.5 w-3.5" /> Cards
                 </button>
                 <button
                   type="button"
-                  onClick={addHeadingBlock}
-                  className="flex items-center gap-1 rounded-lg border border-gray-200 px-2.5 py-1 text-xs font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                  onClick={() =>
+                    appendBlock({ type: "heading", eyebrow: "", text: "" })
+                  }
+                  className={addButtonClass}
                 >
                   <Heading className="h-3.5 w-3.5" /> Heading
                 </button>
                 <button
                   type="button"
-                  onClick={addImageBlock}
-                  className="flex items-center gap-1 rounded-lg border border-gray-200 px-2.5 py-1 text-xs font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                  onClick={() =>
+                    appendBlock({ type: "image", url: "", alt: "" })
+                  }
+                  className={addButtonClass}
                 >
                   <ImageIcon className="h-3.5 w-3.5" /> Image
                 </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    appendBlock({
+                      type: "columns",
+                      items: [{ title: "", text: "" }],
+                    })
+                  }
+                  className={addButtonClass}
+                >
+                  <SeparatorVertical className="h-3.5 w-3.5" /> Columns
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    appendBlock({
+                      type: "stats",
+                      items: [{ value: "", label: "" }],
+                      tags: [],
+                    })
+                  }
+                  className={addButtonClass}
+                >
+                  <Hash className="h-3.5 w-3.5" /> Stats
+                </button>
               </div>
             </div>
+
+            <p className="mt-2 text-xs text-gray-400">
+              Public page layout: the first Heading and Paragraphs sit on the
+              left. A Stats block, or otherwise the first Image, sits on the
+              right. Everything else follows in this order. In text, use
+              **bold** and *italic*.
+            </p>
 
             <div className="mt-3 space-y-3">
               {values.content.map((block, index) => {
@@ -447,8 +584,8 @@ export function GroupCompanyFormDialog({
                           })
                         }
                         rows={3}
-                        placeholder="Write a paragraph…"
-                        className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+                        placeholder="Write a paragraph… (**bold** works)"
+                        className={inputClass}
                       />
                     )}
 
@@ -467,7 +604,7 @@ export function GroupCompanyFormDialog({
                                 }
                                 rows={2}
                                 placeholder="Card text…"
-                                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+                                className={inputClass}
                               />
                               <button
                                 type="button"
@@ -489,7 +626,7 @@ export function GroupCompanyFormDialog({
                                   updateItem(index, itemIndex, e.target.value)
                                 }
                                 placeholder="Bullet item…"
-                                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+                                className={inputClass}
                               />
                               <button
                                 type="button"
@@ -523,8 +660,8 @@ export function GroupCompanyFormDialog({
                               text: block.text,
                             })
                           }
-                          placeholder="Eyebrow label (e.g. THE QUANTA EDUCATIONAL SUPPORT FUND)"
-                          className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs font-semibold uppercase tracking-wide text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+                          placeholder="Small label (e.g. How we operate). Optional."
+                          className={`${inputClass} text-xs font-semibold uppercase tracking-wide`}
                         />
                         <input
                           type="text"
@@ -536,8 +673,8 @@ export function GroupCompanyFormDialog({
                               text: e.target.value,
                             })
                           }
-                          placeholder="Headline (e.g. Big dreams come in small packages.)"
-                          className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+                          placeholder="Headline (e.g. Making the essentials *people rely on.*). Optional."
+                          className={`${inputClass} font-semibold`}
                         />
                       </div>
                     )}
@@ -606,8 +743,120 @@ export function GroupCompanyFormDialog({
                               alt: e.target.value,
                             })
                           }
-                          placeholder="Alt text (optional, for accessibility)"
-                          className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+                          placeholder="Caption / alt text (shown on gallery photos)"
+                          className={inputClass}
+                        />
+                      </div>
+                    )}
+
+                    {block.type === "columns" && (
+                      <div className="space-y-2">
+                        {block.items.map((item, itemIndex) => (
+                          <div
+                            key={itemIndex}
+                            className="flex items-start gap-2"
+                          >
+                            <div className="grid flex-1 gap-2 sm:grid-cols-[8rem_1fr]">
+                              <input
+                                type="text"
+                                value={item.title}
+                                onChange={(e) =>
+                                  updateColumn(index, itemIndex, {
+                                    title: e.target.value,
+                                  })
+                                }
+                                placeholder="Profit"
+                                className={`${inputClass} font-semibold`}
+                              />
+                              <input
+                                type="text"
+                                value={item.text}
+                                onChange={(e) =>
+                                  updateColumn(index, itemIndex, {
+                                    text: e.target.value,
+                                  })
+                                }
+                                placeholder="Strengthening our business for long-term viability."
+                                className={inputClass}
+                              />
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => removeColumn(index, itemIndex)}
+                              className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-gray-400 hover:bg-red-50 hover:text-red-600"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </div>
+                        ))}
+                        <button
+                          type="button"
+                          onClick={() => addColumn(index)}
+                          className="flex items-center gap-1 text-xs font-medium text-gray-600 hover:text-gray-900"
+                        >
+                          <Plus className="h-3.5 w-3.5" /> Add column
+                        </button>
+                      </div>
+                    )}
+
+                    {block.type === "stats" && (
+                      <div className="space-y-2">
+                        {block.items.map((item, itemIndex) => (
+                          <div
+                            key={itemIndex}
+                            className="flex items-start gap-2"
+                          >
+                            <div className="grid flex-1 gap-2 sm:grid-cols-[8rem_1fr]">
+                              <input
+                                type="text"
+                                value={item.value}
+                                onChange={(e) =>
+                                  updateStat(index, itemIndex, {
+                                    value: e.target.value,
+                                  })
+                                }
+                                placeholder="2019"
+                                className={`${inputClass} font-semibold`}
+                              />
+                              <input
+                                type="text"
+                                value={item.label}
+                                onChange={(e) =>
+                                  updateStat(index, itemIndex, {
+                                    label: e.target.value,
+                                  })
+                                }
+                                placeholder="Established"
+                                className={inputClass}
+                              />
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => removeStat(index, itemIndex)}
+                              className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-gray-400 hover:bg-red-50 hover:text-red-600"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </div>
+                        ))}
+                        <button
+                          type="button"
+                          onClick={() => addStat(index)}
+                          className="flex items-center gap-1 text-xs font-medium text-gray-600 hover:text-gray-900"
+                        >
+                          <Plus className="h-3.5 w-3.5" /> Add stat
+                        </button>
+                        <input
+                          type="text"
+                          value={(block.tags ?? []).join(", ")}
+                          onChange={(e) =>
+                            updateBlock(index, {
+                              ...block,
+                              tags: e.target.value.split(","),
+                            })
+                          }
+                          placeholder="Tags, comma separated (e.g. Education, Environmental care)"
+                          className={inputClass}
                         />
                       </div>
                     )}
@@ -637,7 +886,7 @@ export function GroupCompanyFormDialog({
                     sort_order: Number(e.target.value),
                   }))
                 }
-                className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+                className={`mt-1 ${inputClass}`}
               />
             </div>
             <div className="flex items-end pb-2.5">

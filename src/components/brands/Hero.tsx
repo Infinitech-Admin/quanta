@@ -1,56 +1,122 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import { Eyebrow } from "@/components/about/ui";
+import Link from "next/link";
+import { ArrowUpRight, Scroll } from "lucide-react";
 import { motion } from "framer-motion";
+import { HERO_IMAGE, QSTORE_URL } from "./constants";
 
-export function BrandsHero() {
+interface BrandsHeroProps {
+  brandCount?: number;
+  categories?: string[];
+}
+
+const DEFAULT_CATEGORIES = ["Paper", "Personal Care", "Baby Care", "Oral Care"];
+
+export function BrandsHero({
+  brandCount,
+  categories = DEFAULT_CATEGORIES,
+}: BrandsHeroProps) {
+  const [imageFailed, setImageFailed] = useState(false);
+
   return (
-    <section className="relative isolate overflow-hidden py-24 text-[var(--color-cream)] sm:py-32">
-      <Image
-        src="/bg-innerpage.jpg"
-        alt=""
-        fill
-        priority
-        className="object-cover"
+    <section className="relative isolate overflow-hidden bg-gradient-to-br from-[#00693e] via-[#006239] to-[#005a34] text-white">
+      {/* soft glow behind the image */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-24 right-[-10%] h-[360px] w-[460px] rounded-[50%] bg-[#7fc79a]/25 blur-3xl"
       />
 
-      <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-forest-vivid)]/70 via-[var(--color-forest)]/88 to-[var(--color-forest-vivid)]/80" />
-
-      <div className="relative mx-auto max-w-6xl px-6 sm:px-10">
+      {/*
+        The site navbar is fixed (~90px tall), so the top padding clears it.
+        If your navbar height changes, set --navbar-height on :root.
+      */}
+      <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-6 pb-16 pt-[calc(var(--navbar-height,90px)+3rem)] sm:px-10 md:pb-24 md:pt-[calc(var(--navbar-height,90px)+4rem)] lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
         <motion.div
-          initial={{ opacity: 0, x: -200 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          viewport={{ once: true, amount: 0.3 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          <Eyebrow className="text-[var(--color-sun)]">
-            12 Brands · 3 Categories
-          </Eyebrow>
-        </motion.div>
+          {brandCount ? (
+            <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-white/90">
+              {brandCount} brands <span className="mx-2">•</span>{" "}
+              {categories.length}{" "}
+              {categories.length === 1 ? "category" : "categories"}
+            </p>
+          ) : (
+            <p className="h-[14px]" aria-hidden />
+          )}
 
-        <motion.div
-          initial={{ opacity: 0, x: -200 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1.6, ease: "easeOut" }}
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          <h1 className="mt-4 max-w-2xl font-[var(--font-display)] text-5xl leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
-            Every shelf, every home, every need.
+          <h1 className="mt-5 max-w-2xl text-[2.5rem] font-bold leading-[1.04] tracking-[-0.045em] sm:text-5xl lg:text-6xl">
+            Find the right brand for every shelf, every shopper, and every home.
           </h1>
+
+          <p className="mt-6 max-w-lg text-[15px] leading-[1.9] text-white/85">
+            From paper essentials to personal, baby, and oral care,
+            Quanta&rsquo;s portfolio serves different needs and
+            lifestyles—making it easier for households, buyers, and distributors
+            to find the right fit.
+          </p>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href="#brands"
+              className="inline-flex items-center gap-6 rounded-full bg-[#00a651] px-6 py-3.5 text-xs font-bold text-white transition-colors hover:bg-[#009447] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Explore our brands
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </Link>
+            <a
+              href={QSTORE_URL}
+              className="inline-flex items-center gap-6 rounded-full border border-white/60 px-6 py-3.5 text-xs font-bold text-white transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Visit QStore
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </a>
+          </div>
+
+          <ul className="mt-6 flex flex-wrap gap-2.5">
+            {categories.map((c) => (
+              <li key={c}>
+                <Link
+                  href="#brands"
+                  className="inline-block rounded-full bg-white px-4 py-2.5 text-[11px] font-bold text-[#0f4a2c] transition-colors hover:bg-[#e8f3ec]"
+                >
+                  {c}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </motion.div>
 
+        {/* Image card — one oversized rounded corner is the signature shape */}
         <motion.div
-          initial={{ opacity: 0, x: -200 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1.8, ease: "easeOut" }}
-          viewport={{ once: true, amount: 0.3 }}
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, ease: "easeOut", delay: 0.15 }}
+          className="relative mx-auto w-full max-w-xl"
         >
-          <p className="mt-6 max-w-lg text-base leading-relaxed text-[var(--color-cream)]/80 sm:text-lg">
-            From tissue to toothpaste, each brand under Quanta Paper is built on
-            the same promise — quality, affordability, and care for the planet
-            that supplies it.
-          </p>
+          <div className="rounded-[28px] rounded-tl-[96px] bg-white/10 p-3 backdrop-blur-sm sm:rounded-[40px] sm:rounded-tl-[140px] sm:p-4">
+            <div className="relative aspect-[1.6/1] overflow-hidden rounded-[18px] rounded-tl-[80px] bg-gradient-to-br from-[#bfe3c9] to-[#7fc79a] sm:rounded-[28px] sm:rounded-tl-[120px]">
+              {imageFailed ? (
+                // Shown if the photo is missing, so there's never a broken-image box
+                <div className="flex h-full w-full items-center justify-center text-[#0f4a2c]/50">
+                  <Scroll className="h-16 w-16" aria-hidden />
+                </div>
+              ) : (
+                <Image
+                  src={HERO_IMAGE}
+                  alt="Tissue roll and folded napkins beside a green leaf"
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 40vw, 90vw"
+                  className="object-cover"
+                  onError={() => setImageFailed(true)}
+                />
+              )}
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>

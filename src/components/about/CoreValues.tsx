@@ -1,215 +1,159 @@
 "use client";
+import { motion, useReducedMotion } from "framer-motion";
+import { values } from "./content";
+import { Wrap, SectionHead } from "./ui";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { Eyebrow } from "./ui";
-import { coreValues } from "./content";
-import { motion } from "framer-motion";
-import { CoreValuesSkeleton } from "@/components/skeleton/AboutSkeleton";
+// Fixed-size stage (px) measured from the reference design.
+const STAGE_W = 920;
+const STAGE_H = 540;
+const CX = 460; // ring center
+const CY = 298;
+const RINGS = [180, 120, 63]; // outer -> inner ring radii (px)
 
-// Position each value on a circle, starting at 12 o'clock, going clockwise.
-// nodeRadius: where the numbered dot sits. labelRadius: where the text
-// block sits, pushed further out so it never overlaps the ring.
-function useRadialLayout(count: number, nodeRadius = 30, labelRadius = 40) {
-  return Array.from({ length: count }, (_, i) => {
-    const angle = (i / count) * 2 * Math.PI - Math.PI / 2;
-    const cos = Math.cos(angle);
-    const sin = Math.sin(angle);
+// Pin centers (px, inside the stage) and where each label sits.
+//  above  -> label sits above the pin, centered
+//  right  -> label sits below the pin, left edge lined up with the pin
+//  left   -> label sits below the pin, right edge lined up with the pin
+type Place = { x: number; y: number; side: "above" | "right" | "left" };
+const PLACES: Place[] = [
+  { x: 460, y: 67, side: "above" }, // 01
+  { x: 702, y: 101, side: "right" }, // 02
+  { x: 739, y: 274, side: "right" }, // 03
+  { x: 590, y: 471, side: "right" }, // 04
+  { x: 328, y: 471, side: "left" }, // 05
+  { x: 180, y: 274, side: "left" }, // 06
+  { x: 217, y: 101, side: "left" }, // 07
+];
 
-    let align: "left" | "right" | "center" = "center";
-    if (cos > 0.35) align = "left";
-    else if (cos < -0.35) align = "right";
-
-    return {
-      nodeX: 50 + nodeRadius * cos,
-      nodeY: 50 + nodeRadius * sin,
-      labelX: 50 + labelRadius * cos,
-      labelY: 50 + labelRadius * sin,
-      align,
-    };
-  });
-}
+const PIN = 28; // pin diameter (px)
 
 export function CoreValues() {
-  const [isLoading, setIsLoading] = useState(true);
-  const layout = useRadialLayout(coreValues.length);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 4000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isLoading) {
-    return <CoreValuesSkeleton />;
-  }
-
+  const reduce = useReducedMotion();
   return (
-    <section className="relative isolate overflow-hidden bg-white py-16 text-[var(--color-forest-deep)]">
-      {/* Background image layer */}
-      <Image
-        src="/core_values.png"
-        alt=""
-        fill
-        priority
-        aria-hidden="true"
-        className="pointer-events-none z-0 object-cover opacity-40"
-      />
+    <section className="bg-[#f2f4ef] py-24">
+      <Wrap>
+        <SectionHead
+          id="values"
+          center
+          eyebrow="Core values"
+          title="Seven rings. One standard."
+          copy="The principles that shape the way we work, care for people, and build for the future."
+        />
 
-      <div className="relative z-10 mx-auto max-w-6xl px-6 sm:px-10">
-        <div className="text-center">
-          <Eyebrow className="justify-center text-[var(--color-forest)]">
-            Our Core Values
-          </Eyebrow>
-          <h2 className="mx-auto mt-4 max-w-xl font-[var(--font-display)] text-2xl leading-tight sm:text-3xl">
-            Seven Rings. One Standard.
-          </h2>
-          <p className="mx-auto mt-3 max-w-md text-sm text-[var(--color-forest-deep)]/55">
-            Slice a roll and you will find rings running all the way through —
-            ours carry these.
-          </p>
-        </div>
-
-        {/* Desktop / tablet: a literal cross-section — values radiate
-            from a center hub the way growth rings radiate through a
-            roll of paper. This is the signature element.
-            pt-14 gives the top label room to sit above the circle's
-            own bounding box without colliding with the intro copy. */}
-        <div className="relative mx-auto mt-16 hidden aspect-square max-w-[420px] pt-14 lg:block">
+        {/* lg+: fixed-size radial layout */}
+        <div
+          className="relative mx-auto mt-24 mb-24 hidden lg:block"
+          style={{ width: STAGE_W, height: STAGE_H }}
+        >
           <svg
-            viewBox="0 0 100 100"
-            className="absolute inset-0 h-full w-full overflow-visible"
+            viewBox={`0 0 ${STAGE_W} ${STAGE_H}`}
+            width={STAGE_W}
+            height={STAGE_H}
+            className="absolute inset-0 overflow-visible"
+            aria-hidden
           >
-            <circle
-              cx="50"
-              cy="50"
-              r="30"
-              fill="none"
-              stroke="var(--color-forest-deep)"
-              strokeOpacity="0.12"
-              strokeWidth="0.4"
-            />
-            <circle
-              cx="50"
-              cy="50"
-              r="17"
-              fill="none"
-              stroke="var(--color-forest-deep)"
-              strokeOpacity="0.08"
-              strokeWidth="0.4"
-            />
-            {layout.map((p, i) => (
+            {RINGS.map((r) => (
+              <circle
+                key={r}
+                cx={CX}
+                cy={CY}
+                r={r}
+                fill="none"
+                stroke="#b8a04a"
+                strokeWidth="1.5"
+              />
+            ))}
+            {values.map((_, i) => (
               <motion.line
-                key={coreValues[i].name}
-                x1="50"
-                y1="50"
-                x2={p.nodeX}
-                y2={p.nodeY}
-                stroke="var(--color-sun)"
-                strokeOpacity="0.5"
-                strokeWidth="0.3"
-                initial={{ pathLength: 0, opacity: 0 }}
-                whileInView={{ pathLength: 1, opacity: 1 }}
-                transition={{ duration: 0.6, delay: i * 0.08, ease: "easeOut" }}
-                viewport={{ once: true, amount: 0.4 }}
+                key={i}
+                x1={CX}
+                y1={CY}
+                x2={PLACES[i].x}
+                y2={PLACES[i].y}
+                stroke="#b8a04a"
+                strokeWidth="2"
+                initial={reduce ? false : { pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: i * 0.07 }}
               />
             ))}
           </svg>
 
-          {/* Center hub */}
-          <div className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border border-[var(--color-forest-deep)]/15 bg-[var(--color-cream,#F7F5EF)] text-center">
-            <span className="font-[var(--font-display)] text-lg text-[var(--color-forest)]">
+          {/* center hub (covers the inner end of the spokes) */}
+          <div
+            className="absolute flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-[#e8e8e0] ring-1 ring-[#b8a04a]/60"
+            style={{ left: CX, top: CY }}
+          >
+            <span className="text-4xl font-bold leading-none text-[var(--green-deep)]">
               07
             </span>
-            <span className="mt-0.5 text-[8px] uppercase tracking-[0.15em] text-[var(--color-forest-deep)]/50">
-              Values
+            <span className="mt-1 text-[11px] tracking-widest text-[var(--ink)]/60">
+              VALUES
             </span>
           </div>
 
-          {layout.map((p, i) => {
-            const v = coreValues[i];
+          {values.map(([n, c], i) => {
+            const p = PLACES[i];
+            const label: React.CSSProperties =
+              p.side === "above"
+                ? {
+                    left: p.x,
+                    top: p.y - 23,
+                    transform: "translate(-50%, -100%)",
+                  }
+                : p.side === "right"
+                  ? { left: p.x - PIN / 2, top: p.y + 24 }
+                  : {
+                      left: p.x + PIN / 2,
+                      top: p.y + 24,
+                      transform: "translateX(-100%)",
+                    };
+            const align =
+              p.side === "above"
+                ? "text-center"
+                : p.side === "right"
+                  ? "text-left"
+                  : "text-right";
             return (
-              <motion.div
-                key={v.name}
-                className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2"
-                style={{ left: `${p.nodeX}%`, top: `${p.nodeY}%` }}
-                initial={{ opacity: 0, scale: 0.6 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{
-                  duration: 0.4,
-                  delay: i * 0.08 + 0.2,
-                  ease: "easeOut",
-                }}
-                viewport={{ once: true, amount: 0.4 }}
-              >
-                <span className="flex h-6 w-6 items-center justify-center rounded-full border border-[var(--color-sun)] bg-white font-[var(--font-display)] text-[10px] text-[var(--color-sun)]">
+              <div key={n}>
+                <span
+                  className="absolute z-10 flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--green)] bg-white text-[11px] font-bold text-[var(--green-deep)]"
+                  style={{ left: p.x, top: p.y }}
+                >
                   {String(i + 1).padStart(2, "0")}
                 </span>
-              </motion.div>
-            );
-          })}
-
-          {layout.map((p, i) => {
-            const v = coreValues[i];
-            const textAlign =
-              p.align === "left"
-                ? "text-left"
-                : p.align === "right"
-                  ? "text-right"
-                  : "text-center";
-            const translateX =
-              p.align === "left"
-                ? "0%"
-                : p.align === "right"
-                  ? "-100%"
-                  : "-50%";
-
-            return (
-              <div
-                key={`${v.name}-label`}
-                className={`absolute w-28 -translate-y-1/2 ${textAlign}`}
-                style={{
-                  left: `${p.labelX}%`,
-                  top: `${p.labelY}%`,
-                  transform: `translate(${translateX}, -50%)`,
-                }}
-              >
-                <h3 className="font-[var(--font-display)] text-xs leading-tight text-[var(--color-forest-deep)]">
-                  {v.name}
-                </h3>
-                <p className="mt-1 text-[10px] italic leading-snug text-[var(--color-forest)]/70">
-                  {v.copy}
-                </p>
+                <div
+                  className={`absolute whitespace-nowrap ${align}`}
+                  style={label}
+                >
+                  <h3 className="text-base font-bold leading-6 text-[var(--green-deep)]">
+                    {n}
+                  </h3>
+                  <p className="mt-1 text-xs italic leading-4 text-[var(--ink)]/55">
+                    {c}
+                  </p>
+                </div>
               </div>
             );
           })}
         </div>
 
-        {/* Mobile / small tablet fallback: the radial layout doesn't
-            have room to breathe below lg, so it collapses to a 2-up
-            card grid instead of a stacked list. */}
-        <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:hidden">
-          {coreValues.map((v, i) => (
-            <motion.div
-              key={v.name}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: i * 0.06, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.4 }}
-              className="flex flex-col items-center text-center"
-            >
-              <span className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-sun)] font-[var(--font-display)] text-sm text-[var(--color-sun)]">
+        {/* below lg: simple grid */}
+        <ol className="mt-12 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:hidden">
+          {values.map(([n, c], i) => (
+            <li key={n} className="text-center">
+              <span className="mx-auto flex h-10 w-10 items-center justify-center rounded-full border border-[var(--green)] text-sm font-bold text-[var(--green-deep)]">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <h3 className="mt-3 font-[var(--font-display)] text-sm text-[var(--color-forest-deep)]">
-                {v.name}
+              <h3 className="mt-3 text-sm font-bold text-[var(--green-deep)]">
+                {n}
               </h3>
-              <p className="mt-1 text-xs italic leading-snug text-[var(--color-forest)]/70">
-                {v.copy}
-              </p>
-            </motion.div>
+              <p className="mt-1 text-xs italic text-[var(--ink)]/55">{c}</p>
+            </li>
           ))}
-        </div>
-      </div>
+        </ol>
+      </Wrap>
     </section>
   );
 }

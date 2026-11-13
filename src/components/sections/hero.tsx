@@ -1,156 +1,101 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { X } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 
-import { Button } from "@/components/ui/button";
-import { HeroSkeleton } from "@/components/skeleton/HomeSkeleton";
+// Replace with the client's factory photo (building with the Quanta Paper sign,
+// leaves in the top-left corner). Drop it in /public/images/.
+const HERO_IMAGE = "/images/hero-quanta-factory.jpg";
 
-const HERO_IMAGE =
-  "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2400&auto=format&fit=crop";
-
-// Stagger the copy block's children instead of hand-tuning each duration
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6 + i * 0.1, ease: "easeOut" as const },
+    transition: { duration: 0.6, delay: i * 0.1, ease: "easeOut" as const },
   }),
 };
 
-function VideoModal({ onClose }: { onClose: () => void }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4"
-      onClick={onClose}
-    >
-      <div
-        className="relative w-full max-w-4xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Close video"
-          className="absolute right-4 top-4 z-50 items-center justify-center rounded-full bg-cream/10 p-2 text-cream hover:bg-cream/20"
-        >
-          <X />
-        </button>
-
-        <video
-          ref={videoRef}
-          className="aspect-video w-full rounded-xl"
-          src="/videos/quanta.mp4"
-          controls
-          autoPlay
-        />
-      </div>
-    </div>
-  );
-}
-
 export function Hero() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isVideoOpen, setIsVideoOpen] = useState(false);
-
-  // Was previously calling setState directly in the render body, which is
-  // unsafe in React (extra renders, no cleanup on unmount). useEffect fixes it.
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 4000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isLoading) {
-    return <HeroSkeleton />;
-  }
-
   return (
-    <section className="relative z-10 isolate flex min-h-[100vh] w-full items-center overflow-hidden bg-[#a7e667] sm:min-h-[90vh]">
+    <section className="relative isolate flex min-h-[700px] w-full items-center overflow-hidden bg-[#4f7a6b] lg:min-h-[780px]">
       {/* Background photograph */}
       <Image
         src={HERO_IMAGE}
-        alt="Sunlight filtering through a green pine forest"
+        alt="Quanta Paper Corporation factory building surrounded by greenery"
         fill
         priority
         sizes="100vw"
-        className="object-cover"
+        quality={90}
+        className="object-cover object-[65%_center]"
       />
 
-      {/* Forest-toned gradient so text stays legible without hiding the photo */}
-      <div className="absolute inset-0 bg-gradient-to-r from-forest-deep/40 via-forest-deep/50 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#a7e667]/20 via-[#a7e667]/10 to-[#a7e667]/10" />
+      {/* Light wash: just enough on the left for legibility, photo stays clear */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#3d6556]/55 via-[#4f7a6b]/25 to-transparent" />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-20 pt-24 sm:px-6 lg:px-8">
-        <div className="max-w-xl">
-          <motion.div
+      {/* pt-40 clears the overlaid navbar (~94px) so the eyebrow isn't tucked under it */}
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-24 pt-40 xl:px-0">
+        <div className="max-w-[640px]">
+          <motion.p
             custom={0}
             initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            animate="visible"
             variants={fadeInUp}
+            className="text-[11px] font-bold uppercase tracking-[0.18em] text-white"
           >
-            <span className="inline-flex items-center gap-2 rounded-full border border-sun/80 bg-sun/20 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-sun-light backdrop-blur-xl">
-              Rooted since 2003
-            </span>
-          </motion.div>
+            Quanta Paper Corporation · Philippines
+          </motion.p>
 
-          <motion.div
+          <motion.h1
             custom={1}
             initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            animate="visible"
             variants={fadeInUp}
+            className="mt-6 text-5xl font-bold leading-[1.05] tracking-[-0.04em] text-white sm:text-6xl lg:text-7xl"
           >
-            <h1 className="mt-6 font-serif text-4xl leading-[1.05] tracking-tight text-cream sm:text-5xl lg:text-6xl">
-              Quality, affordable, hygienic — since 2003.
-            </h1>
-          </motion.div>
+            Embracing sustainability.
+            <br />
+            Delivering quality.
+          </motion.h1>
 
-          <motion.div
+          <motion.p
             custom={2}
             initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            animate="visible"
             variants={fadeInUp}
+            className="mt-8 max-w-[480px] text-base font-medium leading-[1.85] text-white/90"
           >
-            <p className="mt-5 max-w-md text-base leading-relaxed text-cream/85 sm:text-lg">
-              Over 20 years providing high-quality, affordable, hygienic, and
-              environment-friendly products — made with concern, care, and love.
-            </p>
-          </motion.div>
+            From home and personal care essentials to professional hygiene
+            solutions, Quanta brings quality and value to Filipino homes,
+            businesses, and institutions.
+          </motion.p>
 
           <motion.div
             custom={3}
             initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            animate="visible"
             variants={fadeInUp}
-            className="mt-8 flex flex-wrap items-center gap-4"
+            className="mt-8 flex flex-wrap items-center gap-3"
           >
-            <Button variant="sun" size="lg" asChild>
-              <Link href="/brands">Explore Our Brands</Link>
-            </Button>
-            <Button variant="outline" size="lg" asChild>
-              <Link href="/about">About Us</Link>
-            </Button>
-            <Button
-              variant="default"
-              size="lg"
-              onClick={() => setIsVideoOpen(true)}
+            <Link
+              href="/products"
+              className="inline-flex items-center gap-2 rounded-full bg-[#00a651] px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-[#009147]"
             >
-              Play Video
-            </Button>
+              Explore Our Products
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/businesses"
+              className="inline-flex items-center gap-2 rounded-full bg-[#04472a] px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-[#033a22]"
+            >
+              For Businesses
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </motion.div>
         </div>
       </div>
-
-      {isVideoOpen && <VideoModal onClose={() => setIsVideoOpen(false)} />}
     </section>
   );
 }

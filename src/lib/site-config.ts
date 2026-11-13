@@ -5,12 +5,16 @@ export const siteConfig = {
     "Over 20 years of providing high-quality, affordable, hygienic, and environment-friendly paper products.",
 };
 
+// Order and labels match the design:
+// Home → About Us → Our Group of Companies → Our Brands → News & Events → Careers
 export const mainNav = [
+  { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
-  { label: "Brands", href: "/brands" },
   { label: "Our Group of Companies", href: "/group-of-companies" },
-  { label: "Gallery", href: "/gallery" },
-  { label: "Work With Us", href: "/careers" },
+  { label: "Our Brands", href: "/brands" },
+  // { label: "Gallery", href: "/gallery" },
+  { label: "News & Events", href: "/news" },
+  { label: "Careers", href: "/careers" },
 ];
 
 export const footerNav = {

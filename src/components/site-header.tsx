@@ -1,11 +1,11 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Mail, Menu, Phone } from "lucide-react";
 
-import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -62,6 +62,11 @@ function TwitterMark(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
+// One pill size for BOTH header states, so spacing never shifts on scroll.
+// 38px tall, 10px bold caps, auto width from px-7.
+const pill =
+  "inline-flex h-[38px] items-center justify-center whitespace-nowrap rounded-full px-7 text-[10px] font-bold uppercase tracking-wide transition-colors";
+
 const socialLinks = [
   {
     label: "Facebook",
@@ -95,47 +100,50 @@ export function SiteHeader() {
   const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
 
-  React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
+  // Exact match, or a child route (so "/about" doesn't match "/about-something").
   const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+    href === "/"
+      ? pathname === "/"
+      : pathname === href || pathname.startsWith(`${href}/`);
 
+  // Transparent only while the hero is on screen (home page).
+  // Pages without a #hero (news, about, etc.) always get the solid header.
   React.useEffect(() => {
     const hero = document.getElementById("hero");
 
     const onScroll = () => {
-      if (!hero) return;
-
-      setScrolled(window.scrollY > hero.offsetHeight - 100);
+      setScrolled(hero ? window.scrollY > hero.offsetHeight - 100 : true);
     };
 
     onScroll();
-    window.addEventListener("scroll", onScroll);
-
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [pathname]);
 
   return (
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 h-[90px] md:h-[100px] transition-colors duration-300",
         scrolled
-          ? "bg-cream/95 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-cream/80"
+          ? "border-b border-black/[0.07] bg-[#f7f6f2]"
           : "bg-forest-deep/95 supports-[backdrop-filter]:bg-forest-deep/30",
       )}
     >
-      <div className="mx-auto flex h-25 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      {/* Three zones: logo | nav (centred in the free space) | actions */}
+      <div className="mx-auto flex h-full max-w-[1400px] items-center gap-6 px-4 sm:px-6 xl:px-4">
         <Link href="/" className="shrink-0" aria-label="Go to homepage">
-          <Logo dark={!scrolled} />
+          <Image
+            src="/header-logo.png"
+            alt="Quanta Paper Corporation"
+            width={579}
+            height={168}
+            priority
+            className="h-12 w-auto md:h-14"
+          />
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-10 lg:flex">
+        <nav className="hidden flex-1 items-center justify-center gap-7 xl:flex">
           {mainNav.map((item) => {
             const active = isActive(item.href);
             return (
@@ -143,12 +151,12 @@ export function SiteHeader() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "relative text-md font-medium tracking-wide transition-colors py-1 ",
-                  "after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:transition-transform after:duration-200",
+                  "relative whitespace-nowrap py-1 text-[12px] font-medium uppercase tracking-[0.01em] transition-colors",
+                  "after:absolute after:inset-x-0 after:-bottom-1 after:h-[2px] after:origin-left after:scale-x-0 after:transition-transform after:duration-200",
                   scrolled
                     ? cn(
-                        "text-forest-deep hover:text-forest-light after:bg-forest",
-                        active && "text-forest after:scale-x-100",
+                        "text-[#1f2623] hover:text-[#00A651] after:bg-[#00A651]",
+                        active && "text-[#00A651] after:scale-x-100",
                       )
                     : cn(
                         "text-cream hover:text-sun-light after:bg-sun",
@@ -162,32 +170,37 @@ export function SiteHeader() {
           })}
         </nav>
 
-        {/* Desktop actions — Shop Now is first and sized up slightly so it
-            reads as the highlighted / primary action; Get In Touch and
-            Login follow at their normal size. */}
-        <div className="hidden lg:flex lg:items-center lg:gap-3">
-          <Button
-            variant="sun"
-            size="default"
-            className="px-6 font-semibold shadow-sm"
-            asChild
+        {/* Desktop actions: two equal pills, 8px apart */}
+        <div className="hidden shrink-0 items-center gap-2 xl:flex">
+          <Link
+            href="http://tissuemarket.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(
+              pill,
+              scrolled
+                ? "bg-[#00A651] text-white hover:bg-[#00B85A]"
+                : "bg-sun text-forest-deep hover:bg-sun-light",
+            )}
           >
-            <Link href="http://tissuemarket.com/" target="_blank">
-              Shop Now
-            </Link>
-          </Button>
-
-          <Button variant={scrolled ? "light" : "outline"} size="sm" asChild>
-            <Link href="/contact">Get In Touch</Link>
-          </Button>
-
-          <Button variant={scrolled ? "light" : "outline"} size="sm" asChild>
-            <Link href="/login">Login</Link>
-          </Button>
+            Shop Now
+          </Link>
+          <Link
+            href="/contact"
+            className={cn(
+              pill,
+              "border-2",
+              scrolled
+                ? "border-[#0a1f15] bg-[#0B6E3E] text-white hover:bg-[#0A5A33]"
+                : "border-cream/60 text-cream hover:bg-cream/10",
+            )}
+          >
+            Get In Touch
+          </Link>
         </div>
 
         {/* Mobile nav trigger */}
-        <div className="lg:hidden">
+        <div className="ml-auto xl:hidden">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <button
@@ -209,19 +222,8 @@ export function SiteHeader() {
               <SheetHeader>
                 <SheetTitle className="text-cream">Menu</SheetTitle>
               </SheetHeader>
+              {/* Same list and order as desktop (Home is now part of mainNav) */}
               <nav className="mt-8 flex flex-col gap-1">
-                <Link
-                  href="/"
-                  onClick={() => setOpen(false)}
-                  className={cn(
-                    "rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-cream/10",
-                    pathname === "/"
-                      ? "bg-cream/10 text-sun-light"
-                      : "text-cream/90",
-                  )}
-                >
-                  Home
-                </Link>
                 {mainNav.map((item) => {
                   const active = isActive(item.href);
                   return (
@@ -262,16 +264,6 @@ export function SiteHeader() {
                 >
                   <Link href="/contact" onClick={() => setOpen(false)}>
                     Get In Touch
-                  </Link>
-                </Button>
-
-                <Button
-                  variant="outline"
-                  className="w-full border-cream/40 text-cream hover:bg-cream/10"
-                  asChild
-                >
-                  <Link href="/login" onClick={() => setOpen(false)}>
-                    Login
                   </Link>
                 </Button>
               </div>

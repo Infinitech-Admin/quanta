@@ -1,26 +1,33 @@
 import { Suspense } from "react";
 import { Hero } from "@/components/sections/hero";
-import { WhyChooseUs } from "@/components/sections/why-choose-us";
+import { SolutionsPicker } from "@/components/sections/solutions-picker";
+import { OurStory } from "@/components/sections/our-story";
+import { QuantaPromise } from "@/components/sections/quanta-promise";
 import { BrandsShowcase } from "@/components/sections/brands-showcase";
 import { BrandsShowcaseSkeleton } from "@/components/skeleton/HomeSkeleton";
 import { FlagshipProduct } from "@/components/sections/flagship-product";
 import { Certifications } from "@/components/sections/certifications";
 import { OurCustomers } from "@/components/sections/our-customers";
-import { GroupOfCompanies } from "@/components/sections/group-of-companies";
+import { Newsroom } from "@/components/sections/newsroom";
 import { CtaBanner } from "@/components/sections/cta-banner";
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <WhyChooseUs />
+      <SolutionsPicker />
+      <OurStory />
+      <QuantaPromise />
       <Suspense fallback={<BrandsShowcaseSkeleton />}>
         <BrandsShowcase />
       </Suspense>
       <FlagshipProduct />
       <Certifications />
       <OurCustomers />
-      <GroupOfCompanies />
+      {/* async server component (fetches /api/news), so it gets its own Suspense */}
+      <Suspense fallback={null}>
+        <Newsroom />
+      </Suspense>
       <CtaBanner />
     </>
   );

@@ -3,11 +3,16 @@
 // is served.
 //
 // .env.local:
-//   NEXT_PUBLIC_IMAGE_URL=https://infinitech-api14.site
-const IMAGE_BASE_URL = (process.env.NEXT_PUBLIC_IMAGES_URL ?? "").replace(
-  /\/$/,
-  "",
-);
+//   NEXT_PUBLIC_IMAGES_URL=https://infinitech-api14.site
+//
+// (NEXT_PUBLIC_IMAGE_URL without the S is also accepted, since both spellings
+// were used before. NEXT_PUBLIC_* values are baked in at build/start time, so
+// restart `npm run dev` after changing .env.local.)
+const IMAGE_BASE_URL = (
+  process.env.NEXT_PUBLIC_IMAGES_URL ??
+  process.env.NEXT_PUBLIC_IMAGE_URL ??
+  ""
+).replace(/\/$/, "");
 
 /**
  * Resolves a possibly-relative image path to a fully-qualified URL.

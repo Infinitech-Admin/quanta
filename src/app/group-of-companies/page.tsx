@@ -1,23 +1,11 @@
-import type { CSSProperties } from "react";
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import { Hero } from "@/components/our-group/Hero";
-import { CompanyTabs } from "@/components/our-group/CompanyTabs";
-// import { FoundationFunds } from "@/components/our-group/FoundationFunds";
+import { CompanyExplorer } from "@/components/our-group/CompanyExplorer";
 import { ClosingCta } from "@/components/our-group/ClosingCta";
 
-// Type system
-// Fraunces: a warm, slightly industrial serif, used with restraint for
-// display moments only (headlines, big stats, pull quotes).
-// Inter: quiet, legible workhorse for everything people actually read.
-// Both are variable fonts, so no explicit weight list is needed.
-const display = Fraunces({
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  variable: "--font-display",
-  display: "swap",
-});
-
+// One quiet, legible family for the whole page. Headlines get their
+// personality from weight and tight tracking instead of a second typeface.
 const body = Inter({
   subsets: ["latin"],
   variable: "--font-body",
@@ -33,25 +21,16 @@ export const metadata: Metadata = {
 export default function OurGroupOfCompaniesPage() {
   return (
     <main
-      className={`${display.variable} ${body.variable} relative overflow-hidden bg-[var(--paper)] text-[var(--ink)] font-[var(--font-body)]`}
-      style={
-        {
-          "--ink": "#16241B",
-          "--forest": "#3E7B3F",
-          "--forest-deep": "#1F4D2E",
-          "--forest-light": "#4c8a55",
-          "--forest-vivid": "#2ea043",
-          "--leaf": "#6FA85A",
-          "--sunlight": "#B8C97A",
-          "--paper": "#F7F5EC",
-          "--kraft": "#B07A32",
-          "--mist": "#E1EDD9",
-        } as CSSProperties
-      }
+      className={`${body.variable} relative overflow-hidden bg-[#F7F7F2] font-[var(--font-body)] text-[#16241B]`}
     >
+      {/* 1. Hero: "One vision. Four ways to make an impact." */}
       <Hero />
-      <CompanyTabs />
-      {/* <FoundationFunds /> */}
+
+      {/* 2. Meet the companies (cards) → 3. selected company detail →
+          4. "How we operate" (manufacturing only) / community banner (community only) */}
+      <CompanyExplorer />
+
+      {/* 5. "Let's grow something meaningful." */}
       <ClosingCta />
     </main>
   );

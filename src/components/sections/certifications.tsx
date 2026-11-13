@@ -1,182 +1,96 @@
 "use client";
-import { useState } from "react";
+
+import Link from "next/link";
+import { BadgeCheck, Leaf, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
-import { ShieldCheck, Leaf, BadgeCheck } from "lucide-react";
-import { CertificationsSkeleton } from "../skeleton/HomeSkeleton";
 
 const certs = [
-  { name: "ISO 9001:2015", detail: "Quality management", icon: ShieldCheck },
   {
+    eyebrow: "Quality Management",
+    name: "ISO 9001:2015",
+    detail: "Quality management system",
+    icon: ShieldCheck,
+  },
+  {
+    eyebrow: "Environmental Recognition",
     name: "Green Choice Philippines",
-    detail: "Environmental seal",
+    detail: "Environmental seal program",
     icon: Leaf,
   },
-  { name: "Halal IDCP", detail: "Halal certified", icon: BadgeCheck },
+  {
+    eyebrow: "Halal Certification",
+    name: "Halal IDCP",
+    detail: "Halal certification",
+    icon: BadgeCheck,
+  },
 ];
 
 export function Certifications() {
-
-   const [isLoading, setIsLoading] = useState(true);
- 
-   if (isLoading) {
-     setTimeout(() => setIsLoading(false), 4000);
-     return <CertificationsSkeleton />;
-   }
- 
-
   return (
-    <section className="paper-grain relative overflow-hidden bg-[var(--color-sage-light)] py-16 md:py-20 px-6 md:px-16">
-      <div className="relative max-w-6xl mx-auto">
+    <section className="bg-[#f7f6f2] px-6 py-20 md:py-24">
+      <div className="mx-auto max-w-6xl">
+        {/* ── Header ── */}
         <motion.div
-          initial={{ opacity: 0, x: -200 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           viewport={{ once: true, amount: 0.3 }}
+          className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between"
         >
-          <div className="mb-10 flex items-center justify-center gap-4">
-            <span className="h-px w-10 bg-[var(--color-forest-light)] border-2 border-[var(--color-forest-vivid)]" />
-            <p className="text-sm font-extrabold uppercase tracking-[0.3em] text-[var(--color-forest-vivid)]">
-              Tested and certified
-            </p>
-            <span className="h-px w-10 bg-[var(--color-forest-light)] border-2 border-[var(--color-forest-vivid)]" />
-          </div>
+          <h2 className="text-4xl font-bold leading-[1.1] tracking-[-0.04em] text-[#0f3f2a] md:text-5xl">
+            Backed by standards.
+            <br />
+            Built on trust.
+          </h2>
+
+          <p className="max-w-[410px] border-l border-[#3b7d57] py-1 pl-6 text-sm leading-[1.9] text-[#5b6460] md:mt-2">
+            Quality matters in every product we make. Our commitment is
+            supported by recognized quality-management, environmental, and Halal
+            standards.
+          </p>
         </motion.div>
 
-        <div className="grid items-center gap-14 md:grid-cols-2">
-          {/* certificate plaque */}
-
-          <motion.div
-            initial={{ opacity: 0, x: -200 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <div className="flex justify-center md:justify-start">
-              <div className="relative w-full max-w-sm pt-10">
-                {/* seal, stamped onto the top edge of the plaque */}
-                <div className="absolute left-1/2 top-0 z-20 -translate-x-1/2">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full border-[3px] border-[var(--color-forest-light)] bg-[var(--color-forest-deep)] shadow-md">
-                    <span className="font-serif text-xl italic text-[var(--color-cream)]">
-                      Q
-                    </span>
-                  </div>
-                  <svg
-                    width="44"
-                    height="18"
-                    viewBox="0 0 52 22"
-                    className="absolute left-1/2 -bottom-2 -translate-x-1/2"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M10 0 L1 20 L15 13 Z"
-                      fill="var(--color-forest-deep)"
-                    />
-                    <path
-                      d="M42 0 L51 20 L37 13 Z"
-                      fill="var(--color-forest-deep)"
-                    />
-                  </svg>
-                </div>
-
-                {/* the plaque itself */}
-                <div className="relative rounded-sm border border-[var(--color-forest-light)]/50 bg-white px-7 pb-7 pt-12 shadow-[0_20px_40px_-20px_rgba(30,59,42,0.35)]">
-                  <div className="pointer-events-none absolute inset-[6px] rounded-sm border border-[var(--color-forest-light)]/20" />
-
-                  <p className="relative mb-1 text-center text-[11px] font-semibold uppercase tracking-[0.25em] text-[var(--color-forest-deep)]">
-                    Quanta Paper
-                  </p>
-                  <div className="relative mx-auto mb-4 h-px w-16 bg-[var(--color-forest-light)]/50" />
-
-                  <div className="relative divide-y divide-dashed divide-[var(--color-forest-light)]/30">
-                    {certs.map((cert) => (
-                      <div
-                        key={cert.name}
-                        className="flex items-center gap-3 py-2.5 first:pt-0 last:pb-0"
-                      >
-                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[var(--color-forest-vivid)]/40 bg-[var(--color-sage-light)]">
-                          <cert.icon className="h-4 w-4 text-[var(--color-forest-vivid)]" />
-                        </span>
-                        <div>
-                          <p className="text-sm font-semibold text-[var(--color-forest-deep)]">
-                            {cert.name}
-                          </p>
-                          <p className="text-[11px] text-[var(--color-forest-deep)]/60">
-                            {cert.detail}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+        {/* ── Cards ── */}
+        <div className="mt-12 grid gap-5 md:grid-cols-3">
+          {certs.map(({ eyebrow, name, detail, icon: Icon }, i) => (
+            <motion.article
+              key={name}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: i * 0.12, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.2 }}
+              className="flex flex-col items-center rounded-2xl border border-b-[5px] border-black/[0.07] border-b-[#2a8a57] bg-gradient-to-b from-white to-[#fafcfa] px-6 pb-9 pt-7 text-center shadow-[0_18px_40px_-22px_rgba(15,63,42,0.35)] transition-transform duration-300 hover:-translate-y-1"
+            >
+              {/* concentric icon rings */}
+              <div className="flex h-[118px] w-[118px] items-center justify-center rounded-full bg-[#e9f2ea]">
+                <div className="flex h-[100px] w-[100px] items-center justify-center rounded-full border border-[#bcdcc7] bg-[#e1f1e6]">
+                  <Icon
+                    className="h-10 w-10 text-[#1f7a4a]"
+                    strokeWidth={1.4}
+                  />
                 </div>
               </div>
-            </div>
-          </motion.div>
 
-          {/* copy */}
-
-          <div>
-            <motion.div
-              initial={{ opacity: 0, x: -200 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1.2, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <h3 className="font-serif font-extrabold mb-4 text-3xl text-[var(--color-forest)] md:text-4xl font-semibold">
-                100% trusted by many
+              <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.2em] text-[#3d7a5b]">
+                {eyebrow}
+              </p>
+              <h3 className="mt-3 text-2xl font-bold tracking-tight text-[#0f3f2a]">
+                {name}
               </h3>
-            </motion.div>
+              <p className="mt-2 text-[13px] text-[#5b6460]">{detail}</p>
+            </motion.article>
+          ))}
+        </div>
 
-            <motion.div
-              initial={{ opacity: 0, x: -200 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <p className="mb-3 leading-relaxed text-sm md:text-base text-[var(--color-forest-deep)]/80">
-                To ensure the consistent quality of our products and services,
-                we put in place an{" "}
-                <strong className="text-[var(--color-forest-deep)]">
-                  ISO 9001:2015
-                </strong>{" "}
-                certified Quality Management System that aims to meet customer,
-                statutory and regulatory requirements. Year-round compliance
-                audits help us remain steadfast in our commitment to create
-                products people can rely on, every day.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: -200 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <p className="mb-3 leading-relaxed text-sm md:text-base text-[var(--color-forest-deep)]/80">
-                We&apos;re the only tissue manufacturer in the Philippines whose
-                paper products carry the Green Choice Seal of Approval —
-                certifying sustainable practices that protect the environment,
-                in accordance with standards set by the{" "}
-                <strong className="text-[var(--color-forest-deep)]">
-                  Philippine Center of Environmental Protection and Sustainable
-                  Development (PCEPSDI)
-                </strong>
-                .
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: -200 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <p className="leading-relaxed text-sm md:text-base text-[var(--color-forest-deep)]/80">
-                Our Halal certification guarantees our products and services
-                meet the requirements of Islamic law, making them acceptable for
-                the Muslim population.
-              </p>
-            </motion.div>
-          </div>
+        {/* ── Footer row ── */}
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+         
+          <Link
+            href="/about"
+            className="text-sm font-bold text-[#00a651] transition-opacity hover:opacity-80"
+          >
+            Learn More About Quanta →
+          </Link>
         </div>
       </div>
     </section>

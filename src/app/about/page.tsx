@@ -1,69 +1,49 @@
 import type { Metadata } from "next";
-import { Fraunces, Roboto } from "next/font/google";
+import { Roboto } from "next/font/google";
 import { Hero } from "@/components/about/Hero";
+import { SectionNav } from "@/components/about/SectionNav";
 import { OurHistory } from "@/components/about/OurHistory";
-import { DistributionCenters } from "@/components/about/DistributionCenters";
-import { WhoWeAre } from "@/components/about/WhoWeAre";
+import { MissionVision } from "@/components/about/MissionVision";
 import { CoreValues } from "@/components/about/CoreValues";
+import { Locations } from "@/components/about/Locations";
+import { DistributionCenters } from "@/components/about/DistributionCenters";
 import { Certifications } from "@/components/about/Certifications";
-import { HeadOffice } from "@/components/about/HeadOffice";
-// import { ClosingCta } from "@/components/about/ClosingCta";
-
-// ————————————————————————————————————————————————————————————————
-// Type system
-// Fraunces: a warm, slightly industrial serif — used with restraint for
-// display moments only (headlines, big stats, pull quotes).
-// Inter: quiet, legible workhorse for everything people actually read.
-// Both are exposed as CSS variables on <main> below, so every section
-// component can reference font-[var(--font-display)] / --font-body
-// without importing next/font itself.
-// ————————————————————————————————————————————————————————————————
-const display = Fraunces({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
-  variable: "--font-display",
-});
+import { ClosingCta } from "@/components/about/ClosingCta";
 
 const body = Roboto({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "700"],
   variable: "--font-body",
 });
 
 export const metadata: Metadata = {
   title: "About Us | Quanta Paper Corporation",
   description:
-    "Established in 2003, Quanta Paper Corporation is the Philippines' largest tissue manufacturer — built on quality, sustainability, and care for the Filipino household.",
+    "Established in 2003, Quanta Paper Corporation is built on quality, sustainability, and care for the Filipino household.",
 };
 
 export default function AboutPage() {
   return (
     <main
-      className={`${display.variable} ${body.variable} relative overflow-hidden bg-[var(--paper)] text-[var(--ink)] font-[var(--font-body)]`}
+      className={`${body.variable} font-[var(--font-body)] text-[var(--ink)] [scroll-behavior:smooth]`}
       style={
         {
-          "--ink": "#16241B",
-          "--forest": "#145C36",
-          "--forest-deep": "#0B3B22",
-          "--forest-light": "#4c8a55",
-          "--forest-vivid": "#2ea043",
-          "--paper": "#F6F2E7",
-          "--mustard": "#dbac6f",
-          "--kraft": "#B07A32",
-          "--mist": "#E4EDE6",
+          "--ink": "#222826",
+          "--green": "#006b3f",
+          "--green-deep": "#0b3b22",
+          "--paper": "#f7f6f2",
         } as React.CSSProperties
       }
     >
       <Hero />
+      <SectionNav />
       <OurHistory />
-      <HeadOffice />
-      <DistributionCenters />
+      <MissionVision />
       <CoreValues />
-      <WhoWeAre />
-
+      <Locations />
+      <DistributionCenters />
       <Certifications />
-      {/* <ClosingCta /> */}
+      <ClosingCta />
     </main>
   );
 }

@@ -1,248 +1,73 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { FlagshipProductSkeleton } from "../skeleton/HomeSkeleton";
-import { useState } from "react";
+
+// Your existing product image in /public/brands/. The design shows a wide
+// photo (products on a wooden table, plants in the background); a cutout PNG
+// also works, but the right side will look better with the full scene photo.
+const PRODUCT_IMAGE = "/brands/fresh-tissue.png";
 
 export function FlagshipProduct() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  if (isLoading) {
-    setTimeout(() => setIsLoading(false), 4000);
-    return <FlagshipProductSkeleton />;
-  }
-
   return (
-    <section className="section-green-gradient relative overflow-hidden py-14 md:py-16 px-6 md:px-16">
-      {/* soft ambient glow, top right — gives the green depth instead of a flat gradient */}
-      <div className="pointer-events-none absolute -top-24 -right-24 h-[420px] w-[420px] rounded-full bg-white/10 blur-3xl" />
+    <section className="bg-[#f7f6f2] px-6 pb-12 pt-0 md:pb-24">
+      <motion.div
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        viewport={{ once: true, amount: 0.25 }}
+        className="mx-auto grid max-w-6xl overflow-hidden rounded-3xl bg-[#1b5c3f] shadow-sm md:grid-cols-[45fr_55fr]"
+      >
+        {/* ── Copy panel ── */}
+        <div
+          className="relative flex flex-col justify-center overflow-hidden px-8 py-12 md:px-12"
+          style={{
+            background: "linear-gradient(135deg, #1a5a3d 0%, #1f6849 100%)",
+          }}
+        >
+          {/* thin decorative circle, centred on the panel's top-right corner */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-[235px] -top-[235px] h-[470px] w-[470px] rounded-full border border-white/10"
+          />
 
-      <div className="relative max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
-        {/* left: story */}
-        <div className="text-[var(--color-cream)] z-10">
-          <motion.div
-            initial={{ opacity: 0, x: -200 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 0.6,
-              ease: "easeOut",
-            }}
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <div className="flex items-center gap-2 mb-4">
-              <span className="h-px w-8 bg-[var(--color-sun)]" />
-              <p className="text-sm font-extrabold tracking-widest uppercase text-[var(--color-sun-light)]">
-                Our Flagship Product
-              </p>
-            </div>
-          </motion.div>
+          <p className="relative text-[10px] font-bold uppercase tracking-[0.22em] text-[#cfe8a8]">
+            Featured Product
+          </p>
+          <h2 className="relative mt-4 text-4xl font-bold leading-[1.1] tracking-[-0.03em] text-white">
+            Fresh Premium
+            <br />
+            Eco-Pulp
+          </h2>
+          <p className="relative mt-5 max-w-md text-sm leading-[1.9] text-white/90">
+            Discover a tissue line featuring plant-based pulp such as sugarcane
+            and bamboo—part of Quanta&apos;s approach to paper innovation.
+          </p>
 
-          {/* leaf-shaped brand mark — swap for /brands/fresh-logo.png if you have the real file */}
-          <motion.div
-            initial={{ opacity: 0, x: -200 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 0.7,
-              ease: "easeOut",
-            }}
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <div className="relative h-36 w-44 mb-6">
-              <svg
-                viewBox="0 0 120 100"
-                className="h-full w-full drop-shadow-sm"
-              >
-                <path
-                  d="M10 55 C10 20 45 5 105 8 C108 55 85 92 30 92 C16 92 10 75 10 55 Z"
-                  fill="var(--color-forest-deep)"
-                  stroke="var(--color-sun)"
-                  strokeWidth="3"
-                />
-                <text
-                  x="60"
-                  y="52"
-                  textAnchor="middle"
-                  fill="var(--color-cream)"
-                  fontSize="26"
-                  fontStyle="italic"
-                  fontFamily="Georgia, serif"
-                >
-                  Fresh
-                </text>
-                <text
-                  x="22"
-                  y="71"
-                  textAnchor="start"
-                  fill="var(--color-cream-dim)"
-                  fontSize="6.5"
-                  letterSpacing="0.3"
-                  textLength="66"
-                  lengthAdjust="spacingAndGlyphs"
-                  fontFamily="ui-sans-serif, system-ui"
-                >
-                  BATHROOM TISSUE
-                </text>
-              </svg>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: -200 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 0.8,
-              ease: "easeOut",
-            }}
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <h2 className="font-sans font-extrabold text-3xl md:text-4xl leading-tight mb-2">
-              FRESH PREMIUM
-              <br />
-              <span className="text-[var(--color-sun-light)]">ECO-PULP</span>
-            </h2>
-            {/* fiber-strand underline — small hand-drawn nod to the pulp itself */}
-            <svg
-              width="130"
-              height="12"
-              viewBox="0 0 130 12"
-              className="mb-4"
-              aria-hidden="true"
+          <div className="relative mt-8">
+            <Link
+              href="/brands#brands"
+              className="inline-flex items-center gap-2 rounded-full bg-[#f7f6f2] px-6 py-3.5 text-[13px] font-bold text-[#0b5a32] transition-colors hover:bg-white"
             >
-              <path
-                d="M2 7 C 18 1, 32 12, 48 6 S 78 0, 94 6 S 122 11, 128 5"
-                stroke="var(--color-sun)"
-                strokeWidth="2"
-                strokeLinecap="round"
-                fill="none"
-              />
-            </svg>{" "}
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: -200 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 0.9,
-              ease: "easeOut",
-            }}
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <div className="border-l-2 border-[var(--color-sun)] pl-3 mb-4">
-              <p className="font-bold text-base uppercase tracking-wide text-[var(--color-sun-light)]">
-                Made with premium eco-pulp
-              </p>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: -200 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 1,
-              ease: "easeOut",
-            }}
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <p className="text-[var(--color-cream)]/85 mb-3 max-w-md leading-relaxed text-sm md:text-base">
-              The NEW FRESH offers high quality tissue thats absorbent,
-              hygienic, and environment-friendly, with an attractive packaging
-              design. It is made from Premium Eco-Pulp — high quality
-              eco-friendly materials mixed with{" "}
-              <span className="font-semibold text-[var(--color-sun-light)]">
-                sustainable plant-based pulp
-              </span>{" "}
-              such as sugarcane and bamboo plant. Using FRESH, we help save the
-              environment, save energy, protect our natural resources and
-              preserve our trees.
-            </p>
-          </motion.div>
-
-          {/* feature chips instead of a third plain paragraph */}
-          <div className="flex flex-wrap gap-3 mt-5">
-            {[
-              "Sugarcane & bamboo pulp",
-              "Fully biodegradable",
-              "Trees kept standing",
-            ].map((label, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 200 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                // transition={{ duration: 0.5 }}
-                transition={{
-                  duration: 0.8,
-                  delay: index * 0.2,
-                  ease: "easeOut",
-                }}
-                viewport={{ once: true, amount: 0.3 }}
-              >
-                <div
-                  key={label}
-                  className="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-sm"
-                >
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 12 12"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M6 0C6 4 2 5 0 8c3 0 4.5-1 6-3.5C7.5 7 9 8 12 8c-2-3-6-4-6-8Z"
-                      fill="var(--color-sun-light)"
-                    />
-                  </svg>
-                  <span className="text-xs font-medium text-[var(--color-cream)]">
-                    {label}
-                  </span>
-                </div>
-              </motion.div>
-            ))}
+              Explore Paper Products
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </div>
 
-        {/* right: image bleeds toward the edge, oversized, with feathered edges so the PNG's flat rectangle disappears into the green */}
-
-        <motion.div
-          initial={{ opacity: 0, x: 200 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{
-            duration: 2,
-            ease: "easeOut",
-          }}
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          <div className="relative h-[260px] md:h-[400px] overflow-visible">
-            {/* soft glow behind the roll for depth */}
-            <div className="absolute right-[-48%] md:right-[-54%] top-[58%] h-[150%] md:h-[175%] -translate-y-1/2 rounded-full bg-white/10 blur-2xl"></div>
-
-            {/* grounding shadow so the roll feels staged, not floating */}
-            <div className="absolute bottom-[12%] right-[2%] h-8 w-56 rounded-full bg-black/20 blur-md" />
-
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/brands/fresh-tissue.png"
-              alt="Fresh premium eco-pulp tissue roll"
-              className="absolute right-[-20%] sm:right-[-48%] md:right-[-54%] top-[44%] lg:top-[55%] h-[150%] sm:h-[150%] md:h-[175%] w-auto max-w-none -translate-y-[46%] object-contain motion-safe:transition-transform motion-safe:duration-700 hover:-rotate-2"
-              style={{
-                WebkitMaskImage:
-                  "radial-gradient(ellipse 62% 62% at 55% 50%, black 58%, transparent 88%)",
-                maskImage:
-                  "radial-gradient(ellipse 62% 62% at 55% 50%, black 58%, transparent 88%)",
-              }}
-            />
-
-            {/* gold-ringed badge, echoing the logo's gold outline */}
-            <div className="absolute bottom-[6%] left-[18%] flex h-16 w-16 sm:h-20 sm:w-20 -rotate-6 flex-col items-center justify-center rounded-full border-2 border-[var(--color-sun)] bg-[var(--color-forest-deep)]/90 text-center shadow-md">
-              <span className="text-[10px] sm:text-[11px] font-extrabold text-[var(--color-cream)]">
-                100%
-              </span>
-              <span className="text-[7px] sm:text-[8px] font-semibold uppercase tracking-wide text-[var(--color-cream-dim)] leading-tight px-1">
-                Eco-Pulp
-              </span>
-            </div>
-          </div>
-        </motion.div>
-      </div>
+        {/* ── Product photo ── */}
+        <div className="relative min-h-[260px] md:min-h-[317px]">
+          <Image
+            src={PRODUCT_IMAGE}
+            alt="Fresh Premium Eco-Pulp tissue products on a wooden table"
+            fill
+            sizes="(min-width: 768px) 640px, 100vw"
+            className="object-cover"
+          />
+        </div>
+      </motion.div>
     </section>
   );
 }
