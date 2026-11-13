@@ -1,3 +1,5 @@
+import type { IconShape } from "./ui";
+
 export const nav = [
   ["Our History", "history"],
   ["Mission & Vision", "mission"],
@@ -38,6 +40,43 @@ export const vision =
   "A reputable brand builder of high-quality, affordable, hygienic and environment-friendly products with concern, care, and love—people can rely on every day.";
 export const mission =
   "Build a market-centric and highly competent organization through innovative and caring solutions for all partners and stakeholders. We learn, grow, and contribute together as one.";
+
+/* ---------- Added: used by WhoWeAre (5-column grid) ---------- */
+export const brandPromise: string[] = [
+  "High-quality products made to a consistent standard.",
+  "Affordable, so every household can rely on them.",
+  "Hygienic from the mill floor to the shelf.",
+  "Environment-friendly in materials and methods.",
+  "Made with concern, care, and love.",
+];
+
+/* ---------- Added: used by WhoWeAre (4-column grid) ---------- */
+export const growthModel: {
+  title: string;
+  copy: string;
+  shape: IconShape;
+}[] = [
+  {
+    title: "Learn",
+    copy: "We listen to partners and markets, and keep improving how we work.",
+    shape: "leaf",
+  },
+  {
+    title: "Grow",
+    copy: "We scale quality deliberately, one brand and one line at a time.",
+    shape: "roll",
+  },
+  {
+    title: "Contribute",
+    copy: "We give back to the people and communities who rely on us.",
+    shape: "heart",
+  },
+  {
+    title: "Together as one",
+    copy: "We protect the environment and move forward as one team.",
+    shape: "drop",
+  },
+];
 
 export const values = [
   ["Passion for Excellence", "Continuous Improvement"],

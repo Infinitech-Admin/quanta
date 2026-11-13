@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Eyebrow, Icon, PaperRollMark, type IconShape } from "./ui";
+import { useEffect, useState } from "react";
+import { Eyebrow, Icon, PaperRollMark } from "./ui";
 import { brandPromise, growthModel } from "./content";
 import { motion } from "framer-motion";
 import { WhoWeAreSkeleton } from "@/components/skeleton/AboutSkeleton";
@@ -9,10 +9,13 @@ import { WhoWeAreSkeleton } from "@/components/skeleton/AboutSkeleton";
 export function WhoWeAre() {
   const [isLoading, setIsLoading] = useState(true);
 
-  if (isLoading) {
-    setTimeout(() => setIsLoading(false), 4000);
-    return <WhoWeAreSkeleton />;
-  }
+  // Timer lives in an effect (not render) and is cleaned up on unmount.
+  useEffect(() => {
+    const t = setTimeout(() => setIsLoading(false), 4000);
+    return () => clearTimeout(t);
+  }, []);
+
+  if (isLoading) return <WhoWeAreSkeleton />;
 
   return (
     <section className="section-green-gradient paper-grain relative overflow-hidden text-[var(--color-cream)]">
@@ -121,9 +124,9 @@ export function WhoWeAre() {
         <div className="grid divide-y divide-[var(--color-cream)]/15 border-b border-[var(--color-cream)]/15 sm:grid-cols-5 sm:divide-x sm:divide-y-0">
           {brandPromise.map((line, index) => (
             <motion.div
-              key={index}
+              key={line}
               initial={{ opacity: 0, x: -180 }}
-              whileInView={{ opacity: 1, x: 1 }}
+              whileInView={{ opacity: 1, x: 0 }}
               transition={{
                 duration: 1,
                 delay: index * 0.2,
@@ -131,10 +134,7 @@ export function WhoWeAre() {
               }}
               viewport={{ once: true, amount: 0.3 }}
             >
-              <div
-                key={line}
-                className="flex flex-col gap-3 mx-5 py-7 pr-6 first:pl-0 sm:pl-6"
-              >
+              <div className="mx-5 flex flex-col gap-3 py-7 pr-6 first:pl-0 sm:pl-6">
                 <span className="font-[var(--font-fraunces)] text-sm text-[var(--color-sun)]">
                   {String(index + 1).padStart(2, "0")}
                 </span>
@@ -149,9 +149,9 @@ export function WhoWeAre() {
         <div className="grid sm:grid-cols-4">
           {growthModel.map((g, index) => (
             <motion.div
-              key={index}
+              key={g.title}
               initial={{ opacity: 0, x: -180 }}
-              whileInView={{ opacity: 1, x: 1 }}
+              whileInView={{ opacity: 1, x: 0 }}
               transition={{
                 duration: 1,
                 delay: index * 0.2,
@@ -160,7 +160,6 @@ export function WhoWeAre() {
               viewport={{ once: true, amount: 0.3 }}
             >
               <div
-                key={g.title}
                 className={`mx-2 py-9 pr-6 first:pl-0 sm:pl-6 ${
                   index !== growthModel.length - 1
                     ? "border-b border-[var(--color-cream)]/15 sm:border-b-0 sm:border-r"
@@ -168,7 +167,7 @@ export function WhoWeAre() {
                 }`}
               >
                 <Icon
-                  shape={g.shape as IconShape}
+                  shape={g.shape}
                   className="h-7 w-7 text-[var(--color-sun)]"
                 />
                 <h4 className="mt-4 font-[var(--font-fraunces)] text-lg text-[var(--color-cream)]">
