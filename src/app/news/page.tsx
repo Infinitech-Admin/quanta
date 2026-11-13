@@ -1,6 +1,7 @@
 // app/news/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { NewsList } from "@/components/news/NewsList";
 import { getNews, formatDate } from "@/lib/news";
 
@@ -13,8 +14,18 @@ export default async function NewsPage() {
   return (
     <main className="min-h-screen bg-[#F7F5EC]">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#0A5A33] via-[#0B6E3E] to-[#0E7C45] px-4 pb-20 pt-32 text-white sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-6xl">
+      <section className="relative isolate items-start bg-[#4f7a6b] px-4 pb-20 pt-40 text-white sm:px-6 lg:px-8">
+        <Image
+          src="/images/MAIN-BANNER.png"
+          alt="Quanta Paper Corporation factory building surrounded by greenery"
+          fill
+          priority
+          sizes="100vw"
+          quality={90}
+          className="object-cover"
+        />
+
+        <div className="relative z-10 mx-auto max-w-6xl">
           <p className="text-[11px] font-bold uppercase tracking-[0.18em]">
             News &amp; Events &nbsp;•&nbsp; The people behind the paper
           </p>

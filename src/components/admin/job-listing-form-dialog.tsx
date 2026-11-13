@@ -6,8 +6,9 @@ import {
   DEPARTMENTS,
   JobListing,
   JobListingFormValues,
+  JobSection,
 } from "@/types/job-listing";
-import { BulletListField } from "@/components/admin/bullet-list-field";
+import { SectionsField } from "@/components/admin/sections-field";
 
 interface JobListingFormDialogProps {
   open: boolean;
@@ -23,10 +24,7 @@ const emptyValues: JobListingFormValues = {
   location: "",
   department: DEPARTMENTS[0],
   job_summary: "",
-  education: [""],
-  work_experience: [""],
-  competencies_skills: [""],
-  key_responsibilities: [""],
+  sections: [{ title: "", items: [""] }],
   is_active: true,
 };
 
@@ -38,31 +36,46 @@ function slugify(value: string) {
     .replace(/(^-|-$)+/g, "");
 }
 
-// Strips fully-blank rows before saving so empty bullets don't get persisted.
-function cleanList(items: string[]): string[] {
-  return items.map((i) => i.trim()).filter((i) => i.length > 0);
+// Trims everything and drops empty lines / fully empty sections before saving.
+function cleanSections(sections: JobSection[]): JobSection[] {
+  return sections
+    .map((s) => ({
+      title: s.title.trim(),
+      items: s.items.map((i) => i.trim()).filter((i) => i.length > 0),
+    }))
+    .filter((s) => s.title.length > 0 || s.items.length > 0);
+}
+
+// Old listings only have the four fixed fields. Convert them to sections so
+// nothing is lost when they are opened for editing.
+function legacySections(job: JobListing): JobSection[] {
+  const legacy: [string, string[] | undefined][] = [
+    ["Education", job.education],
+    ["Work Experience", job.work_experience],
+    ["Competencies and Skills", job.competencies_skills],
+    ["Key Responsibilities", job.key_responsibilities],
+  ];
+  return legacy
+    .filter(([, items]) => items && items.length > 0)
+    .map(([title, items]) => ({ title, items: items as string[] }));
 }
 
 function initialValuesFrom(
   initialData: JobListing | null | undefined,
 ): JobListingFormValues {
   if (!initialData) return emptyValues;
+
+  const sections = initialData.sections?.length
+    ? initialData.sections
+    : legacySections(initialData);
+
   return {
     title: initialData.title,
     slug: initialData.slug,
     location: initialData.location,
     department: initialData.department,
     job_summary: initialData.job_summary ?? "",
-    education: initialData.education.length ? initialData.education : [""],
-    work_experience: initialData.work_experience.length
-      ? initialData.work_experience
-      : [""],
-    competencies_skills: initialData.competencies_skills.length
-      ? initialData.competencies_skills
-      : [""],
-    key_responsibilities: initialData.key_responsibilities.length
-      ? initialData.key_responsibilities
-      : [""],
+    sections: sections.length ? sections : [{ title: "", items: [""] }],
     is_active: initialData.is_active ?? true,
   };
 }
@@ -84,8 +97,7 @@ export function JobListingFormDialog({
       <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white text-gray-900 shadow-xl">
         {/* Keying by which listing is being edited (or "new") means this
             inner form always mounts with state derived fresh from
-            initialData — no effect is needed to "reset" it afterwards,
-            which is what was tripping the set-state-in-effect rule. */}
+            initialData, so no effect is needed to reset it. */}
         <JobListingForm
           key={initialData?.id ?? initialData?.slug ?? "new"}
           initialData={initialData}
@@ -123,10 +135,7 @@ function JobListingForm({
     e.preventDefault();
     onSubmit({
       ...values,
-      education: cleanList(values.education),
-      work_experience: cleanList(values.work_experience),
-      competencies_skills: cleanList(values.competencies_skills),
-      key_responsibilities: cleanList(values.key_responsibilities),
+      sections: cleanSections(values.sections),
     });
   }
 
@@ -237,41 +246,21 @@ function JobListingForm({
           />
         </div>
 
-        <BulletListField
-          label="Education"
-          items={values.education}
-          onChange={(education) =>
-            setValues((prev) => ({ ...prev, education }))
-          }
-          placeholder="e.g. Bachelor's degree in Accounting, Finance, or related field"
-        />
-
-        <BulletListField
-          label="Work Experience"
-          items={values.work_experience}
-          onChange={(work_experience) =>
-            setValues((prev) => ({ ...prev, work_experience }))
-          }
-          placeholder="e.g. 2–5 years of experience in business control or related role"
-        />
-
-        <BulletListField
-          label="Competencies and Skills"
-          items={values.competencies_skills}
-          onChange={(competencies_skills) =>
-            setValues((prev) => ({ ...prev, competencies_skills }))
-          }
-          placeholder="e.g. Budgeting and forecasting"
-        />
-
-        <BulletListField
-          label="Key Responsibilities"
-          items={values.key_responsibilities}
-          onChange={(key_responsibilities) =>
-            setValues((prev) => ({ ...prev, key_responsibilities }))
-          }
-          placeholder="e.g. Prepare and monitor budgets, forecasts, and financial reports"
-        />
+        <div>
+          <p className="mb-1 text-sm font-medium text-gray-800">
+            Content sections
+          </p>
+          <p className="mb-3 text-xs text-gray-500">
+            Add as many sections as you need. Type the label, then add lines.
+            They appear on the careers page in this order.
+          </p>
+          <SectionsField
+            sections={values.sections}
+            onChange={(sections) =>
+              setValues((prev) => ({ ...prev, sections }))
+            }
+          />
+        </div>
 
         <label className="flex items-center gap-2 text-sm text-gray-800">
           <input

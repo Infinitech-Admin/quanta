@@ -4,11 +4,11 @@ import { Wrap, greenBg } from "./ui";
 export function Hero() {
   return (
     <section
-      className={`relative overflow-hidden ${greenBg} pt-36 pb-24 text-white`}
+      className={`relative overflow-hidden ${greenBg} pt-36 pb-10 text-white`}
     >
       {/* Image 1: background art */}
       <Image
-        src="/about-hero.png"
+        src="/images/MAIN-BANNER.png"
         alt=""
         fill
         priority
@@ -41,7 +41,7 @@ export function Hero() {
         <div className="rounded-3xl border border-white/20 bg-white/5 p-5">
           <div className="relative aspect-[1.45] overflow-hidden rounded-2xl">
             <Image
-              src="/machinery.png"
+              src="/images/our-group/OPS-4.png"
               alt="Quanta Paper technicians operating a converting line"
               fill
               priority

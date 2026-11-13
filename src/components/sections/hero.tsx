@@ -5,10 +5,6 @@ import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 
-// Replace with the client's factory photo (building with the Quanta Paper sign,
-// leaves in the top-left corner). Drop it in /public/images/.
-const HERO_IMAGE = "/images/hero-quanta-factory.jpg";
-
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
@@ -23,17 +19,18 @@ export function Hero() {
     <section className="relative isolate flex min-h-[700px] w-full items-center overflow-hidden bg-[#4f7a6b] lg:min-h-[780px]">
       {/* Background photograph */}
       <Image
-        src={HERO_IMAGE}
+        src="/images/QUANTA-BANNER.png"
         alt="Quanta Paper Corporation factory building surrounded by greenery"
         fill
         priority
         sizes="100vw"
         quality={90}
-        className="object-cover object-[65%_center]"
+        className="object-cover"
       />
+      <div className="absolute inset-0 bg-[#4f7a6b]/50 opacity-10" />
 
       {/* Light wash: just enough on the left for legibility, photo stays clear */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#3d6556]/55 via-[#4f7a6b]/25 to-transparent" />
+      <div className="absolute inset-0 bg-[#3d6556]/60" />
 
       {/* pt-40 clears the overlaid navbar (~94px) so the eyebrow isn't tucked under it */}
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-24 pt-40 xl:px-0">
