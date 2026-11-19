@@ -12,27 +12,30 @@ import {
 import type { Job } from "@/lib/jobs-data";
 
 /* ── Detail sections ─────────────────────────────────────────────
-   Matches the Job type in lib/jobs-data: summary is a paragraph, the rest
-   are string[] bullet lists. Empty or missing fields are skipped.     */
-const SECTIONS: { key: keyof Job; label: string }[] = [
-  { key: "summary", label: "Role overview" },
-  { key: "responsibilities", label: "Responsibilities" },
-  { key: "education", label: "Education" },
-  { key: "workExperience", label: "Work experience" },
-  { key: "skills", label: "Skills" },
-];
-
+   Role overview (summary) first, then every custom section added in
+   the admin panel, in the same order.                              */
 function getSections(job: Job) {
-  return SECTIONS.flatMap(({ key, label }) => {
-    const value = job[key];
-    if (typeof value === "string" && value.trim()) {
-      return [{ label, items: [value.trim()], isText: true }];
+  const result: { label: string; items: string[]; isText: boolean }[] = [];
+
+  if (job.summary?.trim()) {
+    result.push({
+      label: "Role overview",
+      items: [job.summary.trim()],
+      isText: true,
+    });
+  }
+
+  for (const s of job.sections ?? []) {
+    if (s.items.length > 0) {
+      result.push({
+        label: s.title || "Details",
+        items: s.items,
+        isText: false,
+      });
     }
-    if (Array.isArray(value) && value.length > 0) {
-      return [{ label, items: value.map(String), isText: false }];
-    }
-    return [];
-  });
+  }
+
+  return result;
 }
 
 const dept = (j: Job) => String(j.department);
@@ -81,19 +84,19 @@ function JobDetail({
             </Link>
           </p>
         ) : (
-          sections.map((s) => (
-            <div key={s.label}>
+          sections.map((s, i) => (
+            <div key={`${s.label}-${i}`}>
               <h4 className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#12392a]">
                 {s.label}
               </h4>
               {s.isText ? (
-                <p className="mt-3 text-[13px] leading-[1.8] text-[#5b6460]">
+                <p className="mt-3 whitespace-pre-line text-[13px] leading-[1.8] text-[#5b6460]">
                   {s.items[0]}
                 </p>
               ) : (
                 <ul className="mt-3 list-disc space-y-1.5 pl-5 text-[13px] leading-[1.7] text-[#5b6460] marker:text-[#8aa592]">
-                  {s.items.map((item) => (
-                    <li key={item}>{item}</li>
+                  {s.items.map((item, idx) => (
+                    <li key={`${item}-${idx}`}>{item}</li>
                   ))}
                 </ul>
               )}
