@@ -1,5 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
-import { QSTORE_URL, INSTITUTIONAL_CONTACTS } from "./constants";
+import Link from "next/link";
+import { CONTACT_PAGE_URL } from "./constants";
 
 /** Green "Q STORE" shopping bag, drawn as SVG so no image file is needed. */
 function QStoreBag() {
@@ -89,17 +90,19 @@ export function QStoreCta() {
         {/* buttons */}
         <div className="relative flex w-full flex-col gap-3 md:w-[196px] md:shrink-0">
           <a
-            href={QSTORE_URL}
+            href="https://tissuemarket.com"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-8 rounded-full bg-[#00a651] px-6 py-3.5 text-xs font-bold transition-colors hover:bg-[#009447]"
           >
             Visit QStore <ArrowUpRight className="h-3 w-3" />
           </a>
-          <a
-            href={INSTITUTIONAL_CONTACTS.email.href}
+          <Link
+            href={CONTACT_PAGE_URL}
             className="inline-flex items-center justify-center gap-8 rounded-full border border-white/60 px-6 py-3.5 text-xs font-bold transition-colors hover:bg-white/10"
           >
             Talk to our team <ArrowUpRight className="h-3 w-3" />
-          </a>
+          </Link>
         </div>
       </div>
     </section>
