@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Wrap, greenBg } from "./ui";
+import { greenBg } from "./ui";
 
 export function Hero() {
   return (
@@ -16,7 +16,11 @@ export function Hero() {
         className="pointer-events-none object-cover"
       />
 
-      <Wrap className="relative grid items-center gap-12 lg:grid-cols-[1.05fr_1fr]">
+      {/*
+        Wider container (1240px) and a bigger right column.
+        This is what makes the photo card large, like the reference.
+      */}
+      <div className="relative mx-auto grid w-full max-w-[1240px] items-center gap-12 px-6 sm:px-8 lg:grid-cols-[1fr_1.4fr]">
         <div>
           <p className="text-[11px] font-bold uppercase tracking-[0.25em]">
             About us
@@ -38,18 +42,19 @@ export function Hero() {
         </div>
 
         {/* Image 2: photo inside the card */}
-        <div className="rounded-3xl border border-white/20 bg-white/5 p-5">
+        <div className="rounded-3xl border border-white/20 bg-white/5 p-4 sm:p-5">
           <div className="relative aspect-[1.45] overflow-hidden rounded-2xl">
             <Image
               src="/images/our-group/OPS-4.png"
               alt="Quanta Paper technicians operating a converting line"
               fill
               priority
+              sizes="(min-width: 1024px) 700px, 100vw"
               className="object-cover"
             />
           </div>
         </div>
-      </Wrap>
+      </div>
     </section>
   );
 }
