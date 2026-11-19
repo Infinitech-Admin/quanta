@@ -5,9 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Search, X } from "lucide-react";
 import { motion } from "framer-motion";
-import { getImageUrl } from "@/lib/image-url";
-import type { InstitutionalProduct } from "@/lib/institutional-products";
-import { groupInstitutionalProducts } from "@/lib/institutional-groups";
+import {
+  INSTITUTIONAL_FAMILIES,
+  INSTITUTIONAL_ITEM_COUNT,
+  type InstitutionalItem,
+} from "./institutional-data";
 import {
   CONTACT_PAGE_URL,
   INSTITUTIONAL_CONTACTS,
@@ -18,26 +20,25 @@ const pad = (n: number) => String(n).padStart(2, "0");
 const mailto = (subject: string) =>
   `${INSTITUTIONAL_CONTACTS.email.href}?subject=${encodeURIComponent(subject)}`;
 
-export function InstitutionalProductsShowcase({
-  products,
-}: {
-  products: InstitutionalProduct[];
-}) {
+export function InstitutionalProductsShowcase() {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<{
-    product: InstitutionalProduct;
+    product: InstitutionalItem;
     itemNumber: number;
     description: string;
   } | null>(null);
 
-  const allFamilies = useMemo(
-    () => groupInstitutionalProducts(products),
-    [products],
-  );
-  const families = useMemo(
-    () => groupInstitutionalProducts(products, query),
-    [products, query],
-  );
+  // Filter by search. Item numbers stay stable because they are precomputed.
+  const families = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return INSTITUTIONAL_FAMILIES;
+    return INSTITUTIONAL_FAMILIES.map((f) => ({
+      ...f,
+      items: f.items.filter(({ product }) =>
+        product.name.toLowerCase().includes(q),
+      ),
+    })).filter((f) => f.items.length > 0);
+  }, [query]);
 
   // Close the viewer with Escape
   useEffect(() => {
@@ -46,8 +47,6 @@ export function InstitutionalProductsShowcase({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [selected]);
-
-  if (products.length === 0) return null;
 
   return (
     <section className="bg-[#f7f6f2] px-6 py-20 md:py-24">
@@ -77,8 +76,8 @@ export function InstitutionalProductsShowcase({
 
             <ul className="mt-6 flex flex-wrap gap-2.5 text-[11px] font-bold">
               {[
-                `${products.length} featured items`,
-                `${allFamilies.length} solution families`,
+                `${INSTITUTIONAL_ITEM_COUNT} featured items`,
+                `${INSTITUTIONAL_FAMILIES.length} solution families`,
                 "Institutional supply",
               ].map((chip) => (
                 <li
@@ -165,50 +164,41 @@ export function InstitutionalProductsShowcase({
               </p>
 
               <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                {family.items.map(({ product, itemNumber }) => {
-                  const src = getImageUrl(product.image);
-                  return (
-                    <button
-                      key={product.id}
-                      type="button"
-                      onClick={() =>
-                        setSelected({
-                          product,
-                          itemNumber,
-                          description: family.description,
-                        })
-                      }
-                      className="group overflow-hidden rounded-2xl border border-black/[0.08] bg-white text-left transition-shadow hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00a651]"
-                    >
-                      <div className="flex aspect-[1.1/1] items-center justify-center bg-white p-6">
-                        {src ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img
-                            src={src}
-                            alt={product.name}
-                            className="max-h-full max-w-full object-contain transition-transform duration-200 group-hover:scale-105"
-                            draggable={false}
-                          />
-                        ) : (
-                          <span className="text-4xl font-bold text-[#0f4a2c]/30">
-                            {product.name.charAt(0)}
-                          </span>
-                        )}
-                      </div>
-                      <div className="border-t border-black/5 bg-[#f6f9f6] px-4 pb-4 pt-4">
-                        <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#0b7a43]">
-                          Item {pad(itemNumber)}
-                        </p>
-                        <p className="mt-2 text-[13px] font-bold text-[#12392a]">
-                          {product.name}
-                        </p>
-                        <p className="mt-5 flex items-center justify-between text-[11px] font-bold text-[#0b7a43]">
-                          View details <ArrowUpRight className="h-3 w-3" />
-                        </p>
-                      </div>
-                    </button>
-                  );
-                })}
+                {family.items.map(({ product, itemNumber }) => (
+                  <button
+                    key={product.id}
+                    type="button"
+                    onClick={() =>
+                      setSelected({
+                        product,
+                        itemNumber,
+                        description: family.description,
+                      })
+                    }
+                    className="group overflow-hidden rounded-2xl border border-black/[0.08] bg-white text-left transition-shadow hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00a651]"
+                  >
+                    <div className="flex aspect-[1.1/1] items-center justify-center bg-white p-6">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="max-h-full max-w-full object-contain transition-transform duration-200 group-hover:scale-105"
+                        draggable={false}
+                      />
+                    </div>
+                    <div className="border-t border-black/5 bg-[#f6f9f6] px-4 pb-4 pt-4">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#0b7a43]">
+                        Item {pad(itemNumber)}
+                      </p>
+                      <p className="mt-2 text-[13px] font-bold text-[#12392a]">
+                        {product.name}
+                      </p>
+                      <p className="mt-5 flex items-center justify-between text-[11px] font-bold text-[#0b7a43]">
+                        View details <ArrowUpRight className="h-3 w-3" />
+                      </p>
+                    </div>
+                  </button>
+                ))}
               </div>
             </div>
           ))}
@@ -290,14 +280,12 @@ export function InstitutionalProductsShowcase({
             </button>
 
             <div className="flex aspect-square max-h-[380px] w-full items-center justify-center rounded-3xl border border-black/10 bg-white p-8">
-              {getImageUrl(selected.product.image) && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={getImageUrl(selected.product.image)!}
-                  alt={selected.product.name}
-                  className="max-h-full max-w-full object-contain"
-                />
-              )}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={selected.product.image}
+                alt={selected.product.name}
+                className="max-h-full max-w-full object-contain"
+              />
             </div>
 
             <div className="md:pr-8">
@@ -319,6 +307,7 @@ export function InstitutionalProductsShowcase({
               </p>
 
               <div className="mt-7 flex flex-wrap gap-3">
+                {/* Goes to the contact page, with the product pre-filled */}
                 <Link
                   href={`${CONTACT_PAGE_URL}?${new URLSearchParams({
                     subject: `Inquiry: ${selected.product.name}`,
