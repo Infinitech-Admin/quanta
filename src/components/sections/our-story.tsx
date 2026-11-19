@@ -5,6 +5,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 const VIDEO_SRC = "/videos/quanta.mp4";
+const BG_IMAGE = "/MAIN-BANNER.png";
 
 const stats = [
   { value: "2003", label: "Our beginnings" },
@@ -22,52 +23,24 @@ const fadeInUp = {
   }),
 };
 
-/** Small outlined "Q" mark used as a faint watermark. */
-function QOutline({
-  x,
-  y,
-  scale = 1,
-  rotate = -30,
-  opacity = 0.5,
-}: {
-  x: number;
-  y: number;
-  scale?: number;
-  rotate?: number;
-  opacity?: number;
-}) {
-  return (
-    <g
-      transform={`translate(${x} ${y}) scale(${scale}) rotate(${rotate})`}
-      stroke="#25b866"
-      strokeOpacity={opacity}
-      strokeWidth="1.5"
-      fill="none"
-    >
-      <ellipse cx="0" cy="0" rx="64" ry="50" />
-      <ellipse cx="0" cy="0" rx="54" ry="40" />
-      <path d="M22 38 L70 82 M36 34 L62 58" />
-    </g>
-  );
-}
-
-/**
- * Decorative background. Coordinates are in a 1907x664 box (the reference
- * design) and anchored to the RIGHT edge, so the big Q stays put instead of
- * drifting when the section's height changes.
- */
+/** Decorative background: soft green gradient with faint "2003" and arcs. */
 function StoryBackground() {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0">
-      {/* base: lighter glow centre-left, darker toward the edges */}
+      {/* background image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${BG_IMAGE})` }}
+      />
+      {/* green tint over the image: lighter glow centre-left, darker toward the edges (keeps text readable) */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 50% 85% at 24% 45%, #087c3d 0%, #066c37 42%, #055b2f 78%, #045029 100%)",
+            "radial-gradient(ellipse 50% 85% at 24% 45%, rgba(8,124,61,0.85) 0%, rgba(6,108,55,0.85) 42%, rgba(5,91,47,0.88) 78%, rgba(4,80,41,0.9) 100%)",
         }}
       />
-      {/* darker right side so the ring band reads against it */}
+      {/* slightly darker right side for depth */}
       <div
         className="absolute inset-0"
         style={{
@@ -116,80 +89,7 @@ function StoryBackground() {
           strokeWidth="2"
           transform="rotate(-20 880 715)"
         />
-
-        {/* faint Q watermarks (only parts show at the edges) */}
-        <QOutline x={95} y={-30} scale={0.9} />
-        <QOutline x={760} y={-20} scale={0.8} opacity={0.4} />
-        <QOutline x={55} y={505} scale={1.05} opacity={0.45} />
-        <QOutline x={1695} y={625} scale={0.8} opacity={0.35} />
       </svg>
-
-      {/*
-        The big Q. Fixed pixel size, pinned to the content container's right
-        edge and the section's top, so it never scales or drifts with the
-        section height. Coordinates: x is measured from the container's right
-        edge (negative = left of it), y from the top of the section.
-      */}
-      <div
-        className="absolute top-0 h-0 w-0"
-        style={{ right: "max(calc(50% - 576px), 24px)" }}
-      >
-        <svg
-          width="1"
-          height="1"
-          style={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            overflow: "visible",
-          }}
-        >
-          {/* big ring of the Q, behind the copy and video */}
-          <circle
-            cx="-288"
-            cy="388"
-            r="354"
-            stroke="#3fb374"
-            strokeOpacity="0.38"
-            strokeWidth="100"
-            fill="none"
-          />
-
-          {/* wide sweeping band behind the video */}
-          <circle
-            cx="130"
-            cy="318"
-            r="465"
-            stroke="#3fb374"
-            strokeOpacity="0.2"
-            strokeWidth="110"
-            fill="none"
-          />
-
-          {/* top-right ring with a dark centre */}
-          <circle cx="230" cy="98" r="178" fill="#02381c" fillOpacity="0.35" />
-          <circle
-            cx="230"
-            cy="98"
-            r="272"
-            stroke="#3fb374"
-            strokeOpacity="0.17"
-            strokeWidth="187"
-            fill="none"
-          />
-
-          {/* tail of the Q */}
-          <polygon
-            points="205,443 120,523 370,740 455,660"
-            fill="#3fb374"
-            fillOpacity="0.34"
-            stroke="#3fb374"
-            strokeOpacity="0.34"
-            strokeWidth="14"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </div>
     </div>
   );
 }

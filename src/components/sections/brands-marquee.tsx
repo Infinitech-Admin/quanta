@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Pause, Play } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { getImageUrl } from "@/lib/image-url";
 import type { BrandCategoryGroup } from "@/lib/brands";
@@ -12,8 +11,6 @@ interface BrandsMarqueeProps {
 }
 
 export function BrandsMarquee({ categories }: BrandsMarqueeProps) {
-  const [paused, setPaused] = useState(false);
-
   // One flat list of every brand across all categories
   const brands = categories.flatMap((c) => c.brands);
   if (brands.length === 0) return null;
@@ -57,7 +54,7 @@ export function BrandsMarquee({ categories }: BrandsMarqueeProps) {
 
   return (
     <section className="bg-[#f7f6f2] px-6 py-20 md:py-24">
-      {/* keyframes for the loop; paused via animation-play-state */}
+      {/* keyframes for the loop */}
       <style>{`
         @keyframes quanta-brands-marquee {
           from { transform: translateX(0); }
@@ -112,7 +109,6 @@ export function BrandsMarquee({ categories }: BrandsMarqueeProps) {
             className="quanta-brands-track flex w-max"
             style={{
               animation: `quanta-brands-marquee ${brands.length * 4}s linear infinite`,
-              animationPlayState: paused ? "paused" : "running",
             }}
           >
             {logos()}
@@ -124,29 +120,13 @@ export function BrandsMarquee({ categories }: BrandsMarqueeProps) {
         <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-[#5b6460]">{categoryLine}</p>
 
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => setPaused((p) => !p)}
-              aria-pressed={paused}
-              className="inline-flex items-center gap-2 rounded-full border border-black/15 bg-white px-5 py-3 text-xs font-bold text-[#0f4a2c] transition-colors hover:bg-black/5"
-            >
-              {paused ? (
-                <Play className="h-3 w-3 fill-current" />
-              ) : (
-                <Pause className="h-3 w-3 fill-current" />
-              )}
-              {paused ? "Play" : "Pause"}
-            </button>
-
-            <Link
-              href="/brands"
-              className="inline-flex items-center gap-1.5 rounded-full bg-[#0b5a32] px-6 py-3 text-xs font-bold text-white transition-colors hover:bg-[#094a29]"
-            >
-              Explore all {brands.length} brands
-              <ArrowUpRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
+          <Link
+            href="/brands"
+            className="inline-flex items-center gap-1.5 rounded-full bg-[#0b5a32] px-6 py-3 text-xs font-bold text-white transition-colors hover:bg-[#094a29]"
+          >
+            Explore all {brands.length} brands
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </Link>
         </div>
       </div>
     </section>

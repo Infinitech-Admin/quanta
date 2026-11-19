@@ -106,15 +106,7 @@ export function SiteFooter() {
         <div className="mt-12 flex flex-col gap-2 border-t border-white/15 pt-6 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
           <p>
             &copy; {new Date().getFullYear()} {siteConfig.name}
-            {" · Powered by "}
-            <Link
-              href="https://infinitechphil.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline-offset-2 transition-colors hover:text-white hover:underline"
-            >
-              Infinitech Advertising Corporation
-            </Link>
+            {" · Website architecture concept"}
           </p>
           <p>Embracing sustainability. Delivering quality.</p>
         </div>
