@@ -3,7 +3,7 @@ import { QSTORE_URL, INSTITUTIONAL_CONTACTS } from "./constants";
 
 export function QStoreCta() {
   return (
-    <section className="bg-[#f9f7f1] px-6 pb-20 pt-4">
+    <section className="bg-[#f9f7f1] px-6 pb-10">
       <div className="mx-auto flex max-w-6xl flex-col items-start gap-8 overflow-hidden rounded-[28px] bg-gradient-to-r from-[#14533a] via-[#2a6b49] to-[#4f8b5e] p-8 text-white shadow-xl md:flex-row md:items-center md:justify-between md:p-10">
         <div className="flex items-center gap-8">
           <div

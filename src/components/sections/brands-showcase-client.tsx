@@ -25,7 +25,7 @@ interface BrandsShowcaseClientProps {
   categories: BrandCategory[];
 }
 
-export function BrandsShowcaseClient({
+export default function BrandsShowcaseClient({
   categories,
 }: BrandsShowcaseClientProps) {
   // Guard against empty categories (e.g. a category with 0 brands)
@@ -68,7 +68,7 @@ export function BrandsShowcaseClient({
             viewport={{ once: true, amount: 0.3 }}
           >
             <span className="inline-block rounded-full border border-[var(--color-sun)]/40 px-4 py-1 text-xs tracking-widest uppercase text-[var(--color-sun)] mb-4">
-              Our Portfolio
+              Our Brands
             </span>
           </motion.div>
 

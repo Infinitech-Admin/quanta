@@ -1,10 +1,11 @@
 "use client";
 
+import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Scroll } from "lucide-react";
 import { motion } from "framer-motion";
-
-const QSTORE_URL = "https://tissuemarket.com/";
+import { HERO_IMAGE, QSTORE_URL } from "./constants";
 
 interface BrandsHeroProps {
   brandCount?: number;
@@ -17,13 +18,21 @@ export function BrandsHero({
   brandCount,
   categories = DEFAULT_CATEGORIES,
 }: BrandsHeroProps) {
+  const [imageFailed, setImageFailed] = useState(false);
+
   return (
     <section className="relative isolate overflow-hidden bg-gradient-to-br from-[#00693e] via-[#006239] to-[#005a34] text-white">
+      {/* soft glow behind the image */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-24 right-[-10%] h-[360px] w-[460px] rounded-[50%] bg-[#7fc79a]/25 blur-3xl"
+      />
+
       {/*
         The site navbar is fixed (~90px tall), so the top padding clears it.
         If your navbar height changes, set --navbar-height on :root.
       */}
-      <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-6 pb-16 pt-[calc(var(--navbar-height,90px)+3rem)] sm:px-10 md:pb-24 md:pt-[calc(var(--navbar-height,90px)+4rem)]">
+      <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-6 pb-16 pt-[calc(var(--navbar-height,90px)+3rem)] sm:px-10 md:pb-24 md:pt-[calc(var(--navbar-height,90px)+4rem)] lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -60,8 +69,6 @@ export function BrandsHero({
             </Link>
             <a
               href={QSTORE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
               className="inline-flex items-center gap-6 rounded-full border border-white/60 px-6 py-3.5 text-xs font-bold text-white transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               Visit QStore
@@ -81,6 +88,34 @@ export function BrandsHero({
               </li>
             ))}
           </ul>
+        </motion.div>
+
+        {/* Image card — one oversized rounded corner is the signature shape */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, ease: "easeOut", delay: 0.15 }}
+          className="relative mx-auto w-full max-w-xl"
+        >
+          <div className="rounded-[28px] rounded-tl-[96px] bg-white/10 p-3 backdrop-blur-sm sm:rounded-[40px] sm:rounded-tl-[140px] sm:p-4">
+            <div className="relative aspect-3/2 overflow-hidden rounded-[18px] rounded-tl-[80px] bg-gradient-to-br from-[#bfe3c9] to-[#7fc79a] sm:rounded-[28px] sm:rounded-tl-[120px]">
+              {imageFailed ? (
+                // Shown if the photo is missing, so there's never a broken-image box
+                <div className="flex h-full w-full items-center justify-center text-[#0f4a2c]/50">
+                  <Scroll className="h-16 w-16" aria-hidden />
+                </div>
+              ) : (
+                <Image
+                  src="/images/OPS-1.png"
+                  alt="Tissue roll and folded napkins beside a green leaf"
+                  fill
+                  priority
+                  className="object-cover"
+                  onError={() => setImageFailed(true)}
+                />
+              )}
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>

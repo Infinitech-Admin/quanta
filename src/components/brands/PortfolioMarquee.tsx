@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import { Pause, Play } from "lucide-react";
 import { getImageUrl } from "@/lib/image-url";
 import type { BrandCategoryGroup } from "@/lib/brands";
 
@@ -9,6 +11,7 @@ export function PortfolioMarquee({
 }: {
   categories: BrandCategoryGroup[];
 }) {
+  const [paused, setPaused] = useState(false);
   const brands = categories.flatMap((c) => c.brands);
   if (brands.length === 0) return null;
 
@@ -77,18 +80,12 @@ export function PortfolioMarquee({
           className="quanta-portfolio-track flex w-max"
           style={{
             animation: `quanta-portfolio-marquee ${brands.length * 4}s linear infinite`,
+            animationPlayState: paused ? "paused" : "running",
           }}
         >
           {logos()}
           {logos(true)}
         </div>
-      </div>
-
-      <div className="mx-auto mt-8 max-w-6xl px-6">
-        <p className="text-xs text-[#4b5a53]">
-          Discover a brand that speaks to your needs. Select a logo to learn
-          more.
-        </p>
       </div>
     </section>
   );

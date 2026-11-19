@@ -1,4 +1,5 @@
 import { getApiUrl } from "@/lib/api-url";
+import { allBrands as fallbackBrands } from "@/data/brands";
 
 export interface Brand {
   id: string;
@@ -51,29 +52,53 @@ function withCategory(brand: Brand): BrandWithCategory {
  * BrandController::index).
  */
 export async function getAllBrands(): Promise<BrandWithCategory[]> {
-  const res = await fetch(`${getApiUrl()}/api/brands`, {
-    next: { revalidate: 300 },
-  });
-  if (!res.ok) return [];
+  try {
+    const res = await fetch(`${getApiUrl()}/api/brands`, {
+      next: { revalidate: 300 },
+    });
+    if (res.ok) {
+      const body: ApiListResponse<Brand> = await res.json();
+      if (body.success) return body.data.map(withCategory);
+    }
+  } catch {
+    // The public brand page must remain usable during API or network failures.
+  }
 
-  const body: ApiListResponse<Brand> = await res.json();
-  if (!body.success) return [];
-
-  return body.data.map(withCategory);
+  return fallbackBrands.map((brand) => ({
+    id: brand.slug,
+    slug: brand.slug,
+    name: brand.name,
+    description: brand.description,
+    features: brand.features ?? [],
+    category: brand.categoryLabel,
+    color: brand.color,
+    gradient: brand.gradient,
+    image: brand.image ?? null,
+    heroImage: null,
+    images: [],
+    sort_order: fallbackBrands.findIndex((item) => item.slug === brand.slug),
+    is_active: true,
+    categoryId: brand.categoryId,
+    categoryLabel: brand.categoryLabel,
+  }));
 }
 
 export async function findBrandBySlug(
   slug: string,
 ): Promise<BrandWithCategory | null> {
-  const res = await fetch(`${getApiUrl()}/api/brands/${slug}`, {
-    next: { revalidate: 300 },
-  });
-  if (!res.ok) return null;
+  try {
+    const res = await fetch(`${getApiUrl()}/api/brands/${slug}`, {
+      next: { revalidate: 300 },
+    });
+    if (res.ok) {
+      const body: ApiItemResponse<Brand> = await res.json();
+      if (body.success) return withCategory(body.data);
+    }
+  } catch {
+    // Use the static catalog when the API is unavailable.
+  }
 
-  const body: ApiItemResponse<Brand> = await res.json();
-  if (!body.success) return null;
-
-  return withCategory(body.data);
+  return (await getAllBrands()).find((brand) => brand.slug === slug) ?? null;
 }
 
 export async function getRelatedBrands(
@@ -97,6 +122,8 @@ const CATEGORY_INTROS: Record<string, string> = {
     "Our flagship product, Fresh Bathroom Tissue uses 100% recycled paper — the only one of its kind in the market today. Our premium paper brands utilize virgin pulp from man-made forest sources with Forest Stewardship certificates.",
   "Personal Care":
     "With these high-quality and affordable personal care products, we want you to take care of yourself and the people you love.",
+  "Baby Care":
+    "Gentle, dependable care made for little ones and trusted by parents.",
   "Oral Care":
     "Because good oral hygiene is not only about brushing your teeth, we came up with oral care products that are efficient and effective while giving the best value for money.",
 };
@@ -105,7 +132,12 @@ const CATEGORY_INTROS: Record<string, string> = {
 // falls to the end, sorted in whatever order the API returns it, so a
 // new category doesn't need a code change to appear — it just won't
 // have a "preferred" spot until someone adds it here.
-const CATEGORY_ORDER: string[] = ["Paper", "Personal Care", "Oral Care"];
+const CATEGORY_ORDER: string[] = [
+  "Paper",
+  "Personal Care",
+  "Baby Care",
+  "Oral Care",
+];
 
 function categorySortIndex(label: string): number {
   const index = CATEGORY_ORDER.indexOf(label);

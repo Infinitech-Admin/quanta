@@ -1,14 +1,18 @@
 "use client";
 
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type ComponentType,
-} from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Package, Search, X } from "lucide-react";
+import {
+  ArrowUpRight,
+  Baby,
+  Package,
+  Scroll,
+  Search,
+  Smile,
+  Sparkles,
+  X,
+  type LucideIcon,
+} from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { getImageUrl } from "@/lib/image-url";
 import type { BrandCategoryGroup } from "@/lib/brands";
@@ -25,141 +29,11 @@ const CATEGORY_TAGLINES: Record<string, string> = {
   "Oral Care": "Efficient, effective oral hygiene at the best value.",
 };
 
-type IconProps = { className?: string };
-
-/* Small illustrated category icons (tissue roll, lotion bottle, baby, tooth). */
-function PaperIcon({ className }: IconProps) {
-  return (
-    <svg viewBox="0 0 32 32" fill="none" aria-hidden className={className}>
-      <path
-        d="M7 11v11c0 2.2 4 4 9 4s9-1.8 9-4V11"
-        fill="#f7f3e8"
-        stroke="#2f6b4a"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-      <ellipse
-        cx="16"
-        cy="11"
-        rx="9"
-        ry="4"
-        fill="#fffdf6"
-        stroke="#2f6b4a"
-        strokeWidth="1.6"
-      />
-      <ellipse
-        cx="16"
-        cy="11"
-        rx="3.4"
-        ry="1.5"
-        fill="#cfe3d5"
-        stroke="#2f6b4a"
-        strokeWidth="1.2"
-      />
-    </svg>
-  );
-}
-
-function PersonalCareIcon({ className }: IconProps) {
-  return (
-    <svg viewBox="0 0 32 32" fill="none" aria-hidden className={className}>
-      <path
-        d="M14 8V5h5"
-        stroke="#2f6b4a"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <rect
-        x="12"
-        y="8"
-        width="8"
-        height="3"
-        rx="1.2"
-        fill="#cfe3d5"
-        stroke="#2f6b4a"
-        strokeWidth="1.5"
-      />
-      <rect
-        x="9"
-        y="11"
-        width="14"
-        height="17"
-        rx="4"
-        fill="#d9efe0"
-        stroke="#2f6b4a"
-        strokeWidth="1.6"
-      />
-      <rect
-        x="13"
-        y="17"
-        width="6"
-        height="6"
-        rx="1.5"
-        fill="#ffffff"
-        stroke="#7fb596"
-        strokeWidth="1.2"
-      />
-    </svg>
-  );
-}
-
-function BabyIcon({ className }: IconProps) {
-  return (
-    <svg viewBox="0 0 32 32" fill="none" aria-hidden className={className}>
-      <circle
-        cx="16"
-        cy="17"
-        r="10"
-        fill="#f8d77a"
-        stroke="#d9a93f"
-        strokeWidth="1.4"
-      />
-      <path
-        d="M15 7.5c-.2-2 2.2-3 3.2-1.4"
-        stroke="#d9a93f"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-      />
-      <circle cx="12.3" cy="16" r="1.2" fill="#5a4a1f" />
-      <circle cx="19.7" cy="16" r="1.2" fill="#5a4a1f" />
-      <circle cx="10.5" cy="19.5" r="1.6" fill="#f2a98a" fillOpacity="0.6" />
-      <circle cx="21.5" cy="19.5" r="1.6" fill="#f2a98a" fillOpacity="0.6" />
-      <path
-        d="M13.2 21c.8 1.2 4.8 1.2 5.6 0"
-        stroke="#5a4a1f"
-        strokeWidth="1.3"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function ToothIcon({ className }: IconProps) {
-  return (
-    <svg viewBox="0 0 32 32" fill="none" aria-hidden className={className}>
-      <path
-        d="M9.5 5C6.5 5 5 7.6 5 10.5c0 2.6 1.4 4 1.9 7 .5 3 1.2 9.5 3.4 9.5 2 0 1.8-6 5.7-6s3.7 6 5.7 6c2.2 0 2.9-6.5 3.4-9.5.5-3 1.9-4.4 1.9-7C27 7.6 25.5 5 22.5 5 20 5 19 6.2 16 6.2S12 5 9.5 5z"
-        fill="#ffffff"
-        stroke="#3b8a82"
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M10 10c.6-1 1.6-1.4 2.6-1.2"
-        stroke="#9fd0c8"
-        strokeWidth="1.3"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-const CATEGORY_ICONS: Record<string, ComponentType<IconProps>> = {
-  Paper: PaperIcon,
-  "Personal Care": PersonalCareIcon,
-  "Baby Care": BabyIcon,
-  "Oral Care": ToothIcon,
+const CATEGORY_ICONS: Record<string, LucideIcon> = {
+  Paper: Scroll,
+  "Personal Care": Sparkles,
+  "Baby Care": Baby,
+  "Oral Care": Smile,
 };
 
 type Brand = BrandCategoryGroup["brands"][number];
@@ -297,7 +171,7 @@ export function BrandsShowcase({
                 <div className="flex flex-col gap-3 bg-gradient-to-r from-[#1f6b45] via-[#3f8a5f] to-[#7bad84] px-6 py-5 text-white sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex items-center gap-4">
                     <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/90 text-[#1f6b45]">
-                      <Icon className="h-7 w-7" />
+                      <Icon className="h-6 w-6" />
                     </span>
                     <h3 className="text-3xl font-bold tracking-[-0.03em]">
                       {cat.label}
@@ -310,7 +184,7 @@ export function BrandsShowcase({
                   )}
                 </div>
 
-                <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-4 p-4">
+                <div className="grid gap-4 p-4 sm:grid-cols-2 lg:grid-cols-4">
                   {cat.brands.map((brand) => {
                     const src = getImageUrl(brand.image);
                     return (
@@ -324,7 +198,7 @@ export function BrandsShowcase({
                             <img
                               src={src}
                               alt=""
-                              className="max-h-full w-auto max-w-[75%] object-contain drop-shadow-md"
+                              className="max-h-full w-auto max-w-[150px] object-contain drop-shadow-md"
                               draggable={false}
                             />
                           ) : (
@@ -345,7 +219,7 @@ export function BrandsShowcase({
                           {brand.features.slice(0, 2).map((f) => (
                             <li
                               key={f}
-                              className="rounded-2xl bg-[#e4eee6] px-3 py-1.5 text-[10px] font-bold leading-[1.5] text-[#0f4a2c]"
+                              className="line-clamp-2 rounded-2xl bg-[#e4eee6] px-2.5 py-1 text-[10px] font-bold leading-snug text-[#0f4a2c]"
                             >
                               {f}
                             </li>

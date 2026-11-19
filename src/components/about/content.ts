@@ -92,13 +92,13 @@ export const places = [
   {
     tag: "Paper Mill",
     title: "Mabalacat, Pampanga",
-    lines: ["Brgy. Paralayunan", "City of Mabalacat, Pampanga"],
+    lines: ["Brgy. Paralayunan, City of Mabalacat, Pampanga"],
     note: "Where the paper is made",
   },
   {
     tag: "Head Office",
     title: "Mandaluyong City",
-    lines: ["149-A Rev. Aglipay St., Brgy. Old Zaniga,", "Mandaluyong City"],
+    lines: ["149-A Rev. Aglipay St., Brgy. Old Zaniga, Mandaluyong City"],
     note: "Where orders are managed",
   },
 ];
