@@ -1,44 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { ArrowDown } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { PILLARS, scrollToId } from "./pillars";
-
-/** Oversized translucent "Q" used as the hero backdrop. */
-function QBackdrop({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 800 800"
-      className={className}
-      fill="none"
-      aria-hidden
-      focusable="false"
-    >
-      <defs>
-        <linearGradient id="q-ring" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#fff" stopOpacity="0.16" />
-          <stop offset="1" stopColor="#fff" stopOpacity="0.04" />
-        </linearGradient>
-      </defs>
-      <circle
-        cx="400"
-        cy="380"
-        r="285"
-        stroke="url(#q-ring)"
-        strokeWidth="140"
-      />
-      <rect
-        x="470"
-        y="520"
-        width="420"
-        height="120"
-        rx="14"
-        fill="url(#q-ring)"
-        transform="rotate(42 680 580)"
-      />
-    </svg>
-  );
-}
 
 export function Hero() {
   const reduce = useReducedMotion();
@@ -49,14 +14,23 @@ export function Hero() {
   });
 
   return (
-    <section className="relative overflow-hidden bg-[linear-gradient(135deg,#0b6238_0%,#06482a_100%)] pt-[100px] text-white">
-      {/* Depth: soft light from the upper left, big Q on the right */}
+    <section className="relative isolate overflow-hidden bg-[#06482a] pt-[100px] text-white">
+      {/* Background image: public/MAIN-BANNER.png */}
+      <Image
+        src="/MAIN-BANNER.png"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="-z-20 object-cover"
+        aria-hidden
+      />
+
+      {/* Green overlay so the text stays readable. Lower the /xx values to show more of the photo. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_55%_60%_at_20%_15%,rgba(60,170,100,0.35),transparent_70%)]"
+        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-r from-[#06482a]/90 via-[#0b6238]/75 to-[#06482a]/60"
       />
-      <QBackdrop className="pointer-events-none absolute -right-48 -top-32 w-[900px] max-w-none" />
-      <QBackdrop className="pointer-events-none absolute -left-16 bottom-4 hidden w-28 opacity-40 sm:block" />
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-4 pb-24 pt-16 sm:px-6 lg:grid-cols-[1.25fr_0.75fr] lg:px-8 lg:pb-28 lg:pt-20">
         {/* Left: message */}
@@ -96,7 +70,7 @@ export function Hero() {
         {/* Right: the four pillars */}
         <motion.div
           {...fadeUp(0.15)}
-          className="rounded-[28px] border border-white/15 bg-white/[0.04] p-8 backdrop-blur-[2px]"
+          className="rounded-[28px] border border-white/15 bg-[#06482a]/40 p-8 backdrop-blur-sm"
         >
           <ol className="relative space-y-7 before:absolute before:bottom-6 before:left-6 before:top-6 before:border-l before:border-dashed before:border-white/25">
             {PILLARS.map(({ key, heroTitle, heroSub, Icon }) => (
