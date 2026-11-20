@@ -19,12 +19,11 @@ export function Hero() {
     <section className="relative isolate flex min-h-[700px] w-full items-center overflow-hidden bg-[#4f7a6b] lg:min-h-[780px]">
       {/* Background photograph */}
       <Image
-        src="/images/QUANTA-BANNER.png"
+        src="/images/HOMEPAGE-BANNER.png"
         alt="Quanta Paper Corporation factory building surrounded by greenery"
         fill
         priority
         sizes="100vw"
-        quality={90}
         className="object-cover"
       />
       <div className="absolute inset-0 bg-[#4f7a6b]/50 opacity-10" />
