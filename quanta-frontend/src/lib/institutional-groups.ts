@@ -59,11 +59,6 @@ const FAMILIES: { title: string; description: string; match: RegExp }[] = [
   },
 ];
 
-const OTHER = {
-  title: "More products",
-  description: "Additional hygiene essentials for your facility.",
-};
-
 export function groupInstitutionalProducts<T extends GroupableProduct>(
   products: T[],
   query = "",
@@ -79,21 +74,21 @@ export function groupInstitutionalProducts<T extends GroupableProduct>(
     const known =
       FAMILIES.find((f) => f.title === product.family) ??
       FAMILIES.find((f) => f.match.test(product.name));
-    const meta = known ?? { ...OTHER, title: product.family || OTHER.title };
 
-    const bucket = buckets.get(meta.title) ?? {
-      title: meta.title,
-      description: meta.description,
+    // No matching family -> not shown (no more "More products" group).
+    if (!known) return;
+
+    const bucket = buckets.get(known.title) ?? {
+      title: known.title,
+      description: known.description,
       items: [],
     };
     bucket.items.push({ product, itemNumber });
-    buckets.set(meta.title, bucket);
+    buckets.set(known.title, bucket);
   });
 
-  const order = [...FAMILIES.map((f) => f.title), OTHER.title];
-  return [...buckets.values()].sort((a, b) => {
-    const ai = order.indexOf(a.title);
-    const bi = order.indexOf(b.title);
-    return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
-  });
+  const order = FAMILIES.map((f) => f.title);
+  return [...buckets.values()].sort(
+    (a, b) => order.indexOf(a.title) - order.indexOf(b.title),
+  );
 }

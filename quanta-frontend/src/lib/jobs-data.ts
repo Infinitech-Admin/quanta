@@ -3,12 +3,19 @@ import { getApiUrl } from "@/lib/api-url";
 // Departments come from the admin panel, so this is a plain string.
 export type Department = string;
 
+export type JobSection = {
+  title: string;
+  items: string[];
+};
+
 export type Job = {
   slug: string;
   title: string;
   location: string;
   department: Department;
   summary?: string;
+  sections: JobSection[];
+  // Legacy fields, kept so other pages that still use them don't break
   education?: string[];
   workExperience?: string[];
   skills?: string[];
@@ -22,8 +29,6 @@ type ApiResponse<T> = {
   message?: string;
 };
 
-// Shape Laravel's JobListing transform() returns (snake_case). The camelCase
-// names are accepted too, so either API shape works.
 type RawJob = {
   slug: string;
   title: string;
@@ -31,6 +36,9 @@ type RawJob = {
   department: string;
   job_summary?: string | null;
   summary?: string | null;
+  sections?:
+    | { title?: string | null; items?: (string | null)[] | null }[]
+    | null;
   education?: string[] | null;
   work_experience?: string[] | null;
   workExperience?: string[] | null;
@@ -42,6 +50,32 @@ type RawJob = {
   verified?: boolean;
 };
 
+function toSections(raw: RawJob): JobSection[] {
+  // 1) Custom sections from the admin panel
+  if (Array.isArray(raw.sections) && raw.sections.length > 0) {
+    return raw.sections
+      .map((s) => ({
+        title: (s.title ?? "").trim(),
+        items: (s.items ?? [])
+          .map((i) => String(i ?? "").trim())
+          .filter((i) => i !== ""),
+      }))
+      .filter((s) => s.title !== "" || s.items.length > 0);
+  }
+
+  // 2) Fallback: old listings that only have the four fixed fields
+  const legacy: [string, string[] | null | undefined][] = [
+    ["Key Responsibilities", raw.key_responsibilities ?? raw.responsibilities],
+    ["Education", raw.education],
+    ["Work Experience", raw.work_experience ?? raw.workExperience],
+    ["Competencies and Skills", raw.competencies_skills ?? raw.skills],
+  ];
+
+  return legacy
+    .filter(([, items]) => Array.isArray(items) && items.length > 0)
+    .map(([title, items]) => ({ title, items: items as string[] }));
+}
+
 function toJob(raw: RawJob): Job {
   return {
     slug: raw.slug,
@@ -49,6 +83,7 @@ function toJob(raw: RawJob): Job {
     location: raw.location,
     department: raw.department,
     summary: raw.job_summary ?? raw.summary ?? undefined,
+    sections: toSections(raw),
     education: raw.education ?? [],
     workExperience: raw.work_experience ?? raw.workExperience ?? [],
     skills: raw.competencies_skills ?? raw.skills ?? [],
@@ -57,11 +92,10 @@ function toJob(raw: RawJob): Job {
   };
 }
 
-// Same base-URL helper as brands, so careers hits the same Laravel host.
 // getApiUrl() returns the host WITHOUT "/api".
 const API_BASE_URL = `${getApiUrl()}/api`;
 
-/** All ACTIVE job listings for /careers (public route, see backend/). */
+/** All ACTIVE job listings for /careers (public route). */
 export async function getJobs(): Promise<Job[]> {
   try {
     const res = await fetch(`${API_BASE_URL}/job-listings`, {
@@ -71,9 +105,7 @@ export async function getJobs(): Promise<Job[]> {
       throw new Error(`Failed to fetch job listings (${res.status})`);
 
     const json: ApiResponse<RawJob[]> = await res.json();
-    return (json.data ?? [])
-      .filter((j) => j.is_active !== false) // safety net if inactive ever leak through
-      .map(toJob);
+    return (json.data ?? []).filter((j) => j.is_active !== false).map(toJob);
   } catch (error) {
     console.error("getJobs failed:", error);
     return [];

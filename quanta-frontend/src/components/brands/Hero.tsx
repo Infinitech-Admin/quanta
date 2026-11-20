@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Scroll } from "lucide-react";
 import { motion } from "framer-motion";
-import { HERO_IMAGE, QSTORE_URL } from "./constants";
+import { QSTORE_URL } from "./constants";
 
 interface BrandsHeroProps {
   brandCount?: number;
@@ -22,7 +22,7 @@ export function BrandsHero({
 
   return (
     <section className="relative isolate overflow-hidden bg-gradient-to-br from-[#00693e] via-[#006239] to-[#005a34] text-white">
-      {/* soft glow behind the image */}
+      {/* soft glow in the corner */}
       <div
         aria-hidden
         className="pointer-events-none absolute -bottom-24 right-[-10%] h-[360px] w-[460px] rounded-[50%] bg-[#7fc79a]/25 blur-3xl"
@@ -32,7 +32,7 @@ export function BrandsHero({
         The site navbar is fixed (~90px tall), so the top padding clears it.
         If your navbar height changes, set --navbar-height on :root.
       */}
-      <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-6 pb-16 pt-[calc(var(--navbar-height,90px)+3rem)] sm:px-10 md:pb-24 md:pt-[calc(var(--navbar-height,90px)+4rem)] lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
+      <div className="relative mx-auto max-w-7xl px-6 pb-16 pt-[calc(var(--navbar-height,90px)+3rem)] sm:px-10 md:pb-24 md:pt-[calc(var(--navbar-height,90px)+4rem)]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -48,7 +48,7 @@ export function BrandsHero({
             <p className="h-[14px]" aria-hidden />
           )}
 
-          <h1 className="mt-5 max-w-2xl text-[2.5rem] font-bold leading-[1.04] tracking-[-0.045em] sm:text-5xl lg:text-6xl">
+          <h1 className="mt-5 max-w-3xl text-[2.5rem] font-bold leading-[1.04] tracking-[-0.045em] sm:text-5xl lg:text-6xl">
             Find the right brand for every shelf, every shopper, and every home.
           </h1>
 

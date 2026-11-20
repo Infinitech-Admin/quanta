@@ -5,9 +5,7 @@ import { BrandsShowcase } from "@/components/brands/BrandsShowcase";
 import { InstitutionalProductsShowcase } from "@/components/brands/InstitutionalProductsShowcase";
 import { QStoreCta } from "@/components/brands/QStoreCta";
 import { getBrandsGroupedByCategory } from "@/lib/brands";
-import { getInstitutionalProducts } from "@/lib/institutional-products";
 import { BrandsShowcaseSkeleton } from "@/components/skeleton/BrandSkeleton";
-import { InstitutionalProductsSkeleton } from "@/components/skeleton/InstitutionalProductsSkeleton";
 
 // getBrandsGroupedByCategory() is called by several sections below. Next dedupes
 // identical fetch() calls within one render, so this is still a single request.
@@ -30,9 +28,7 @@ export default function BrandsPage() {
       </div>
 
       <div id="institutional" className="scroll-mt-24">
-        <Suspense fallback={<InstitutionalProductsSkeleton />}>
-          <InstitutionalSection />
-        </Suspense>
+        <InstitutionalProductsShowcase />
       </div>
 
       <QStoreCta />
@@ -59,9 +55,4 @@ async function MarqueeSection() {
 async function ShowcaseSection() {
   const categories = await getBrandsGroupedByCategory();
   return <BrandsShowcase categories={categories} />;
-}
-
-async function InstitutionalSection() {
-  const products = await getInstitutionalProducts();
-  return <InstitutionalProductsShowcase products={products} />;
 }
