@@ -58,9 +58,10 @@ export type Company = {
   paragraphs: string[];
   /**
    * Logo shown inside the company card.
-   * Set `tint` (any CSS color) to recolor a white/light logo so it shows on the white card.
+   * - `tint`: recolor a white/light logo (any CSS color).
+   * - `scale`: enlarge a logo that has extra transparent padding (1 = normal).
    */
-  logo?: { src: string; alt: string; tint?: string };
+  logo?: { src: string; alt: string; tint?: string; scale?: number };
   /** Picture beside the intro (ignored when `stats` is set) */
   image?: { src: string; alt: string };
   stats?: {
@@ -221,6 +222,7 @@ export const COMPANIES: Company[] = [
     logo: {
       src: imgFile("ECO HYGIENE LOGO.png"),
       alt: "Eco Hygiene Institutional Sales Corp. logo",
+      scale: 1.8, // PNG has extra padding → enlarge to match the other logos
     },
     headline: "Complete hygiene care, *tailored to your facility.*",
     paragraphs: [

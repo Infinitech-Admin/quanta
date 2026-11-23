@@ -456,8 +456,16 @@ export function CompanyExplorer() {
                             src={company.logo.src}
                             alt={company.logo.alt}
                             fill
-                            sizes="(min-width: 1024px) 240px, 50vw"
+                            sizes="(min-width: 1024px) 480px, 100vw"
                             className="object-contain object-left"
+                            style={
+                              company.logo.scale
+                                ? {
+                                    transform: `scale(${company.logo.scale})`,
+                                    transformOrigin: "left center",
+                                  }
+                                : undefined
+                            }
                           />
                         )}
                       </div>
