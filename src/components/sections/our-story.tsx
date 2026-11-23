@@ -53,16 +53,16 @@ export function OurStory() {
   return (
     <section className="relative isolate w-full overflow-hidden bg-[#066c37] text-white">
       <Image
-        src="/images/MAIN-BANNER.png"
+        src="/images/MAIN-BANNER-2.png"
         alt=""
         fill
         priority
         aria-hidden
-        className="pointer-events-none object-cover"
+        className="pointer-events-none object-cover object-[75%_center]"
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-20 pt-24 xl:px-0">
-        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,460px)_minmax(0,1fr)]">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-10 pt-12 sm:px-6 lg:pb-14 lg:pt-16 xl:px-0">
+        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,460px)_minmax(0,1fr)] lg:gap-12">
           {/* ── Copy ── */}
           <div>
             <motion.p
@@ -86,7 +86,7 @@ export function OurStory() {
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
               variants={fadeInUp}
-              className="mt-6 text-5xl font-bold leading-[1.08] tracking-[-0.045em] lg:whitespace-nowrap lg:text-[58px]"
+              className="mt-4 text-4xl font-bold leading-[1.08] tracking-[-0.045em] sm:text-5xl lg:mt-6 lg:whitespace-nowrap lg:text-[58px]"
             >
               More than paper.
               <br />
@@ -102,14 +102,14 @@ export function OurStory() {
               viewport={{ once: true, amount: 0.3 }}
               variants={fadeInUp}
             >
-              <div className="mt-6 h-[3px] w-14 rounded-full bg-white/50" />
+              <div className="mt-5 h-[3px] w-14 rounded-full bg-white/50" />
 
-              <p className="mt-8 text-[15px] font-semibold leading-[1.8]">
+              <p className="mt-5 text-[15px] font-semibold leading-[1.7]">
                 Quanta Paper Corporation is a Philippine paper manufacturer
                 committed to making quality, affordable, and hygienic essentials
                 part of everyday life.
               </p>
-              <p className="mt-3 text-[13px] leading-[1.9] text-white/90">
+              <p className="mt-2 text-[13px] leading-[1.8] text-white/90">
                 Since 2003, we have grown our product portfolio and capabilities
                 to serve households, retailers, businesses, and institutions.
                 Our story is built on dependable products, customer-focused
@@ -123,7 +123,7 @@ export function OurStory() {
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
               variants={fadeInUp}
-              className="mt-9 flex flex-wrap items-center gap-6"
+              className="mt-6 flex flex-wrap items-center gap-4 lg:mt-9 lg:gap-6"
             >
               <Link
                 href="/about"
@@ -161,7 +161,7 @@ export function OurStory() {
                 playsInline
                 preload="metadata"
               />
-              <div className="flex items-center px-5 py-4 text-[10px] font-bold uppercase tracking-[0.15em]">
+              <div className="flex items-center px-5 py-3 text-[10px] font-bold uppercase tracking-[0.15em] lg:py-4">
                 <span className="flex items-center gap-2 text-white/90">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#9be37a]" />
                   The Quanta Story
@@ -178,7 +178,7 @@ export function OurStory() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={fadeInUp}
-          className="mt-20"
+          className="mt-10 lg:mt-14"
         >
           <div className="mb-3 flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.2em]">
             <span>Our journey in brief</span>
@@ -191,7 +191,7 @@ export function OurStory() {
             {stats.map((stat, i) => (
               <div
                 key={stat.value}
-                className={`flex flex-col items-center justify-center px-4 py-7 text-center ${
+                className={`flex flex-col items-center justify-center px-4 py-4 text-center md:py-6 ${
                   i === stats.length - 1 && stats.length % 2 === 1
                     ? "col-span-2 md:col-span-1"
                     : ""
@@ -199,10 +199,10 @@ export function OurStory() {
                   i > 1 ? "border-t border-white/20 md:border-t-0" : ""
                 }`}
               >
-                <p className="text-2xl font-bold tracking-tight">
+                <p className="text-xl font-bold tracking-tight md:text-2xl">
                   {stat.value}
                 </p>
-                <p className="mt-1.5 text-[10px] font-semibold text-white/80">
+                <p className="mt-1 text-[10px] font-semibold text-white/80">
                   {stat.label}
                 </p>
               </div>

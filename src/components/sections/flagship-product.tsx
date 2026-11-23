@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 // Your existing product image in /public/brands/. The design shows a wide
 // photo (products on a wooden table, plants in the background); a cutout PNG
 // also works, but the right side will look better with the full scene photo.
-const PRODUCT_IMAGE = "/brands/fresh-tissue.png";
+const PRODUCT_IMAGE = "/FRESH-FEATURE.png";
 
 export function FlagshipProduct() {
   return (

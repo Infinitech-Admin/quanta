@@ -2,18 +2,58 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Pause, Play } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { getImageUrl } from "@/lib/image-url";
+import { getImageUrl, getRemoteImageUrl } from "@/lib/image-url";
 import type { BrandCategoryGroup } from "@/lib/brands";
 
 interface BrandsMarqueeProps {
   categories: BrandCategoryGroup[];
 }
 
-export function BrandsMarquee({ categories }: BrandsMarqueeProps) {
-  const [paused, setPaused] = useState(false);
+/**
+ * Brand logo with a fallback chain. Brand images from the API are stored on
+ * the Laravel server (e.g. "/brands/kami.png"), but the fallback catalog uses
+ * files bundled with the frontend at the same kind of path. So try the Laravel
+ * origin first, then the local path, and finally show the brand name as text
+ * instead of a broken image icon.
+ */
+function BrandLogo({
+  image,
+  name,
+  hidden,
+}: {
+  image: string | null;
+  name: string;
+  hidden: boolean;
+}) {
+  const candidates = Array.from(
+    new Set(
+      [getRemoteImageUrl(image), getImageUrl(image)].filter((s): s is string =>
+        Boolean(s),
+      ),
+    ),
+  );
+  const [index, setIndex] = useState(0);
+  const src = candidates[index];
 
+  if (!src) {
+    return <span className="text-2xl font-bold text-[#0f4a2c]">{name}</span>;
+  }
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt={hidden ? "" : name}
+      className="h-full w-auto max-w-[200px] object-contain"
+      draggable={false}
+      onError={() => setIndex((i) => i + 1)}
+    />
+  );
+}
+
+export function BrandsMarquee({ categories }: BrandsMarqueeProps) {
   // One flat list of every brand across all categories
   const brands = categories.flatMap((c) => c.brands);
   if (brands.length === 0) return null;
@@ -26,38 +66,23 @@ export function BrandsMarquee({ categories }: BrandsMarqueeProps) {
       className="flex shrink-0 items-center gap-16 pr-16"
       aria-hidden={hidden || undefined}
     >
-      {brands.map((brand) => {
-        const src = getImageUrl(brand.image);
-        return (
-          <Link
-            key={brand.slug}
-            href={`/brands/${brand.slug}`}
-            tabIndex={hidden ? -1 : undefined}
-            aria-label={brand.name}
-            className="flex h-[88px] shrink-0 items-center justify-center transition-transform duration-200 hover:scale-105"
-          >
-            {src ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={src}
-                alt={hidden ? "" : brand.name}
-                className="h-full w-auto max-w-[200px] object-contain"
-                draggable={false}
-              />
-            ) : (
-              <span className="text-2xl font-bold text-[#0f4a2c]">
-                {brand.name}
-              </span>
-            )}
-          </Link>
-        );
-      })}
+      {brands.map((brand) => (
+        <Link
+          key={brand.slug}
+          href={`/brands/${brand.slug}`}
+          tabIndex={hidden ? -1 : undefined}
+          aria-label={brand.name}
+          className="flex h-[88px] shrink-0 items-center justify-center transition-transform duration-200 hover:scale-105"
+        >
+          <BrandLogo image={brand.image} name={brand.name} hidden={hidden} />
+        </Link>
+      ))}
     </div>
   );
 
   return (
     <section className="bg-[#f7f6f2] px-6 py-20 md:py-24">
-      {/* keyframes for the loop; paused via animation-play-state */}
+      {/* keyframes for the loop */}
       <style>{`
         @keyframes quanta-brands-marquee {
           from { transform: translateX(0); }
@@ -106,13 +131,12 @@ export function BrandsMarquee({ categories }: BrandsMarqueeProps) {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true, amount: 0.2 }}
-          className="group/marquee mt-10 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
+          className="mt-10 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
         >
           <div
             className="quanta-brands-track flex w-max"
             style={{
               animation: `quanta-brands-marquee ${brands.length * 4}s linear infinite`,
-              animationPlayState: paused ? "paused" : "running",
             }}
           >
             {logos()}
@@ -124,29 +148,13 @@ export function BrandsMarquee({ categories }: BrandsMarqueeProps) {
         <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-[#5b6460]">{categoryLine}</p>
 
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => setPaused((p) => !p)}
-              aria-pressed={paused}
-              className="inline-flex items-center gap-2 rounded-full border border-black/15 bg-white px-5 py-3 text-xs font-bold text-[#0f4a2c] transition-colors hover:bg-black/5"
-            >
-              {paused ? (
-                <Play className="h-3 w-3 fill-current" />
-              ) : (
-                <Pause className="h-3 w-3 fill-current" />
-              )}
-              {paused ? "Play" : "Pause"}
-            </button>
-
-            <Link
-              href="/brands"
-              className="inline-flex items-center gap-1.5 rounded-full bg-[#0b5a32] px-6 py-3 text-xs font-bold text-white transition-colors hover:bg-[#094a29]"
-            >
-              Explore all {brands.length} brands
-              <ArrowUpRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
+          <Link
+            href="/brands"
+            className="inline-flex items-center gap-1.5 self-start rounded-full bg-[#0b5a32] px-6 py-3 text-xs font-bold text-white transition-colors hover:bg-[#094a29] sm:self-auto"
+          >
+            Explore all {brands.length} brands
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </Link>
         </div>
       </div>
     </section>
