@@ -4,13 +4,15 @@ import { useState } from "react";
 import Image from "next/image";
 import { Check, X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { getImageUrl } from "@/lib/image-url";
+import { getRemoteImageUrl } from "@/lib/image-url";
 import type { BrandWithCategory } from "@/lib/brands";
 
 export function BrandDetail({ brand }: { brand: BrandWithCategory }) {
-  const image = getImageUrl(brand.image);
+  // Brand images are stored on the Laravel server (e.g. "/brands/x.png"),
+  // so resolve them against the Laravel origin.
+  const image = getRemoteImageUrl(brand.image);
   const gallery = (brand.images ?? [])
-    .map((url) => getImageUrl(url))
+    .map((url) => getRemoteImageUrl(url))
     .filter((url): url is string => Boolean(url));
 
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
