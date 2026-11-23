@@ -21,9 +21,6 @@ export function NewsList({
   const [search, setSearch] = useState("");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
-  // Newest article (same one used as the "Featured story" on the page).
-  const latest = articles[0];
-
   // Featured story first, everything else keeps its original (newest-first) order.
   const ordered = useMemo(() => {
     if (featuredId == null) return articles;
@@ -61,19 +58,20 @@ export function NewsList({
       id="stories"
       className="mx-auto max-w-6xl scroll-mt-24 px-4 py-14 sm:px-6 lg:px-8"
     >
+      {/* Static header */}
       <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#0B6E3E]">
-        Latest Events at Quanta
+        From the Quanta Newsroom
       </p>
-      <h2 className="mt-3 text-3xl font-bold tracking-tight text-[#1B3F34] sm:text-4xl">
-        {latest?.title ?? "More stories from Quanta"}
+      <h2 className="mt-4 text-4xl font-bold tracking-[-0.03em] text-[#1B3F34] sm:text-5xl md:text-6xl">
+        More stories from Quanta
       </h2>
-      <p className="mt-3 text-sm text-[#1B3F34]/60">
-        {latest
-          ? latest.excerpt
-          : "Discover the people, achievements, and celebrations that shape our story."}
+      <p className="mt-4 text-base text-[#1B3F34]/60">
+        Discover the people, achievements, and celebrations that shape our
+        story.
       </p>
 
-      <div className="mt-6 flex flex-col gap-4 border-t border-[#1B3F34]/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+      {/* Sub-categories (filter pills) + search */}
+      <div className="mt-8 flex flex-col gap-4 border-t border-[#1B3F34]/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap gap-2">
           {["All", ...categories].map((cat) => (
             <button
@@ -81,7 +79,7 @@ export function NewsList({
               type="button"
               onClick={() => pick(cat)}
               className={[
-                "rounded-full border px-4 py-2 text-xs font-semibold transition-colors",
+                "rounded-full border px-5 py-2.5 text-xs font-semibold transition-colors",
                 active === cat
                   ? "border-[#0B6E3E] bg-[#0B6E3E] text-white"
                   : "border-[#1B3F34]/10 bg-[#E9F0E6] text-[#1B3F34] hover:border-[#0B6E3E]/40",
