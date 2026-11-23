@@ -2,39 +2,34 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { getRemoteImageUrl } from "@/lib/image-url";
 import type { BrandCategoryGroup } from "@/lib/brands";
 
-// Slugs whose file in public/brand-marquee/ doesn't match "<slug>.png".
-const FILE_OVERRIDES: Record<string, string> = {
-  "fresh-by-eco-hygiene": "fresh-eco-hygiene.png",
-  "sweet-baby": "SWEETBABY.png",
-};
-
 /**
- * Brand logo served from the Next.js static folder: public/brand-marquee/.
- * The file is "<slug>.png" unless FILE_OVERRIDES says otherwise. If the file
- * is missing, the brand name is shown as text instead of a broken image icon.
+ * Brand logo = the "Thumbnail image" set for the brand in the admin page
+ * (brand.image, served by Laravel). If a brand has no thumbnail, or it fails
+ * to load, the brand name is shown as text instead of a broken image icon.
  */
 function BrandLogo({
-  slug,
+  image,
   name,
   hidden,
 }: {
-  slug: string;
+  image: string | null;
   name: string;
   hidden: boolean;
 }) {
   const [failed, setFailed] = useState(false);
-  const filename = FILE_OVERRIDES[slug] ?? `${slug}.png`;
+  const src = getRemoteImageUrl(image);
 
-  if (failed) {
+  if (!src || failed) {
     return <span className="text-2xl font-bold text-[#0f4a2c]">{name}</span>;
   }
 
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={`/brand-marquee/${filename}`}
+      src={src}
       alt={hidden ? "" : name}
       className="h-full w-auto max-w-[180px] object-contain"
       draggable={false}
@@ -65,7 +60,7 @@ export function PortfolioMarquee({
           aria-label={brand.name}
           className="flex h-[88px] shrink-0 items-center justify-center transition-transform duration-200 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#00a651]"
         >
-          <BrandLogo slug={brand.slug} name={brand.name} hidden={hidden} />
+          <BrandLogo image={brand.image} name={brand.name} hidden={hidden} />
         </Link>
       ))}
     </div>
