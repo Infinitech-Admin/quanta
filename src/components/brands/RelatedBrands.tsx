@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { getImageUrl } from "@/lib/image-url";
+import { getRemoteImageUrl } from "@/lib/image-url";
 import type { BrandWithCategory } from "@/lib/brands";
 
 interface RelatedBrandsProps {
@@ -31,7 +31,8 @@ export function RelatedBrands({ related, brand }: RelatedBrandsProps) {
 
         <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4">
           {related.map((item, index) => {
-            const image = getImageUrl(item.image);
+            // Brand images live on the Laravel server (e.g. "/brands/x.png").
+            const image = getRemoteImageUrl(item.image);
             return (
               <motion.div
                 key={item.slug}
