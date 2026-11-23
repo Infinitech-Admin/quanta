@@ -2,7 +2,7 @@
 
 import { useId, useRef, useState } from "react";
 import { ImageIcon, Loader2, RotateCw, Upload, X } from "lucide-react";
-import { getImageUrl } from "@/lib/image-url";
+import { getRemoteImageUrl } from "@/lib/image-url";
 
 interface ImageDropzoneProps {
   label: string;
@@ -152,9 +152,11 @@ export function ImageDropzone({
 
         {value ? (
           <>
+            {/* Stored paths like "/brands/x.png" live on the Laravel origin;
+                blob:/data:/http(s): previews pass through unchanged. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={getImageUrl(value) ?? undefined}
+              src={getRemoteImageUrl(value) ?? undefined}
               alt=""
               className="h-full w-full object-cover"
             />

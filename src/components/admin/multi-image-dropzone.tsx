@@ -2,7 +2,7 @@
 
 import { useId, useRef, useState } from "react";
 import { ImageIcon, Loader2, Upload, X } from "lucide-react";
-import { getImageUrl } from "@/lib/image-url";
+import { getRemoteImageUrl } from "@/lib/image-url";
 
 interface MultiImageDropzoneProps {
   value: string[];
@@ -157,9 +157,10 @@ export function MultiImageDropzone({
               key={`${url}-${index}`}
               className="group relative aspect-square overflow-hidden rounded-lg ring-1 ring-black/5"
             >
+              {/* Stored paths like "/brands/gallery/x.png" live on the Laravel origin. */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={getImageUrl(url) ?? undefined}
+                src={getRemoteImageUrl(url) ?? undefined}
                 alt=""
                 className="h-full w-full object-cover"
               />
