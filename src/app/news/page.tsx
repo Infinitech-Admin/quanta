@@ -21,18 +21,18 @@ export default async function NewsPage() {
   return (
     <main className="min-h-screen bg-[#F7F5EC]">
       {/* Hero */}
-      <section className="relative isolate items-start bg-[#4f7a6b] px-4 pb-20 pt-40 text-white sm:px-6 lg:px-8">
+      <section className="relative isolate flex min-h-[520px] items-center bg-[#4f7a6b] px-4 pb-24 pt-44 text-white sm:px-6 md:min-h-[600px] lg:min-h-[680px] lg:px-8">
         <Image
-          src="/images/MAIN-BANNER.png"
+          src="/images/MAIN-BANNER-2.png"
           alt="Quanta Paper Corporation factory building surrounded by greenery"
           fill
           priority
           sizes="100vw"
           quality={90}
-          className="object-cover"
+          className="object-cover object-right"
         />
 
-        <div className="relative z-10 mx-auto max-w-6xl">
+        <div className="relative z-10 mx-auto w-full max-w-6xl">
           <p className="text-[11px] font-bold uppercase tracking-[0.18em]">
             News &amp; Events
           </p>
