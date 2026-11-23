@@ -44,29 +44,23 @@ export function BrandDetail({ brand }: { brand: BrandWithCategory }) {
               transition={{ duration: 0.7, ease: "easeOut" }}
               viewport={{ once: true, amount: 0.3 }}
             >
-              <div
-                className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl shadow-[0_25px_50px_-15px_rgba(0,0,0,0.35)]"
-                style={{ backgroundImage: brand.gradient }}
-              >
-                <div
-                  className="absolute inset-0 opacity-15"
-                  style={{
-                    backgroundImage:
-                      "radial-gradient(circle, white 1px, transparent 1px)",
-                    backgroundSize: "14px 14px",
-                  }}
-                />
+              {/* Clean white card: logos are designed for light backgrounds,
+                  so they stay readable. */}
+              <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-white shadow-[0_20px_40px_-20px_rgba(0,0,0,0.2)] ring-1 ring-black/5">
                 {image ? (
                   <Image
                     src={image}
                     alt={brand.name}
                     fill
-                    className="relative z-10 object-contain p-8"
+                    className="object-contain p-10"
                     sizes="(min-width: 1024px) 380px, 320px"
                   />
                 ) : (
-                  <div className="relative z-10 flex h-full w-full items-center justify-center">
-                    <span className="font-serif text-6xl font-bold text-white/90">
+                  <div className="flex h-full w-full items-center justify-center">
+                    <span
+                      className="font-serif text-6xl font-bold"
+                      style={{ color: brand.color }}
+                    >
                       {brand.name.charAt(0)}
                     </span>
                   </div>
