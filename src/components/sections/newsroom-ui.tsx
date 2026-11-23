@@ -28,6 +28,20 @@ function formatDate(iso: string) {
   });
 }
 
+// Splits "23 Years of Care: Sharing Beyond the Workplace"
+// into the lead ("23 Years of Care:") and the highlighted part after the colon.
+function renderTitle(title: string, highlight: boolean) {
+  const i = title.indexOf(":");
+  if (!highlight || i === -1) return title; // no colon → plain title
+
+  return (
+    <>
+      {title.slice(0, i + 1)}{" "}
+      <span className="text-[#00a651]">{title.slice(i + 1).trim()}</span>
+    </>
+  );
+}
+
 function NewsCard({ post, index }: { post: NewsPost; index: number }) {
   return (
     <motion.div
@@ -79,7 +93,7 @@ function NewsCard({ post, index }: { post: NewsPost; index: number }) {
           </div>
 
           <h3 className="mt-3 line-clamp-3 text-lg font-bold leading-[1.25] tracking-[-0.025em] text-[#1f2623]">
-            {post.title}
+            {renderTitle(post.title, post.featured)}
           </h3>
 
           {post.excerpt && (
