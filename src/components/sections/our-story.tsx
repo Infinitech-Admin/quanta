@@ -58,6 +58,8 @@ export function OurStory() {
         fill
         priority
         aria-hidden
+        sizes="100vw"
+        quality={100}
         className="pointer-events-none object-cover object-[75%_center]"
       />
 

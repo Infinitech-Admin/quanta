@@ -9,13 +9,28 @@ import type { News } from "@/types/news";
 
 const PAGE_SIZE = 6;
 
-export function NewsList({ articles }: { articles: News[] }) {
+export function NewsList({
+  articles,
+  featuredId,
+}: {
+  articles: News[];
+  /** The featured story: pinned first in the list and shown with a badge. */
+  featuredId?: News["id"];
+}) {
   const [active, setActive] = useState("All");
   const [search, setSearch] = useState("");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   // Newest article (same one used as the "Featured story" on the page).
   const latest = articles[0];
+
+  // Featured story first, everything else keeps its original (newest-first) order.
+  const ordered = useMemo(() => {
+    if (featuredId == null) return articles;
+    const featured = articles.find((a) => a.id === featuredId);
+    if (!featured) return articles;
+    return [featured, ...articles.filter((a) => a.id !== featuredId)];
+  }, [articles, featuredId]);
 
   // Categories come from the data itself (typed manually in the admin).
   const categories = useMemo(
@@ -25,14 +40,14 @@ export function NewsList({ articles }: { articles: News[] }) {
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
-    return articles.filter((a) => {
+    return ordered.filter((a) => {
       if (active !== "All" && a.category !== active) return false;
       if (!q) return true;
       return [a.title, a.excerpt ?? "", a.category].some((s) =>
         s.toLowerCase().includes(q),
       );
     });
-  }, [articles, active, search]);
+  }, [ordered, active, search]);
 
   const visible = filtered.slice(0, visibleCount);
 
@@ -99,7 +114,11 @@ export function NewsList({ articles }: { articles: News[] }) {
       ) : (
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:gap-8">
           {visible.map((a) => (
-            <NewsCard key={a.id} article={a} />
+            <NewsCard
+              key={a.id}
+              article={a}
+              featured={featuredId != null && a.id === featuredId}
+            />
           ))}
         </div>
       )}
@@ -119,7 +138,13 @@ export function NewsList({ articles }: { articles: News[] }) {
   );
 }
 
-function NewsCard({ article }: { article: News }) {
+function NewsCard({
+  article,
+  featured = false,
+}: {
+  article: News;
+  featured?: boolean;
+}) {
   return (
     <Link
       href={`/news/${article.slug}`}
@@ -135,6 +160,17 @@ function NewsCard({ article }: { article: News }) {
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
         )}
+
+        {featured && (
+          <span className="absolute left-4 top-4 inline-flex items-center gap-2.5 rounded-full bg-white/90 px-4 py-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#2b3a33] shadow-sm backdrop-blur-sm">
+            <span
+              aria-hidden
+              className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#00A651]"
+            />
+            Featured
+          </span>
+        )}
+
         <span className="absolute bottom-3 left-4 rounded-full bg-[#1B3F34] px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white">
           {article.category}
         </span>

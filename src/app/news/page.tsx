@@ -99,7 +99,8 @@ export default async function NewsPage() {
         </section>
       )}
 
-      <NewsList articles={articles} />
+      {/* The featured story is pinned first in the list below, with a badge. */}
+      <NewsList articles={articles} featuredId={featured?.id} />
 
       {/* CTA */}
       <section className="bg-[#1B3F34] px-4 py-14 text-white sm:px-6 lg:px-8">
