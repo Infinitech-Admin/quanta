@@ -28,12 +28,27 @@ function QStoreBag() {
 export function QStoreCta() {
   return (
     <section className="bg-[#f9f7f1] px-6 pb-10">
-      <div className="relative mx-auto flex max-w-6xl flex-col items-start gap-8 overflow-hidden rounded-[28px] bg-gradient-to-r from-[#14533a] via-[#1d5e40] to-[#4f8b5e] p-8 text-white shadow-[0_24px_50px_-20px_rgba(15,74,44,0.55)] md:min-h-[220px] md:flex-row md:items-center md:justify-between md:py-10 md:pl-[238px] md:pr-10">
-        {/* soft light on the lower right */}
+      {/* isolate para hindi mapunta sa likod ng card background ang Q image */}
+      <div className="relative isolate mx-auto flex max-w-6xl flex-col items-start gap-8 overflow-hidden rounded-[28px] bg-[#14533a] p-8 text-white shadow-[0_24px_50px_-20px_rgba(15,74,44,0.55)] md:min-h-[220px] md:flex-row md:items-center md:justify-between md:py-10 md:pl-[238px] md:pr-10">
+        {/* Q background image: kasing-taas ng card, naka-right, buo ang Q. Ang fade ay nasa image mismo. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_85%_110%,rgba(130,185,140,0.45),transparent_55%)]"
-        />
+          className="pointer-events-none absolute right-0 top-0 -z-10 aspect-[2576/978] h-full opacity-60 md:opacity-100"
+          style={{
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent 0%, black 35%)",
+            maskImage: "linear-gradient(to right, transparent 0%, black 35%)",
+          }}
+        >
+          <Image
+            src="/images/MAIN-BANNER-2.png"
+            alt=""
+            fill
+            sizes="(min-width: 768px) 900px, 100vw"
+            quality={90}
+            className="object-cover"
+          />
+        </div>
 
         {/* decorative ring behind the bag */}
         <div
@@ -78,13 +93,13 @@ export function QStoreCta() {
             href="https://tissuemarket.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-8 rounded-full bg-[#00a651] px-6 py-3.5 text-xs font-bold transition-colors hover:bg-[#009447]"
+            className="inline-flex items-center justify-center gap-8 rounded-full bg-[#04472a] px-6 py-3.5 text-xs font-bold transition-colors hover:bg-[#033a22]"
           >
             Visit QStore <ArrowUpRight className="h-3 w-3" />
           </a>
           <Link
             href={CONTACT_PAGE_URL}
-            className="inline-flex items-center justify-center gap-8 rounded-full border border-white/60 px-6 py-3.5 text-xs font-bold transition-colors hover:bg-white/10"
+            className="inline-flex items-center justify-center gap-8 rounded-full bg-[#04472a] px-6 py-3.5 text-xs font-bold transition-colors hover:bg-[#033a22]"
           >
             Connect with us <ArrowUpRight className="h-3 w-3" />
           </Link>

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
@@ -7,15 +8,25 @@ import { motion } from "framer-motion";
 export function CareersHero() {
   return (
     <section className="relative isolate overflow-hidden bg-gradient-to-br from-[#00693e] via-[#006239] to-[#005a34] text-white">
-      {/* two thin outlines, the only decoration */}
+      {/* Q background image: kasing-taas ng section, naka-right, buo ang Q. Ang fade ay nasa image mismo. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-24 -top-40 hidden h-[620px] w-[620px] rounded-full border border-white/10 md:block"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -bottom-52 right-[-8%] hidden h-[620px] w-[620px] rounded-full border border-white/10 md:block"
-      />
+        className="pointer-events-none absolute right-0 top-0 -z-10 aspect-[2576/978] h-full opacity-60 md:opacity-100"
+        style={{
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent 0%, black 35%)",
+          maskImage: "linear-gradient(to right, transparent 0%, black 35%)",
+        }}
+      >
+        <Image
+          src="/images/MAIN-BANNER-2.png"
+          alt=""
+          fill
+          sizes="(min-width: 768px) 1200px, 100vw"
+          quality={90}
+          className="object-cover"
+        />
+      </div>
 
       {/* Top padding clears the fixed navbar (set --navbar-height if it changes) */}
       <motion.div
@@ -41,13 +52,13 @@ export function CareersHero() {
         <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
           <Link
             href="#positions"
-            className="inline-flex items-center gap-4 rounded-full bg-[#00a651] px-6 py-3.5 text-xs font-bold text-white transition-colors hover:bg-[#009447] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="inline-flex items-center gap-4 rounded-full bg-[#04472a] px-6 py-3.5 text-xs font-bold text-white transition-colors hover:bg-[#033a22] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             Explore Open Positions <ArrowUpRight className="h-3.5 w-3.5" />
           </Link>
           <Link
             href="#apply"
-            className="inline-flex items-center gap-4 rounded-full border border-white/60 px-6 py-3.5 text-xs font-bold text-white transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="inline-flex items-center gap-4 rounded-full bg-[#04472a] px-6 py-3.5 text-xs font-bold text-white transition-colors hover:bg-[#033a22] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             How to Apply <ArrowDown className="h-3.5 w-3.5" />
           </Link>

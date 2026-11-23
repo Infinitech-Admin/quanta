@@ -17,24 +17,26 @@ const fadeInUp = {
 export function Hero() {
   return (
     // Buong screen ang taas (100svh), kaya hindi makikita ang next section
-    // hangga't hindi nag-i-scroll. Naka-cover ang photo gaya ng reference ng client.
+    // hangga't hindi nag-i-scroll. Ang image at content ay nagsisimula sa ilalim
+    // ng navbar (top-[94px]) para hindi matakpan ang mga dahon sa taas.
     // min-h-[640px] para kasya ang text sa maiikling screen.
     <section className="relative isolate h-svh min-h-[640px] w-full overflow-hidden bg-[#4f7a6b]">
-      <Image
-        src="/images/HOMEPAGE-BANNER.png"
-        alt="Quanta Paper Corporation factory building surrounded by greenery"
-        fill
-        priority
-        sizes="100vw"
-        quality={90}
-        className="object-cover object-[70%_center]"
-      />
+      <div className="absolute inset-x-0 bottom-0 top-[94px]">
+        <Image
+          src="/images/HOMEPAGE-BANNER.png"
+          alt="Quanta Paper Corporation factory building surrounded by greenery"
+          fill
+          priority
+          sizes="100vw"
+          quality={90}
+          className="object-cover object-[40%_center]"
+        />
 
-      {/* Soft gradient sa text side lang */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0b2f22]/55 via-[#0b2f22]/20 to-transparent" />
+        {/* Soft gradient sa text side lang */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0b2f22]/55 via-[#0b2f22]/20 to-transparent" />
+      </div>
 
-      {/* pt-24 = pantulak sa content para hindi sumagi sa navbar (~94px) */}
-      <div className="relative z-10 flex h-full items-center pt-24">
+      <div className="absolute inset-x-0 bottom-0 top-[94px] z-10 flex items-center">
         <div className="mx-auto w-full max-w-6xl px-6 xl:px-0">
           <div className="max-w-[640px]">
             <motion.p
@@ -52,7 +54,7 @@ export function Hero() {
               initial="hidden"
               animate="visible"
               variants={fadeInUp}
-              className="mt-5 text-5xl font-bold leading-[1.05] tracking-[-0.04em] text-white drop-shadow-[0_3px_14px_rgba(0,0,0,0.4)] sm:text-6xl lg:text-7xl"
+              className="mt-5 text-5xl font-bold leading-[1.05] tracking-[-0.04em] text-white sm:text-6xl lg:text-7xl"
             >
               Embracing sustainability.
               <br />

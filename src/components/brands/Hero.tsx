@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
@@ -14,11 +15,26 @@ interface BrandsHeroProps {
 export function BrandsHero(_props: BrandsHeroProps) {
   return (
     <section className="relative isolate overflow-hidden bg-gradient-to-br from-[#00693e] via-[#006239] to-[#005a34] text-white">
-      {/* soft glow in the corner */}
+      {/* Q background image: kasing-taas ng section, naka-right, buo ang Q. Ang fade ay nasa image mismo. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -bottom-24 right-[-10%] h-[360px] w-[460px] rounded-[50%] bg-[#7fc79a]/25 blur-3xl"
-      />
+        className="pointer-events-none absolute right-0 top-0 -z-10 aspect-[2576/978] h-full opacity-60 md:opacity-100"
+        style={{
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent 0%, black 35%)",
+          maskImage: "linear-gradient(to right, transparent 0%, black 35%)",
+        }}
+      >
+        <Image
+          src="/images/MAIN-BANNER-2.png"
+          alt=""
+          fill
+          sizes="(min-width: 768px) 1200px, 100vw"
+          quality={90}
+          className="object-cover"
+          aria-hidden
+        />
+      </div>
 
       {/*
         The site navbar is fixed (~90px tall), so the top padding clears it.

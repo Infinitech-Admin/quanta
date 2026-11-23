@@ -1,13 +1,30 @@
+import Image from "next/image";
 import { vision, mission } from "./content";
-import { Wrap, greenBg } from "./ui";
+import { Wrap } from "./ui";
 
 export function MissionVision() {
   return (
-    <section className={`relative overflow-hidden ${greenBg} py-20 text-white`}>
+    <section className="relative isolate overflow-hidden bg-[#00683a] py-20 text-white">
+      {/* Q background image: kasing-taas ng section, naka-right, buo ang Q. Ang fade ay nasa image mismo. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-32 -top-20 h-[620px] w-[620px] rounded-full border-[90px] border-white/[0.05]"
-      />
+        className="pointer-events-none absolute right-0 top-0 -z-10 aspect-[2576/978] h-full opacity-60 md:opacity-100"
+        style={{
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent 0%, black 35%)",
+          maskImage: "linear-gradient(to right, transparent 0%, black 35%)",
+        }}
+      >
+        <Image
+          src="/images/MAIN-BANNER-2.png"
+          alt=""
+          fill
+          sizes="(min-width: 768px) 1000px, 100vw"
+          quality={90}
+          className="object-cover"
+        />
+      </div>
+
       <Wrap className="relative">
         <div id="mission" className="scroll-mt-16 text-center">
           <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">

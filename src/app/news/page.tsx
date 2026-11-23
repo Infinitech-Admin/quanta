@@ -103,10 +103,31 @@ export default async function NewsPage() {
       <NewsList articles={articles} featuredId={featured?.id} />
 
       {/* CTA */}
-      <section className="bg-[#1B3F34] px-4 py-14 text-white sm:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-6xl flex-col gap-6 md:flex-row md:items-center md:justify-between">
+      {/* CTA */}
+      <section className="relative isolate overflow-hidden bg-[#00683a] px-4 py-14 text-white sm:px-6 md:min-h-[300px] lg:px-8">
+        {/* Q background image: kasing-taas ng section, naka-right, buo ang Q. Ang fade ay nasa image mismo. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-0 top-0 -z-10 aspect-[2576/978] h-full opacity-60 md:opacity-100"
+          style={{
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent 0%, black 35%)",
+            maskImage: "linear-gradient(to right, transparent 0%, black 35%)",
+          }}
+        >
+          <Image
+            src="/images/MAIN-BANNER-2.png"
+            alt=""
+            fill
+            sizes="(min-width: 768px) 900px, 100vw"
+            quality={90}
+            className="object-cover"
+          />
+        </div>
+
+        <div className="mx-auto flex max-w-6xl flex-col gap-6 md:min-h-[172px] md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#00A651]">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8ff0b8]">
               Stay connected
             </p>
             <h2 className="mt-3 text-3xl font-bold">
@@ -120,13 +141,13 @@ export default async function NewsPage() {
           <div className="flex gap-3">
             <Link
               href="/contact"
-              className="rounded-full bg-[#00A651] px-6 py-3.5 text-sm font-bold hover:bg-[#00B85A]"
+              className="rounded-full bg-[#04472a] px-6 py-3.5 text-sm font-bold transition-colors hover:bg-[#033a22]"
             >
               Get in Touch ↗
             </Link>
             <Link
               href="/brands"
-              className="rounded-full border border-white/40 px-6 py-3.5 text-sm font-bold hover:bg-white/10"
+              className="rounded-full bg-[#04472a] px-6 py-3.5 text-sm font-bold transition-colors hover:bg-[#033a22]"
             >
               Explore Our Brands ↗
             </Link>

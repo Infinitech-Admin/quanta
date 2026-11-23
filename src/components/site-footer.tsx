@@ -11,24 +11,57 @@ const exploreLinks = [
   { label: "Shop Now", href: "http://tissuemarket.com/", external: true },
 ];
 
+const departmentContacts = [
+  { label: "Consumer Sales", email: "salesadmin@quantapaper.com" },
+  {
+    label: "Institutional Sales",
+    email: "quanta.institutionals@quantapaper.com",
+  },
+  { label: "Credit & Collection", email: "cnc@quantapaper.com" },
+  { label: "Human Resources", email: "human.resources@quantapaper.com" },
+];
+
 const linkClass =
   "text-[13px] text-white/90 transition-colors hover:text-white hover:underline underline-offset-4";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-auto bg-[#046A3C] text-white">
-      <div className="mx-auto max-w-6xl px-4 pb-8 pt-14 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] lg:gap-8">
+    <footer className="relative mt-auto overflow-hidden bg-[#046A3C] text-white">
+      {/* Q logo background. Tweak opacity-* (e.g. opacity-10 to opacity-40)
+          and object-* to change how strong it is and where it sits. */}
+      <Image
+        src="/images/MAIN-BANNER-2.png"
+        alt=""
+        aria-hidden
+        fill
+        sizes="100vw"
+        unoptimized
+        className="pointer-events-none select-none object-cover object-center opacity-20"
+      />
+
+      <div className="relative z-10 mx-auto max-w-6xl px-4 pb-8 pt-14 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_0.8fr_2fr] lg:gap-8">
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <Link href="/" aria-label="Go to homepage" className="inline-block">
+            {/*
+              Fixed-size wrapper + fill + object-contain:
+              the logo scales to fit without ever being stretched.
+              Width = height × (518 / 124) ≈ 4.18
+              h-16 (64px) -> 267px, sm:h-20 (80px) -> 334px
+            */}
+            <Link
+              href="/"
+              aria-label="Go to homepage"
+              className="relative block h-16 w-[267px] max-w-full sm:h-20 sm:w-[334px]"
+            >
               <Image
                 src="/images/Quanta-transparent.png"
                 alt="Quanta Paper Corporation"
-                width={518}
-                height={124}
+                fill
+                sizes="334px"
                 unoptimized
-                className="h-16 w-auto sm:h-20"
+                priority
+                className="object-contain object-left"
               />
             </Link>
             <p className="mt-6 max-w-sm text-[13px] leading-[1.9] text-white/90">
@@ -75,7 +108,7 @@ export function SiteFooter() {
           </div>
 
           {/* Get in touch */}
-          <div>
+          <div className="sm:col-span-2 lg:col-span-1">
             <h3 className="text-sm font-bold">Get in Touch</h3>
             <ul className="mt-5 space-y-3 text-[13px] text-white/90">
               <li>{contactInfo.address}</li>
@@ -95,12 +128,26 @@ export function SiteFooter() {
                   {contactInfo.phone}
                 </Link>
               </li>
-              <li className="pt-2">
-                <Link href="/contact" className={linkClass}>
-                  Contact the right team →
-                </Link>
-              </li>
             </ul>
+
+            {/* Department contacts: 2 columns */}
+            <div className="mt-5 grid gap-x-6 gap-y-4 border-t border-white/15 pt-5 sm:grid-cols-2">
+              {departmentContacts.map((c) => (
+                <div key={c.label}>
+                  <p className="text-[13px] font-bold">{c.label}</p>
+                  <Link
+                    href={`mailto:${c.email}`}
+                    className={`${linkClass} mt-0.5 block break-words`}
+                  >
+                    {c.email}
+                  </Link>
+                </div>
+              ))}
+            </div>
+
+            <Link href="/contact" className={`${linkClass} mt-5 inline-block`}>
+              Contact the right team →
+            </Link>
           </div>
         </div>
 

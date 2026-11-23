@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
@@ -41,7 +42,7 @@ function NewsCard({ post, index }: { post: NewsPost; index: number }) {
         className="group flex h-full flex-col rounded-3xl bg-[#f7f6f2] p-3 shadow-[0_24px_50px_-28px_rgba(0,0,0,0.55)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_30px_60px_-28px_rgba(0,0,0,0.65)]"
       >
         {/* ── Image: same ratio on every card, rounded inside the card ── */}
-        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-gradient-to-br from-[#2a8a57] to-[#0b5a32]">
+        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-gradient-to-br from-[#2a8a57] to-[#0b5a32]">
           {post.image && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -64,7 +65,7 @@ function NewsCard({ post, index }: { post: NewsPost; index: number }) {
         </div>
 
         {/* ── Text ── */}
-        <div className="flex flex-1 flex-col px-3 pb-3 pt-5">
+        <div className="flex flex-1 flex-col px-3 pb-2 pt-4">
           <div className="flex items-center justify-between gap-3">
             <span className="rounded-full bg-[#e3efe5] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#0b6b3a]">
               {post.category}
@@ -77,22 +78,22 @@ function NewsCard({ post, index }: { post: NewsPost; index: number }) {
             </time>
           </div>
 
-          <h3 className="mt-4 line-clamp-3 text-[22px] font-bold leading-[1.25] tracking-[-0.025em] text-[#1f2623]">
+          <h3 className="mt-3 line-clamp-3 text-lg font-bold leading-[1.25] tracking-[-0.025em] text-[#1f2623]">
             {post.title}
           </h3>
 
           {post.excerpt && (
-            <p className="mt-3 line-clamp-3 text-[13px] leading-[1.8] text-[#5b6460]">
+            <p className="mt-2 line-clamp-2 text-[13px] leading-[1.7] text-[#5b6460]">
               {post.excerpt}
             </p>
           )}
 
-          {/* pinned to the bottom so all three cards end on the same line */}
-          <div className="mt-auto flex items-center justify-between border-t border-black/10 pt-4">
-            <span className="mt-4 text-[13px] font-bold text-[#0b5a32]">
+          {/* pinned to the bottom so all cards end on the same line */}
+          <div className="mt-auto flex items-center justify-between border-t border-black/10 pt-3">
+            <span className="mt-3 text-[13px] font-bold text-[#0b5a32]">
               Read story
             </span>
-            <span className="mt-4 flex h-9 w-9 items-center justify-center rounded-full border border-[#0b5a32]/25 text-[#0b5a32] transition-colors duration-300 group-hover:border-[#00a651] group-hover:bg-[#00a651] group-hover:text-white">
+            <span className="mt-3 flex h-8 w-8 items-center justify-center rounded-full border border-[#0b5a32]/25 text-[#0b5a32] transition-colors duration-300 group-hover:border-[#00a651] group-hover:bg-[#00a651] group-hover:text-white">
               <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" />
             </span>
           </div>
@@ -106,12 +107,26 @@ export function NewsroomUI({ posts }: { posts: NewsPost[] }) {
   if (posts.length === 0) return null;
 
   return (
-    <section className="relative isolate overflow-hidden bg-gradient-to-br from-[#06683b] to-[#056138] px-6 pb-20 pt-14 text-white md:pb-24">
-      {/* faint decorative ring, top right */}
+    <section className="relative isolate overflow-hidden bg-[#00683a] px-6 pb-10 pt-10 text-white md:pb-12">
+      {/* Q background image: kasing-taas ng section, naka-right, buo ang Q. Ang fade ay nasa image mismo. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-40 right-[6%] h-80 w-80 rounded-full border border-white/10"
-      />
+        className="pointer-events-none absolute right-0 top-0 -z-10 aspect-[2576/978] h-full opacity-60 md:opacity-100"
+        style={{
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent 0%, black 35%)",
+          maskImage: "linear-gradient(to right, transparent 0%, black 35%)",
+        }}
+      >
+        <Image
+          src="/images/MAIN-BANNER-2.png"
+          alt=""
+          fill
+          sizes="(min-width: 768px) 1000px, 100vw"
+          quality={90}
+          className="object-cover"
+        />
+      </div>
 
       <div className="relative mx-auto max-w-6xl">
         {/* ── Header ── */}
@@ -124,19 +139,19 @@ export function NewsroomUI({ posts }: { posts: NewsPost[] }) {
           <p className="text-[10px] font-bold uppercase tracking-[0.25em]">
             From the Quanta Newsroom
           </p>
-          <h2 className="mt-6 max-w-[620px] text-4xl font-bold leading-[1.1] tracking-[-0.04em] md:text-[52px]">
+          <h2 className="mt-3 max-w-[760px] text-3xl font-bold leading-[1.1] tracking-[-0.04em] md:text-[38px]">
             Our stories, our people, our impact.
           </h2>
 
-          <div className="mt-4 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <p className="max-w-[640px] text-sm leading-[1.9] text-white/90">
+          <div className="mt-3 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <p className="max-w-[640px] text-sm leading-[1.8] text-white/90">
               The latest news, milestones, and moments from across the Quanta
               family.
             </p>
 
             <Link
               href={NEWS_INDEX_HREF}
-              className="inline-flex shrink-0 items-center gap-1.5 self-start rounded-full border border-white/70 px-6 py-3.5 text-xs font-bold transition-colors hover:bg-white/10 md:self-auto"
+              className="inline-flex shrink-0 items-center gap-1.5 self-start rounded-full bg-[#04472a] px-6 py-3 text-xs font-bold transition-colors hover:bg-[#033a22] md:self-auto"
             >
               View all news &amp; events
               <ArrowUpRight className="h-3.5 w-3.5" />
@@ -145,7 +160,7 @@ export function NewsroomUI({ posts }: { posts: NewsPost[] }) {
         </motion.div>
 
         {/* ── Up to three equal cards ── */}
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
+        <div className="mt-6 grid gap-5 md:grid-cols-3">
           {posts.slice(0, 3).map((post, i) => (
             <NewsCard key={post.id} post={post} index={i} />
           ))}
