@@ -23,7 +23,7 @@ export function SiteFooter() {
           <div className="sm:col-span-2 lg:col-span-1">
             <Link href="/" aria-label="Go to homepage" className="inline-block">
               <Image
-                src="/images/footer-logo-hd.png"
+                src="/images/Quanta-transparent.png"
                 alt="Quanta Paper Corporation"
                 width={518}
                 height={124}
