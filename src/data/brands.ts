@@ -193,7 +193,7 @@ export const categories: Category[] = [
           "Manufactured in a fully automated German-made facility with charcoal-tapered filaments that effectively remove oral odor. Soft, flexible bristles that massage and improve gum circulation.",
         color: "#0891b2",
         gradient: "from-cyan-600 via-cyan-400 to-teal-200",
-        image: "/brands/fresh-toothbrush.png",
+        image: "/brands/fresh.png",
         features: [
           "Charcoal-tapered filaments reduce oral odor",
           "Made in a fully automated German facility",
