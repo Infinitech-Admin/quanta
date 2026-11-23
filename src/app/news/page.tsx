@@ -7,14 +7,16 @@ import { getNews, formatDate } from "@/lib/news";
 
 export const metadata: Metadata = { title: "News & Events" };
 
-// The article shown in the "Featured story" block.
-const FEATURED_ARTICLE_ID = 2;
+// The article shown in the "Featured story" block (matched by title).
+const FEATURED_TITLE = "beyond the workplace";
 
 export default async function NewsPage() {
   const articles = await getNews();
-  // Use the article with id 2; fall back to the newest one if it isn't found.
+  // Pick the article whose title contains the text above; fall back to the newest.
   const featured =
-    articles.find((a) => Number(a.id) === FEATURED_ARTICLE_ID) ?? articles[0];
+    articles.find((a) =>
+      a.title.toLowerCase().includes(FEATURED_TITLE.toLowerCase()),
+    ) ?? articles[0];
 
   return (
     <main className="min-h-screen bg-[#F7F5EC]">
