@@ -2,16 +2,55 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Pause, Play } from "lucide-react";
-import { getImageUrl } from "@/lib/image-url";
+import { getImageUrl, getRemoteImageUrl } from "@/lib/image-url";
 import type { BrandCategoryGroup } from "@/lib/brands";
+
+/**
+ * Brand logo with a fallback chain. Logos from the API live on the Laravel
+ * server (e.g. "/brands/kami.png"), but getImageUrl() treats /brands/ paths as
+ * frontend static files. So try the Laravel origin first, then the local path,
+ * and finally show the brand name as text instead of a broken image icon.
+ */
+function BrandLogo({
+  image,
+  name,
+  hidden,
+}: {
+  image: string | null;
+  name: string;
+  hidden: boolean;
+}) {
+  const candidates = Array.from(
+    new Set(
+      [getRemoteImageUrl(image), getImageUrl(image)].filter((s): s is string =>
+        Boolean(s),
+      ),
+    ),
+  );
+  const [index, setIndex] = useState(0);
+  const src = candidates[index];
+
+  if (!src) {
+    return <span className="text-2xl font-bold text-[#0f4a2c]">{name}</span>;
+  }
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt={hidden ? "" : name}
+      className="h-full w-auto max-w-[180px] object-contain"
+      draggable={false}
+      onError={() => setIndex((i) => i + 1)}
+    />
+  );
+}
 
 export function PortfolioMarquee({
   categories,
 }: {
   categories: BrandCategoryGroup[];
 }) {
-  const [paused, setPaused] = useState(false);
   const brands = categories.flatMap((c) => c.brands);
   if (brands.length === 0) return null;
 
@@ -21,32 +60,17 @@ export function PortfolioMarquee({
       className="flex shrink-0 items-center gap-20 pr-20"
       aria-hidden={hidden || undefined}
     >
-      {brands.map((brand) => {
-        const src = getImageUrl(brand.image);
-        return (
-          <Link
-            key={brand.slug}
-            href={`/brands/${brand.slug}`}
-            tabIndex={hidden ? -1 : undefined}
-            aria-label={brand.name}
-            className="flex h-[88px] shrink-0 items-center justify-center transition-transform duration-200 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#00a651]"
-          >
-            {src ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={src}
-                alt={hidden ? "" : brand.name}
-                className="h-full w-auto max-w-[180px] object-contain"
-                draggable={false}
-              />
-            ) : (
-              <span className="text-2xl font-bold text-[#0f4a2c]">
-                {brand.name}
-              </span>
-            )}
-          </Link>
-        );
-      })}
+      {brands.map((brand) => (
+        <Link
+          key={brand.slug}
+          href={`/brands/${brand.slug}`}
+          tabIndex={hidden ? -1 : undefined}
+          aria-label={brand.name}
+          className="flex h-[88px] shrink-0 items-center justify-center transition-transform duration-200 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#00a651]"
+        >
+          <BrandLogo image={brand.image} name={brand.name} hidden={hidden} />
+        </Link>
+      ))}
     </div>
   );
 
@@ -81,7 +105,6 @@ export function PortfolioMarquee({
           className="quanta-portfolio-track flex w-max"
           style={{
             animation: `quanta-portfolio-marquee ${brands.length * 4}s linear infinite`,
-            animationPlayState: paused ? "paused" : "running",
           }}
         >
           {logos()}
