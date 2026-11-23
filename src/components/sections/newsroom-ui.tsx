@@ -32,7 +32,7 @@ function formatDate(iso: string) {
 // into the lead ("23 Years of Care:") and the highlighted part after the colon.
 function renderTitle(title: string, highlight: boolean) {
   const i = title.indexOf(":");
-  if (!highlight || i === -1) return title; // no colon → plain title
+  if (!highlight || i === -1) return title; // not featured or no colon → plain title
 
   return (
     <>
