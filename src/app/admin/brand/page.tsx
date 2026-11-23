@@ -14,8 +14,35 @@ import {
   BrandFormValues,
   BRAND_CATEGORIES,
 } from "@/types/brand";
-import { getImageUrl } from "@/lib/image-url";
+import { getRemoteImageUrl } from "@/lib/image-url";
+
 const PAGE_SIZE = 10;
+
+// Brand logo from the Laravel origin. Falls back to the gradient
+// placeholder if there is no image or it fails to load.
+function BrandLogo({ brand }: { brand: Brand }) {
+  const [failed, setFailed] = useState(false);
+  const imageUrl = getRemoteImageUrl(brand.image);
+
+  if (!imageUrl || failed) {
+    return (
+      <div
+        className={`h-9 w-9 shrink-0 rounded-lg bg-gradient-to-br ${brand.gradient} ring-1 ring-black/5`}
+      />
+    );
+  }
+
+  return (
+    <Image
+      src={imageUrl}
+      alt={brand.name}
+      width={36}
+      height={36}
+      onError={() => setFailed(true)}
+      className="h-9 w-9 shrink-0 rounded-lg object-cover ring-1 ring-black/5"
+    />
+  );
+}
 
 export default function AdminBrandsPage() {
   const [brands, setBrands] = useState<Brand[]>([]);
@@ -152,30 +179,15 @@ export default function AdminBrandsPage() {
     {
       key: "name",
       header: "Brand",
-      render: (brand) => {
-        const imageUrl = getImageUrl(brand.image);
-        return (
-          <div className="flex items-center gap-3">
-            {imageUrl ? (
-              <Image
-                src={imageUrl}
-                alt={brand.name}
-                width={36}
-                height={36}
-                className="h-9 w-9 shrink-0 rounded-lg object-cover ring-1 ring-black/5"
-              />
-            ) : (
-              <div
-                className={`h-9 w-9 shrink-0 rounded-lg bg-gradient-to-br ${brand.gradient} ring-1 ring-black/5`}
-              />
-            )}
-            <div>
-              <p className="font-medium text-gray-900">{brand.name}</p>
-              <p className="text-xs text-gray-400">{brand.slug}</p>
-            </div>
+      render: (brand) => (
+        <div className="flex items-center gap-3">
+          <BrandLogo brand={brand} />
+          <div>
+            <p className="font-medium text-gray-900">{brand.name}</p>
+            <p className="text-xs text-gray-400">{brand.slug}</p>
           </div>
-        );
-      },
+        </div>
+      ),
     },
     {
       key: "category",

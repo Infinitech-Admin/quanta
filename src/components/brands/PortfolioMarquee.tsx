@@ -2,46 +2,43 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { getImageUrl, getRemoteImageUrl } from "@/lib/image-url";
 import type { BrandCategoryGroup } from "@/lib/brands";
 
+// Slugs whose file in public/brand-marquee/ doesn't match "<slug>.png".
+const FILE_OVERRIDES: Record<string, string> = {
+  "fresh-by-eco-hygiene": "fresh-eco-hygiene.png",
+  "sweet-baby": "SWEETBABY.png",
+};
+
 /**
- * Brand logo with a fallback chain. Logos from the API live on the Laravel
- * server (e.g. "/brands/kami.png"), but getImageUrl() treats /brands/ paths as
- * frontend static files. So try the Laravel origin first, then the local path,
- * and finally show the brand name as text instead of a broken image icon.
+ * Brand logo served from the Next.js static folder: public/brand-marquee/.
+ * The file is "<slug>.png" unless FILE_OVERRIDES says otherwise. If the file
+ * is missing, the brand name is shown as text instead of a broken image icon.
  */
 function BrandLogo({
-  image,
+  slug,
   name,
   hidden,
 }: {
-  image: string | null;
+  slug: string;
   name: string;
   hidden: boolean;
 }) {
-  const candidates = Array.from(
-    new Set(
-      [getRemoteImageUrl(image), getImageUrl(image)].filter((s): s is string =>
-        Boolean(s),
-      ),
-    ),
-  );
-  const [index, setIndex] = useState(0);
-  const src = candidates[index];
+  const [failed, setFailed] = useState(false);
+  const filename = FILE_OVERRIDES[slug] ?? `${slug}.png`;
 
-  if (!src) {
+  if (failed) {
     return <span className="text-2xl font-bold text-[#0f4a2c]">{name}</span>;
   }
 
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={src}
+      src={`/brand-marquee/${filename}`}
       alt={hidden ? "" : name}
       className="h-full w-auto max-w-[180px] object-contain"
       draggable={false}
-      onError={() => setIndex((i) => i + 1)}
+      onError={() => setFailed(true)}
     />
   );
 }
@@ -68,7 +65,7 @@ export function PortfolioMarquee({
           aria-label={brand.name}
           className="flex h-[88px] shrink-0 items-center justify-center transition-transform duration-200 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#00a651]"
         >
-          <BrandLogo image={brand.image} name={brand.name} hidden={hidden} />
+          <BrandLogo slug={brand.slug} name={brand.name} hidden={hidden} />
         </Link>
       ))}
     </div>
