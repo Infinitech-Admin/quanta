@@ -15,7 +15,9 @@ export function Hero() {
 
   return (
     <section className="relative isolate overflow-hidden bg-[#06482a] pt-[100px] text-white">
-      {/* Background image: public/MAIN-BANNER.png
+      {/* Background image: public/images/MAIN-BANNER-2.png
+          Shown as-is (no dark overlay) so the colors match the Our Story and News sections.
+          `unoptimized` serves the original file without WebP/AVIF compression.
           object-[75%_center] keeps the "Q" in view instead of cropping it.
           Try object-[60%_center] or object-right to shift it. */}
       <Image
@@ -23,16 +25,9 @@ export function Hero() {
         alt=""
         fill
         priority
-        sizes="100vw"
-        quality={100}
-        className="-z-20 object-cover object-[75%_center]"
+        unoptimized
+        className="-z-10 object-cover object-[75%_center]"
         aria-hidden
-      />
-
-      {/* Green overlay so the text stays readable. Lower the /xx values to show more of the photo. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-r from-[#06482a]/90 via-[#0b6238]/75 to-[#06482a]/60"
       />
 
       <div className="relative mx-auto max-w-6xl px-5 pb-12 pt-8 sm:px-6 lg:px-8 lg:pb-16 lg:pt-12">

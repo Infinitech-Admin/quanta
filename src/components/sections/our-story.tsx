@@ -52,14 +52,15 @@ export function OurStory() {
 
   return (
     <section className="relative isolate w-full overflow-hidden bg-[#066c37] text-white">
+      {/* `unoptimized` serves the original PNG as-is (no WebP/AVIF compression),
+          which avoids blocky banding on the smooth green gradient. */}
       <Image
         src="/images/MAIN-BANNER-2.png"
         alt=""
         fill
         priority
+        unoptimized
         aria-hidden
-        sizes="100vw"
-        quality={100}
         className="pointer-events-none object-cover object-[75%_center]"
       />
 
@@ -161,7 +162,7 @@ export function OurStory() {
                 controls
                 muted
                 playsInline
-                preload="metadata"
+                preload="auto"
               />
               <div className="flex items-center px-5 py-3 text-[10px] font-bold uppercase tracking-[0.15em] lg:py-4">
                 <span className="flex items-center gap-2 text-white/90">
