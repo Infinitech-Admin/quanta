@@ -22,6 +22,8 @@ const CONTACT_PATH = "/contact";
 /* -------------------------------------------------------------------------
  * STATIC CONTENT — edit copy here. Images come from the API by default;
  * add `image: "/brands/xxx.png"` (file in /public/brands) to use a static one.
+ * NOTE: a brand's `slug` (or `name`) must match the brand in the admin page,
+ * otherwise its admin image can't be found.
  * ---------------------------------------------------------------------- */
 
 type StaticBrand = {
@@ -71,7 +73,8 @@ const CATEGORIES: StaticCategory[] = [
           "Families and shoppers looking for household tissue for regular use.",
       },
       {
-        slug: "vanita-premium",
+        // Slug matches the admin ("vanita") so its admin image is found.
+        slug: "vanita",
         name: "Vanita Premium",
         description: "Premium tissue that elevates everyday comfort.",
         features: ["Premium feel", "Softness-focused"],

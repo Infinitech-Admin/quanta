@@ -6,20 +6,18 @@ export function Hero() {
     <section
       className={`relative overflow-hidden ${greenBg} pt-40 pb-10 text-white`}
     >
-      {/* Image 1: background art */}
+      {/* Image 1: background art. `unoptimized` serves the original PNG
+          (no WebP/AVIF recompression), same as the Hero and Our Story. */}
       <Image
-        src="/images/MAIN-BANNER.png"
+        src="/images/MAIN-BANNER-2.png"
         alt=""
         fill
         priority
+        unoptimized
         aria-hidden
-        className="pointer-events-none object-cover"
+        className="pointer-events-none object-cover object-[75%_center]"
       />
 
-      {/*
-        Wider container (1240px) and a bigger right column.
-        This is what makes the photo card large, like the reference.
-      */}
       <div className="relative mx-auto grid w-full max-w-[1240px] items-center gap-12 px-6 sm:px-8 lg:grid-cols-[1fr_1.4fr]">
         <div>
           <p className="text-[11px] font-bold uppercase tracking-[0.25em]">
@@ -50,6 +48,7 @@ export function Hero() {
               fill
               priority
               sizes="(min-width: 1024px) 700px, 100vw"
+              quality={90}
               className="object-cover"
             />
           </div>
