@@ -7,7 +7,6 @@ import { ArrowUpRight, Search, X } from "lucide-react";
 import { motion } from "framer-motion";
 import {
   INSTITUTIONAL_FAMILIES,
-  INSTITUTIONAL_ITEM_COUNT,
   type InstitutionalItem,
 } from "./institutional-data";
 import {
@@ -74,22 +73,7 @@ export function InstitutionalProductsShowcase() {
               dispensers, and hygiene supplies for your facility.
             </p>
 
-            <ul className="mt-6 flex flex-wrap gap-2.5 text-[11px] font-bold">
-              {[
-                `${INSTITUTIONAL_ITEM_COUNT} featured items`,
-                `${INSTITUTIONAL_FAMILIES.length} solution families`,
-                "Institutional supply",
-              ].map((chip) => (
-                <li
-                  key={chip}
-                  className="rounded-full border border-white/25 bg-white/10 px-4 py-2.5"
-                >
-                  {chip}
-                </li>
-              ))}
-            </ul>
-
-            <div className="mt-7 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap gap-3">
               <a
                 href="#institutional-range"
                 className="inline-flex items-center gap-4 rounded-full bg-[#00a651] px-6 py-3.5 text-xs font-bold hover:bg-[#009447]"
