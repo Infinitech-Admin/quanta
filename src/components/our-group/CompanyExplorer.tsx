@@ -402,6 +402,7 @@ export function CompanyExplorer() {
             {COMPANIES.map((company, index) => {
               const pillar = PILLARS.find((p) => p.key === company.pillar)!;
               const isActive = company.id === active.id;
+
               return (
                 <li key={company.id}>
                   <button
@@ -432,13 +433,33 @@ export function CompanyExplorer() {
 
                     {company.logo ? (
                       <div className="relative mt-6 h-16 w-full">
-                        <Image
-                          src={company.logo.src}
-                          alt={company.logo.alt}
-                          fill
-                          sizes="(min-width: 1024px) 240px, 50vw"
-                          className="object-contain object-left"
-                        />
+                        {company.logo.tint ? (
+                          // White/light logo: paint the logo's shape in `tint` using a CSS mask.
+                          <div
+                            role="img"
+                            aria-label={company.logo.alt}
+                            className="h-full w-full"
+                            style={{
+                              backgroundColor: company.logo.tint,
+                              WebkitMaskImage: `url("${company.logo.src}")`,
+                              maskImage: `url("${company.logo.src}")`,
+                              WebkitMaskRepeat: "no-repeat",
+                              maskRepeat: "no-repeat",
+                              WebkitMaskSize: "contain",
+                              maskSize: "contain",
+                              WebkitMaskPosition: "left center",
+                              maskPosition: "left center",
+                            }}
+                          />
+                        ) : (
+                          <Image
+                            src={company.logo.src}
+                            alt={company.logo.alt}
+                            fill
+                            sizes="(min-width: 1024px) 240px, 50vw"
+                            className="object-contain object-left"
+                          />
+                        )}
                       </div>
                     ) : null}
 

@@ -56,8 +56,11 @@ export type Company = {
   fullName: string;
   headline: string;
   paragraphs: string[];
-  /** Logo shown inside the company card */
-  logo?: { src: string; alt: string };
+  /**
+   * Logo shown inside the company card.
+   * Set `tint` (any CSS color) to recolor a white/light logo so it shows on the white card.
+   */
+  logo?: { src: string; alt: string; tint?: string };
   /** Picture beside the intro (ignored when `stats` is set) */
   image?: { src: string; alt: string };
   stats?: {
@@ -71,6 +74,10 @@ export type Company = {
 /* Put the photos in /public/images/our-group/ with these file names
    (or change the paths below). */
 const IMG = "/images/our-group";
+
+/* Builds a safe URL for files in /public/images/our-group/,
+   even when the file name has spaces or capital letters. */
+const imgFile = (fileName: string) => `${IMG}/${encodeURIComponent(fileName)}`;
 
 /* Logos live in /public/logos/ (add a `logo` to the companies that have none yet). */
 const LOGO = "/logos";
@@ -155,6 +162,11 @@ export const COMPANIES: Company[] = [
     id: "quanta-paper-marketing",
     pillar: "retail",
     fullName: "Quanta Paper Marketing, Inc.",
+    logo: {
+      src: imgFile("Quanta_Paper_Marketing_Transparent_HD.png"),
+      alt: "Quanta Paper Marketing, Inc. logo",
+      tint: "#0B4D2E", // recolors the white logo to dark green
+    },
     headline: "Making quality accessible, *from shelf to home.*",
     paragraphs: [
       "Quanta Paper Marketing serves the retail industry through partnerships with distributors, national and local key accounts, wholesalers, and small and medium-sized retailers.",
@@ -207,7 +219,7 @@ export const COMPANIES: Company[] = [
     pillar: "institutional",
     fullName: "Eco Hygiene Institutional Sales Corp.",
     logo: {
-      src: `${LOGO}/eco-hygiene.png`,
+      src: imgFile("ECO HYGIENE LOGO.png"),
       alt: "Eco Hygiene Institutional Sales Corp. logo",
     },
     headline: "Complete hygiene care, *tailored to your facility.*",
@@ -278,6 +290,10 @@ export const COMPANIES: Company[] = [
     id: "quanta-foundation",
     pillar: "community",
     fullName: "Quanta Foundation, Inc.",
+    logo: {
+      src: imgFile("Quanta Foundation Incorporated Logo.png"),
+      alt: "Quanta Foundation, Inc. logo",
+    },
     headline: "A commitment to care *beyond the business.*",
     paragraphs: [
       "Established in **July 2019**, Quanta Foundation, Inc. formalized the company’s community development, charitable work, and financial support programs. With a focus on children’s education and environmental stewardship, its work aims to create lasting positive change.",
