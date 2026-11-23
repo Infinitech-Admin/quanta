@@ -26,20 +26,8 @@ const linkClass =
 
 export function SiteFooter() {
   return (
-    <footer className="relative mt-auto overflow-hidden bg-[#046A3C] text-white">
-      {/* Q logo background. Tweak opacity-* (e.g. opacity-10 to opacity-40)
-          and object-* to change how strong it is and where it sits. */}
-      <Image
-        src="/images/MAIN-BANNER-2.png"
-        alt=""
-        aria-hidden
-        fill
-        sizes="100vw"
-        unoptimized
-        className="pointer-events-none select-none object-cover object-center opacity-20"
-      />
-
-      <div className="relative z-10 mx-auto max-w-6xl px-4 pb-8 pt-14 sm:px-6 lg:px-8">
+    <footer className="mt-auto bg-[#046A3C] text-white">
+      <div className="mx-auto max-w-6xl px-4 pb-8 pt-14 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_0.8fr_2fr] lg:gap-8">
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
