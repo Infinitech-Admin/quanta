@@ -13,7 +13,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
-import { getImageUrl } from "@/lib/image-url";
+import { getImageUrl, getRemoteImageUrl } from "@/lib/image-url";
 import type { BrandCategoryGroup } from "@/lib/brands";
 
 const QSTORE_URL = "https://tissuemarket.com";
@@ -254,6 +254,42 @@ const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
 type Selected = { brand: StaticBrand; categoryLabel: string };
 
 /* -------------------------------------------------------------------------
+ * BrandImage — tries each URL in `sources` in order. If one fails to load
+ * (404, wrong origin), it moves to the next. When all fail, it shows the
+ * brand name as text instead of a broken image.
+ * ---------------------------------------------------------------------- */
+
+function BrandImage({
+  sources,
+  name,
+  alt = "",
+  imgClassName,
+  textClassName,
+}: {
+  sources: string[];
+  name: string;
+  alt?: string;
+  imgClassName: string;
+  textClassName: string;
+}) {
+  const [index, setIndex] = useState(0);
+  const src = sources[index];
+
+  if (!src) return <span className={textClassName}>{name}</span>;
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt={alt}
+      className={imgClassName}
+      draggable={false}
+      onError={() => setIndex((i) => i + 1)}
+    />
+  );
+}
+
+/* -------------------------------------------------------------------------
  * Component
  * ---------------------------------------------------------------------- */
 
@@ -266,12 +302,11 @@ export function BrandsShowcase({
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Selected | null>(null);
 
-  // Image resolution order:
-  //   1. API image (matched by slug or name; spaces/dashes/case ignored)
-  //   2. Static `image` set on the brand above
-  //   3. null -> the brand name is shown as text
-  //
-  // Want static to WIN over the API? Move the `brand.image` check to the top.
+  // Image resolution order (each is tried until one loads):
+  //   1. API image on the Laravel server (matched by slug or name)
+  //   2. API image path on this frontend (/brands/... in /public)
+  //   3. Static `image` set on the brand above
+  //   4. The brand name is shown as text
   const imageFor = useMemo(() => {
     const map = new Map<string, string | null>();
     for (const c of categories) {
@@ -280,10 +315,14 @@ export function BrandsShowcase({
         map.set(norm(b.name), b.image);
       }
     }
-    return (brand: StaticBrand): string | null => {
+    return (brand: StaticBrand): string[] => {
       const path = map.get(norm(brand.slug)) ?? map.get(norm(brand.name));
-      if (path) return getImageUrl(path);
-      return brand.image ?? null;
+      const list = [
+        getRemoteImageUrl(path),
+        getImageUrl(path),
+        brand.image ?? null,
+      ].filter((s): s is string => Boolean(s));
+      return Array.from(new Set(list));
     };
   }, [categories]);
 
@@ -292,7 +331,7 @@ export function BrandsShowcase({
     if (process.env.NODE_ENV === "production") return;
     CATEGORIES.forEach((c) =>
       c.brands.forEach((b) => {
-        if (!imageFor(b)) {
+        if (imageFor(b).length === 0) {
           console.warn(
             `[BrandsShowcase] Walang image: ${b.name} (slug: ${b.slug})`,
           );
@@ -424,7 +463,7 @@ export function BrandsShowcase({
                   }`}
                 >
                   {cat.brands.map((brand) => {
-                    const src = imageFor(brand);
+                    const sources = imageFor(brand);
                     return (
                       <article
                         key={brand.slug}
@@ -443,19 +482,13 @@ export function BrandsShowcase({
                         className="group flex cursor-pointer flex-col rounded-2xl border border-black/[0.06] bg-[#fdfdf9] p-5 transition-shadow duration-200 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00a651]"
                       >
                         <div className="flex h-[120px] items-center justify-center">
-                          {src ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={src}
-                              alt=""
-                              className="max-h-full w-auto max-w-[150px] object-contain drop-shadow-md"
-                              draggable={false}
-                            />
-                          ) : (
-                            <span className="text-2xl font-bold text-[#0f4a2c]">
-                              {brand.name}
-                            </span>
-                          )}
+                          <BrandImage
+                            key={sources.join("|")}
+                            sources={sources}
+                            name={brand.name}
+                            imgClassName="max-h-full w-auto max-w-[150px] object-contain drop-shadow-md"
+                            textClassName="text-2xl font-bold text-[#0f4a2c]"
+                          />
                         </div>
 
                         <h4 className="mt-5 text-sm font-bold text-[#12392a]">
@@ -498,7 +531,7 @@ export function BrandsShowcase({
           <BrandModal
             brand={selected.brand}
             categoryLabel={selected.categoryLabel}
-            src={imageFor(selected.brand)}
+            sources={imageFor(selected.brand)}
             onClose={closeModal}
           />
         )}
@@ -510,12 +543,12 @@ export function BrandsShowcase({
 function BrandModal({
   brand,
   categoryLabel,
-  src,
+  sources,
   onClose,
 }: {
   brand: StaticBrand;
   categoryLabel: string;
-  src: string | null;
+  sources: string[];
   onClose: () => void;
 }) {
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -568,17 +601,14 @@ function BrandModal({
             {categoryLabel} &middot; Brand preview
           </p>
           <div className="mt-4 flex h-[80px] items-center">
-            {src ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={src}
-                alt={`${brand.name} logo`}
-                className="max-h-full w-auto max-w-[180px] object-contain drop-shadow-lg"
-                draggable={false}
-              />
-            ) : (
-              <span className="text-4xl font-bold">{brand.name}</span>
-            )}
+            <BrandImage
+              key={sources.join("|")}
+              sources={sources}
+              name={brand.name}
+              alt={`${brand.name} logo`}
+              imgClassName="max-h-full w-auto max-w-[180px] object-contain drop-shadow-lg"
+              textClassName="text-4xl font-bold"
+            />
           </div>
           <button
             ref={closeRef}
