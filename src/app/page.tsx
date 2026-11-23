@@ -23,9 +23,9 @@ export default function Home() {
         <BrandsShowcase />
       </Suspense>
       <FlagshipProduct />
-
-      <OurCustomers />
       <Certifications />
+      <OurCustomers />
+
       {/* async server component (fetches /api/news), so it gets its own Suspense */}
       <Suspense fallback={null}>
         <Newsroom />

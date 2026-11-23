@@ -29,7 +29,8 @@ const cards = [
 
 export function SolutionsPicker() {
   return (
-    <section className="bg-[#f7f6f2] px-6 py-20 md:py-24">
+    // Mas maliit na top padding para hindi malaki ang puting puwang sa ilalim ng hero.
+    <section className="bg-[#f7f6f2] px-6 pb-20 pt-12 md:pb-24 md:pt-14">
       <div className="mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 24 }}

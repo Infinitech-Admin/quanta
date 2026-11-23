@@ -157,3 +157,13 @@ body {
   background: rgba(255, 255, 255, 0.25);
   animation: scrollpulse 2s ease-in-out infinite;
 }
+
+@keyframes scrollpulse {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
