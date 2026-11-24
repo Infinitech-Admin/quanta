@@ -193,7 +193,7 @@ export function JobBoard({
               Current Job Openings
             </p>
             <h2 className="mt-4 text-4xl font-bold tracking-[-0.045em] text-[#1f2623] md:text-6xl">
-              Be part of our Community
+              Be part of our <span className="text-[#329f3c]">Q</span>mmunity
             </h2>
             <p className="mt-4 max-w-lg text-sm leading-[1.9] text-[#5b6460]">
               Explore openings by team and work location. Select a role to read
