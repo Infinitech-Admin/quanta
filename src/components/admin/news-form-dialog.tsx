@@ -12,6 +12,7 @@ export type NewsFormValues = {
   published_at: string;
   excerpt: string;
   content: string;
+  is_featured: boolean;
   cover: File | null;
   files: File[]; // gallery images (multi upload)
   removeIds: number[]; // existing gallery images to delete (edit only)
@@ -50,6 +51,9 @@ function FormBody({
   );
   const [excerpt, setExcerpt] = useState(initialData?.excerpt ?? "");
   const [content, setContent] = useState(initialData?.content ?? "");
+  const [isFeatured, setIsFeatured] = useState(
+    Boolean(initialData?.is_featured),
+  );
   const [cover, setCover] = useState<File | null>(null);
   const [files, setFiles] = useState<File[]>([]);
   const [removeIds, setRemoveIds] = useState<number[]>([]);
@@ -118,6 +122,23 @@ function FormBody({
               />
             </Field>
           </div>
+
+          <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-gray-200 bg-gray-50 px-3 py-3">
+            <input
+              type="checkbox"
+              checked={isFeatured}
+              onChange={(e) => setIsFeatured(e.target.checked)}
+              className="mt-0.5 h-4 w-4 rounded border-gray-300"
+            />
+            <span>
+              <span className="block text-sm font-medium text-gray-800">
+                Featured article
+              </span>
+              <span className="block text-xs text-gray-500">
+                Shows the “Featured” badge on the homepage newsroom.
+              </span>
+            </span>
+          </label>
 
           <Field
             label="Short summary"
@@ -259,6 +280,7 @@ function FormBody({
                 published_at: publishedAt,
                 excerpt: excerpt.trim(),
                 content,
+                is_featured: isFeatured,
                 cover,
                 files,
                 removeIds,

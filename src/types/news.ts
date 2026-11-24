@@ -11,6 +11,7 @@ export type ApiNews = {
   excerpt: string | null;
   content: string | null;
   cover_image: string | null;
+  is_featured: boolean;
   published_at: string;
   images: ApiNewsImage[];
 };

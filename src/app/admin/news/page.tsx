@@ -100,6 +100,8 @@ export default function AdminNewsPage() {
       formData.set("published_at", values.published_at);
       formData.set("excerpt", values.excerpt);
       formData.set("content", values.content);
+      // FormData only holds strings; "1"/"0" passes Laravel's boolean rule.
+      formData.set("is_featured", values.is_featured ? "1" : "0");
       if (values.cover) formData.set("cover_image", values.cover);
       values.files.forEach((f) => formData.append("images[]", f));
       values.removeIds.forEach((id) =>
@@ -184,6 +186,18 @@ export default function AdminNewsPage() {
           {a.category}
         </span>
       ),
+    },
+    {
+      key: "is_featured",
+      header: "Featured",
+      render: (a) =>
+        a.is_featured ? (
+          <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700">
+            Featured
+          </span>
+        ) : (
+          <span className="text-xs text-gray-400">—</span>
+        ),
     },
     {
       key: "images",
