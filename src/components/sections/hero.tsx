@@ -88,7 +88,7 @@ export function Hero() {
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
               <Link
-                href="/businesses"
+                href="/brands#eco-hygiene"
                 className="inline-flex items-center gap-2 rounded-full bg-[#04472a] px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-[#033a22]"
               >
                 For Businesses

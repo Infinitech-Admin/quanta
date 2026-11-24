@@ -48,7 +48,7 @@ export function InstitutionalProductsShowcase() {
   }, [selected]);
 
   return (
-    <section className="bg-[#f7f6f2] px-6 py-20 md:py-24">
+    <section id="eco-hygiene" className="bg-[#f7f6f2] px-6 py-20 md:py-24">
       <div className="mx-auto max-w-6xl space-y-6">
         {/* ── Eco Hygiene feature card ── */}
         <motion.div
