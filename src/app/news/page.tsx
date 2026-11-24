@@ -7,16 +7,14 @@ import { getNews, formatDate } from "@/lib/news";
 
 export const metadata: Metadata = { title: "News & Events" };
 
-// The article shown in the "Featured story" block (matched by title).
-const FEATURED_TITLE = "beyond the workplace";
-
 export default async function NewsPage() {
   const articles = await getNews();
-  // Pick the article whose title contains the text above; fall back to the newest.
-  const featured =
-    articles.find((a) =>
-      a.title.toLowerCase().includes(FEATURED_TITLE.toLowerCase()),
-    ) ?? articles[0];
+
+  // The article marked "Featured" in the admin (the backend allows only one).
+  // If none is marked, fall back to the newest so the hero block is never empty,
+  // but only a truly featured article gets the badge in the list below.
+  const marked = articles.find((a) => a.isFeatured);
+  const featured = marked ?? articles[0];
 
   return (
     <main className="min-h-screen bg-[#F7F5EC]">
@@ -100,7 +98,7 @@ export default async function NewsPage() {
       )}
 
       {/* The featured story is pinned first in the list below, with a badge. */}
-      <NewsList articles={articles} featuredId={featured?.id} />
+      <NewsList articles={articles} featuredId={marked?.id} />
 
       {/* CTA */}
       <section className="bg-[#1B3F34] px-4 py-14 text-white sm:px-6 lg:px-8">

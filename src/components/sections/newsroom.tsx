@@ -15,8 +15,14 @@ export async function Newsroom() {
   };
   const newest = [...articles].sort((a, b) => time(b.date) - time(a.date));
 
-  // The design shows three cards; the newest one carries the "Featured" badge.
-  const posts: NewsPost[] = newest.slice(0, 3).map((a, i) => ({
+  // The article marked "Featured" in the admin goes first (the backend allows
+  // only one). The rest follow, newest first. If none is featured, no badge.
+  const featured = newest.find((a) => a.isFeatured);
+  const ordered = featured
+    ? [featured, ...newest.filter((a) => a.id !== featured.id)]
+    : newest;
+
+  const posts: NewsPost[] = ordered.slice(0, 3).map((a) => ({
     id: String(a.id),
     slug: a.slug,
     title: a.title,
@@ -24,7 +30,7 @@ export async function Newsroom() {
     category: a.category,
     image: a.cover,
     date: a.date,
-    featured: i === 0,
+    featured: a.isFeatured,
   }));
 
   return <NewsroomUI posts={posts} />;

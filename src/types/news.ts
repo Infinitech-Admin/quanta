@@ -33,4 +33,5 @@ export type News = {
   date: string; // YYYY-MM-DD
   cover: string | null; // cover_image, or first gallery image as fallback
   gallery: string[];
+  isFeatured: boolean;
 };

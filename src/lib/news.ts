@@ -20,6 +20,7 @@ function toNews(a: ApiNews): News {
     date: a.published_at.slice(0, 10),
     cover: abs(a.cover_image) ?? gallery[0] ?? null,
     gallery,
+    isFeatured: Boolean(a.is_featured),
   };
 }
 
