@@ -6,7 +6,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Mail, Menu, Phone } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
@@ -62,10 +61,10 @@ function TwitterMark(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-// One pill size for BOTH header states, so spacing never shifts on scroll.
-// 38px tall, 10px bold caps, auto width from px-7.
+// Slightly slimmer pills than before (36px tall, px-6).
+// Same size in every state so spacing never shifts.
 const pill =
-  "inline-flex h-[38px] items-center justify-center whitespace-nowrap rounded-full px-7 text-[10px] font-bold uppercase tracking-wide transition-colors";
+  "inline-flex h-9 items-center justify-center whitespace-nowrap rounded-full px-6 text-[11px] font-bold uppercase tracking-wide transition-colors";
 
 const socialLinks = [
   {
@@ -106,15 +105,9 @@ export function SiteHeader() {
       ? pathname === "/"
       : pathname === href || pathname.startsWith(`${href}/`);
 
-  // Transparent only while the hero is on screen (home page).
-  // Pages without a #hero (news, about, etc.) always get the solid header.
+  // Header is always white; scrolling only adds a soft border + shadow.
   React.useEffect(() => {
-    const hero = document.getElementById("hero");
-
-    const onScroll = () => {
-      setScrolled(hero ? window.scrollY > hero.offsetHeight - 100 : true);
-    };
-
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -123,10 +116,10 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 h-[90px] md:h-[100px] transition-colors duration-300",
+        "fixed inset-x-0 top-0 z-50 h-[72px] bg-white transition-shadow duration-300 md:h-[88px]",
         scrolled
-          ? "border-b border-black/[0.07] bg-[#f7f6f2]"
-          : "bg-forest-deep/95 supports-[backdrop-filter]:bg-forest-deep/30",
+          ? "border-b border-black/[0.06] shadow-sm"
+          : "border-b border-transparent",
       )}
     >
       {/* Three zones: logo | nav (centred in the free space) | actions */}
@@ -138,7 +131,7 @@ export function SiteHeader() {
             width={579}
             height={168}
             priority
-            className="h-12 w-auto md:h-14"
+            className="h-10 w-auto md:h-12"
           />
         </Link>
 
@@ -151,17 +144,9 @@ export function SiteHeader() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "relative whitespace-nowrap py-1 text-[12px] font-medium uppercase tracking-[0.01em] transition-colors",
-                  "after:absolute after:inset-x-0 after:-bottom-1 after:h-[2px] after:origin-left after:scale-x-0 after:transition-transform after:duration-200",
-                  scrolled
-                    ? cn(
-                        "text-[#1f2623] hover:text-[#00A651] after:bg-[#00A651]",
-                        active && "text-[#00A651] after:scale-x-100",
-                      )
-                    : cn(
-                        "text-cream hover:text-sun-light after:bg-sun",
-                        active && "text-sun-light after:scale-x-100",
-                      ),
+                  "relative whitespace-nowrap py-1 text-[12px] font-medium uppercase tracking-[0.01em] text-[#1f2623] transition-colors hover:text-[#00A651]",
+                  "after:absolute after:inset-x-0 after:-bottom-1 after:h-[2px] after:origin-left after:scale-x-0 after:bg-[#00A651] after:transition-transform after:duration-200",
+                  active && "text-[#00A651] after:scale-x-100",
                 )}
               >
                 {item.label}
@@ -176,12 +161,7 @@ export function SiteHeader() {
             href="http://tissuemarket.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className={cn(
-              pill,
-              scrolled
-                ? "bg-[#00A651] text-white hover:bg-[#00B85A]"
-                : "bg-sun text-forest-deep hover:bg-sun-light",
-            )}
+            className={cn(pill, "bg-[#00A651] text-white hover:bg-[#00843D]")}
           >
             Shop Now
           </Link>
@@ -189,10 +169,7 @@ export function SiteHeader() {
             href="/contact"
             className={cn(
               pill,
-              "border-2",
-              scrolled
-                ? "border-[#0a1f15] bg-[#0B6E3E] text-white hover:bg-[#0A5A33]"
-                : "border-cream/60 text-cream hover:bg-cream/10",
+              "border-2 border-[#00A651] bg-white text-[#00A651] hover:bg-[#00A651]/10",
             )}
           >
             Get In Touch
@@ -205,101 +182,97 @@ export function SiteHeader() {
             <SheetTrigger asChild>
               <button
                 aria-label="Open menu"
-                className={cn(
-                  "flex h-10 w-10 items-center justify-center rounded-full transition-colors",
-                  scrolled
-                    ? "text-forest-deep hover:bg-forest/10"
-                    : "text-cream hover:bg-cream/10",
-                )}
+                className="flex h-10 w-10 items-center justify-center rounded-full text-[#00A651] transition-colors hover:bg-[#00A651]/10"
               >
                 <Menu className="h-6 w-6" />
               </button>
             </SheetTrigger>
+
             <SheetContent
               side="right"
-              className="w-[85%] sm:w-80 bg-forest-deep text-cream border-l border-cream/10"
+              className="w-[85%] border-l border-black/10 bg-white text-[#1f2623] sm:w-80 [&>button]:text-[#00A651]"
             >
-              <SheetHeader>
-                <SheetTitle className="text-cream">Menu</SheetTitle>
-              </SheetHeader>
-              {/* Same list and order as desktop (Home is now part of mainNav) */}
-              <nav className="mt-8 flex flex-col gap-1">
-                {mainNav.map((item) => {
-                  const active = isActive(item.href);
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setOpen(false)}
-                      className={cn(
-                        "rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-cream/10",
-                        active ? "bg-cream/10 text-sun-light" : "text-cream/90",
-                      )}
-                    >
-                      {item.label}
-                    </Link>
-                  );
-                })}
-              </nav>
+              {/* Inner wrapper gives everything breathing room from the edges */}
+              <div className="flex h-full flex-col overflow-y-auto px-6 pb-8">
+                <SheetHeader className="px-0">
+                  <SheetTitle className="text-[#00A651]">Menu</SheetTitle>
+                </SheetHeader>
 
-              <div className="flex flex-col gap-3 mt-6 border-t border-cream/15 pt-6">
-                <Button
-                  variant="sun"
-                  className="w-full text-base py-6 font-semibold shadow-sm"
-                  asChild
-                >
+                {/* Same list and order as desktop */}
+                <nav className="mt-6 flex flex-col gap-1">
+                  {mainNav.map((item) => {
+                    const active = isActive(item.href);
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setOpen(false)}
+                        className={cn(
+                          "rounded-lg px-3 py-3 text-base font-medium transition-colors",
+                          active
+                            ? "bg-[#00A651]/10 text-[#00A651]"
+                            : "text-[#1f2623] hover:bg-[#00A651]/5 hover:text-[#00A651]",
+                        )}
+                      >
+                        {item.label}
+                      </Link>
+                    );
+                  })}
+                </nav>
+
+                {/* Buttons: smaller height, inset from the edges */}
+                <div className="mt-6 flex flex-col gap-3 border-t border-black/10 pt-6">
                   <Link
                     href="http://tissuemarket.com/"
                     target="_blank"
+                    rel="noopener noreferrer"
                     onClick={() => setOpen(false)}
+                    className="inline-flex h-11 w-full items-center justify-center rounded-full bg-[#00A651] text-sm font-semibold text-white transition-colors hover:bg-[#00843D]"
                   >
                     Shop Now
                   </Link>
-                </Button>
-
-                <Button
-                  variant="outline"
-                  className="w-full border-cream/40 text-cream hover:bg-cream/10"
-                  asChild
-                >
-                  <Link href="/contact" onClick={() => setOpen(false)}>
+                  <Link
+                    href="/contact"
+                    onClick={() => setOpen(false)}
+                    className="inline-flex h-11 w-full items-center justify-center rounded-full border-2 border-[#00A651] bg-white text-sm font-semibold text-[#00A651] transition-colors hover:bg-[#00A651]/10"
+                  >
                     Get In Touch
                   </Link>
-                </Button>
-              </div>
+                </div>
 
-              {/* Quick contact info */}
-              <div className="mt-6 space-y-3 border-t border-cream/15 pt-6">
-                <Link
-                  href="tel:+63285339250"
-                  className="flex items-center gap-3 text-sm text-cream/80 transition-colors hover:text-sun-light"
-                >
-                  <Phone className="h-4 w-4 shrink-0 text-sun-light" />
-                  (632) 8533.9250
-                </Link>
-                <Link
-                  href="mailto:wecare@quantapaper.com"
-                  className="flex items-center gap-3 text-sm text-cream/80 transition-colors hover:text-sun-light"
-                >
-                  <Mail className="h-4 w-4 shrink-0 text-sun-light" />
-                  wecare@quantapaper.com
-                </Link>
-              </div>
-
-              {/* Social icons */}
-              <div className="mt-6 flex gap-3 border-t border-cream/15 pt-6">
-                {socialLinks.map(({ label, href, Icon }) => (
+                {/* Quick contact */}
+                <div className="mt-6 space-y-3 border-t border-black/10 pt-6">
                   <Link
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-cream/30 text-cream/80 transition-colors hover:border-sun-light hover:text-sun-light"
+                    href="tel:+63285339250"
+                    className="flex items-center gap-3 text-sm text-[#1f2623]/80 transition-colors hover:text-[#00A651]"
                   >
-                    <Icon className="h-4 w-4" />
+                    <Phone className="h-4 w-4 shrink-0 text-[#00A651]" />
+                    (632) 8533.9250
                   </Link>
-                ))}
+                  <Link
+                    href="mailto:wecare@quantapaper.com"
+                    className="flex items-center gap-3 text-sm text-[#1f2623]/80 transition-colors hover:text-[#00A651]"
+                  >
+                    <Mail className="h-4 w-4 shrink-0 text-[#00A651]" />
+                    wecare@quantapaper.com
+                  </Link>
+                </div>
+
+                {/* Social icons */}
+                <div className="mt-6 flex gap-3 border-t border-black/10 pt-6">
+                  {socialLinks.map(({ label, href, Icon }) => (
+                    <Link
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-[#00A651]/40 text-[#00A651] transition-colors hover:bg-[#00A651] hover:text-white"
+                    >
+                      <Icon className="h-4 w-4" />
+                    </Link>
+                  ))}
+                </div>
               </div>
             </SheetContent>
           </Sheet>
