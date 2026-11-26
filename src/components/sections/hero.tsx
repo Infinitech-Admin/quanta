@@ -23,7 +23,7 @@ export function Hero() {
     <section className="relative isolate h-svh min-h-[640px] w-full overflow-hidden bg-[#4f7a6b]">
       <div className="absolute inset-x-0 bottom-0 top-[94px]">
         <Image
-          src="/images/HOMEPAGE-BANNER.png"
+          src="/POP-UP-BANNER.png"
           alt="Quanta Paper Corporation factory building surrounded by greenery"
           fill
           priority
