@@ -20,11 +20,24 @@ const body = Roboto({
 
 type PageParams = { slug: string };
 
-// Pre-render known slugs at build time; slugs added later in the admin
-// panel still resolve on demand since dynamicParams defaults to true.
+// CHANGED: explicit ISR settings so admin-panel edits show up within a minute
+// and slugs not prerendered at build time still render on demand.
+export const dynamicParams = true;
+export const revalidate = 60;
+
+// CHANGED: never fail the build if the API is unreachable or the env var
+// is missing. Fall back to no prerendering; pages render on first request.
 export async function generateStaticParams() {
-  const jobs = await getJobs();
-  return jobs.map((job) => ({ slug: job.slug }));
+  try {
+    const jobs = await getJobs();
+    return jobs.map((job) => ({ slug: job.slug }));
+  } catch (err) {
+    console.warn(
+      "generateStaticParams: could not fetch jobs, skipping prerender",
+      err,
+    );
+    return [];
+  }
 }
 
 export async function generateMetadata({

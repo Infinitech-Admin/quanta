@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { getApiUrl } from "@/lib/api-url";
 
 // Departments come from the admin panel, so this is a plain string.
@@ -93,12 +94,16 @@ function toJob(raw: RawJob): Job {
 }
 
 // getApiUrl() returns the host WITHOUT "/api".
-const API_BASE_URL = `${getApiUrl()}/api`;
+// Lazy on purpose: calling it at module scope crashes the build when
+// LARAVEL_API_URL isn't set, before any try/catch can handle it.
+function getApiBaseUrl(): string {
+  return `${getApiUrl()}/api`;
+}
 
 /** All ACTIVE job listings for /careers (public route). */
 export async function getJobs(): Promise<Job[]> {
   try {
-    const res = await fetch(`${API_BASE_URL}/job-listings`, {
+    const res = await fetch(`${getApiBaseUrl()}/job-listings`, {
       next: { revalidate: 60 },
     });
     if (!res.ok)
@@ -112,11 +117,14 @@ export async function getJobs(): Promise<Job[]> {
   }
 }
 
-/** One active job by slug, for /careers/[slug]. Null = not found/inactive. */
-export async function getJobBySlug(slug: string): Promise<Job | null> {
+/**
+ * One active job by slug, for /careers/[slug]. Null = not found/inactive.
+ * Wrapped in cache() so generateMetadata and the page share one request.
+ */
+export const getJobBySlug = cache(async (slug: string): Promise<Job | null> => {
   try {
     const res = await fetch(
-      `${API_BASE_URL}/job-listings/${encodeURIComponent(slug)}`,
+      `${getApiBaseUrl()}/job-listings/${encodeURIComponent(slug)}`,
       { next: { revalidate: 60 } },
     );
     if (res.status === 404) return null;
@@ -128,4 +136,4 @@ export async function getJobBySlug(slug: string): Promise<Job | null> {
     console.error("getJobBySlug failed:", error);
     return null;
   }
-}
+});
